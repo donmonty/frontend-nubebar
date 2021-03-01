@@ -1,24 +1,33 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import StorageScreen from '../screens/StorageScreen';
+import LocationsScreen from '../screens/LocationsScreen';
 import ActionsScreen from '../screens/ActionsScreen';
 // import routes from "./routes";
 import navigation from "./rootNavigation";
+import colors from '../config/colors';
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return(
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.primary
+        },
+        headerTintColor: colors.white,
+      }}
+    >
       <Stack.Screen
-        name="Storage"
-        component={StorageScreen}
+        name="Locations"
+        component={LocationsScreen}
       />
       <Stack.Screen
         name="ActionsScreen"
-        component={ActionsScreen}
+        component={LocationsScreen}
       />
+    
     </Stack.Navigator>
   );
 }
