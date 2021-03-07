@@ -1,19 +1,20 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import LocationNavigator from './LocationNavigator'
 import StorageAreasScreen from '../screens/StorageAreasScreen';
+import TabActions from './TabActions'
+import ActionsNavigator from './ActionsNavigator';
 // import routes from "./routes";
 import navigation from "./rootNavigation";
 import colors from '../config/colors';
 
 const Stack = createStackNavigator();
 
-const AppNavigator = () => {
+const StorageAreaNavigator = () => {
   return(
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         headerStyle: {
           backgroundColor: colors.primary
         },
@@ -21,14 +22,19 @@ const AppNavigator = () => {
       }}
     >
       <Stack.Screen
-        name="Locations"
-        component={LocationNavigator}
+        name="StorageAreas"
+        component={StorageAreasScreen}
       />
-      
+
+      <Stack.Screen
+        name="Acciones"
+        component={TabActions}
+      />
+    
     </Stack.Navigator>
   );
 }
 
-export default AppNavigator;
+export default StorageAreaNavigator;
 
 

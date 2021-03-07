@@ -1,19 +1,18 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import LocationNavigator from './LocationNavigator'
-import StorageAreasScreen from '../screens/StorageAreasScreen';
+import ActionsScreen from '../screens/ActionsScreen';
+import InventoryActionsNavigator from './InventoryActionsNavigator';
 // import routes from "./routes";
 import navigation from "./rootNavigation";
 import colors from '../config/colors';
 
 const Stack = createStackNavigator();
 
-const AppNavigator = () => {
+const ActionsNavigator = () => {
   return(
     <Stack.Navigator
       screenOptions={{
-        headerShown: false,
         headerStyle: {
           backgroundColor: colors.primary
         },
@@ -21,14 +20,19 @@ const AppNavigator = () => {
       }}
     >
       <Stack.Screen
-        name="Locations"
-        component={LocationNavigator}
+        name="Acciones"
+        component={ActionsScreen}
       />
-      
+
+      <Stack.Screen
+        name="Movimientos"
+        component={InventoryActionsNavigator}
+      />
+    
     </Stack.Navigator>
   );
 }
 
-export default AppNavigator;
+export default ActionsNavigator;
 
 

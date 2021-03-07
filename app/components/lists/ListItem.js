@@ -7,6 +7,7 @@ import Text from "../Text";
 import colors from "../../config/colors";
 
 function ListItem({
+  type = 'list',
   title,
   subTitle,
   image,
@@ -17,7 +18,7 @@ function ListItem({
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <TouchableHighlight underlayColor={colors.gray['100']} onPress={onPress}>
-        <View style={styles.container}>
+        <View style={type === 'list' ? styles.container : styles.buttonContainer}>
           {IconComponent}
           {image && <Image style={styles.image} source={image} />}
           <View style={styles.detailsContainer}>
@@ -30,11 +31,11 @@ function ListItem({
               </Text>
             )}
           </View>
-          <MaterialCommunityIcons
+          {type === 'list'? <MaterialCommunityIcons
             color={colors.gray['600']}
             name="chevron-right"
             size={25}
-          />
+          /> : null}
         </View>
       </TouchableHighlight>
     </Swipeable>
@@ -42,6 +43,14 @@ function ListItem({
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    alignItems: "center",
+    flexDirection: "row",
+    padding: 15,
+    marginBottom: 8,
+    backgroundColor: colors.purple['100'],
+    borderRadius: 10,
+  },
   container: {
     alignItems: "center",
     flexDirection: "row",
@@ -59,7 +68,8 @@ const styles = StyleSheet.create({
     borderRadius: 35,
   },
   subTitle: {
-    color: colors.gray['600'],
+    color: colors.gray['400'],
+    fontSize: 14
   },
   title: {
     fontWeight: "500",

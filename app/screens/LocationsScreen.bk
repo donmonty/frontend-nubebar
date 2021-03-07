@@ -14,6 +14,7 @@ import useAuth from '../auth/useAuth'
 import useApi from '../hooks/useApi';
 import userLocation from '../api/userLocations';
 import routes from "../navigation/routes";
+import cache from '../utility/cache';
 
 const sucursales = [
   { id: "1", nombre: 'Link Burgers' },
@@ -47,10 +48,8 @@ function LocationsScreen({ navigation }) {
           <ListItem
             title={item.nombre}
             onPress={() => {
-              navigation.navigate(routes.STORAGE, {
-                screen: 'StorageAreas',
-                params: { locationId: item.id }
-              });
+              navigation.navigate(routes.STORAGE);
+              cache.store('locationId', item.id);
             }}
           />
         )}
