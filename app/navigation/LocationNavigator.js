@@ -1,7 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import LocationNavigator from './LocationNavigator'
+import LocationsScreen from '../screens/LocationsScreen';
+import StorageAreaNavigator from './StorageAreaNavigator';
 import StorageAreasScreen from '../screens/StorageAreasScreen';
 // import routes from "./routes";
 import navigation from "./rootNavigation";
@@ -9,7 +10,7 @@ import colors from '../config/colors';
 
 const Stack = createStackNavigator();
 
-const AppNavigator = () => {
+const LocationNavigator = () => {
   return(
     <Stack.Navigator
       screenOptions={{
@@ -22,13 +23,17 @@ const AppNavigator = () => {
     >
       <Stack.Screen
         name="Locations"
-        component={LocationNavigator}
+        component={LocationsScreen}
       />
-      
+      <Stack.Screen
+        name="StorageAreas"
+        component={StorageAreaNavigator}
+      />
+    
     </Stack.Navigator>
   );
 }
 
-export default AppNavigator;
+export default LocationNavigator;
 
 

@@ -1,0 +1,41 @@
+import React from "react";
+import { Formik } from "formik";
+
+import FormField from './FormField';
+import { useBottleId, useBottleWeight } from './BottleContext';
+
+function BottleForm({ initialValues, onSubmit }) {
+
+  const hasBottleId = useBottleId()
+  const hasBottleWeight = useBottleWeight()
+
+  return (
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+    >
+      {() => <>
+        <FormField
+          autoCapitalize="none"
+          autoCorrect={false}
+          icon="email"
+          keyboardType="default"
+          name="bottleId"
+          placeholder="Numero de Folio"
+          textContentType="none"
+        />
+        <FormField
+          autoCapitalize="none"
+          autoCorrect={false}
+          icon="email"
+          keyboardType="numeric"
+          name="bottleWeight"
+          placeholder="Peso de la botella"
+          textContentType="none"
+        />
+      </>}
+    </Formik>
+  );
+}
+
+export default BottleForm;
