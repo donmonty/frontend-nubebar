@@ -5,6 +5,8 @@ import { AppLoading } from "expo-app-loading";
 import navigationTheme from "./app/navigation/navigationTheme";
 import AppNavigator from "./app/navigation/AppNavigator";
 import AuthNavigator from "./app/navigation/AuthNavigator";
+import TestNav from './app/navigation/TestNav';
+import MainNavigator from './app/navigation/MainNavigator';
 import AuthContext from "./app/auth/context";
 import authStorage from "./app/auth/storage";
 import { navigationRef } from "./app/navigation/rootNavigation";
@@ -26,7 +28,8 @@ function App() {
   return (
     <AuthContext.Provider value={{ user, setUser }}>
       <NavigationContainer ref={navigationRef} theme={navigationTheme}>
-        {user ? <AppNavigator /> : <AuthNavigator />}
+      {user ? <MainNavigator /> : <AuthNavigator />}
+        {/* {user ? <AppNavigator /> : <AuthNavigator />} */}
       </NavigationContainer>
     </AuthContext.Provider>
   );

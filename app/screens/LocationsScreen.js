@@ -47,9 +47,8 @@ function LocationsScreen({ navigation }) {
           <ListItem
             title={item.nombre}
             onPress={() => {
-              navigation.navigate(routes.STORAGE, {
-                screen: 'StorageAreas',
-                params: { locationId: item.id }
+              navigation.navigate('Almacenes', {
+                locationId: item.id 
               });
             }}
           />
