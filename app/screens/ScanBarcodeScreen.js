@@ -2,14 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
-// import useApi from '../hooks/useApi';
-// import getProduct from '../api/getProduct';
-
 export default function ScanBarcodeScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-
-  // const getProductApi = useApi(getProduct.getProductByBarcode);
 
   useEffect(() => {
     (async () => {
@@ -20,11 +15,7 @@ export default function ScanBarcodeScreen({ navigation }) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    console.log('::: DATA :::', data);
     navigation.navigate('Bottle Details', { barcode: data })
-    // await getProductApi.request(data);
-    // console.log('::: API RESPONSE :::', getProductApi.data);
-    // alert(`Bar code with type ${type} and data ${data} has been scanned!`);
   };
 
   if (hasPermission === null) {

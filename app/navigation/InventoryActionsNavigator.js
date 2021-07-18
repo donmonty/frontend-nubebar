@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import InventoryActionsScreen from '../screens/InventoryActionsScreen';
 import ScanBarcodeScreen from '../screens/ScanBarcodeScreen';
 import NewBottleNavigator from './NewBottleNavigator';
+import BottleDetailsScreen from '../screens/BottleDetailsScreen';
 // import routes from "./routes";
 import navigation from "./rootNavigation";
 import colors from '../config/colors';
@@ -22,9 +23,14 @@ const InventoryActionsNavigator = () => {
         headerTintColor: colors.white,
       }}
     >
+
       <Stack.Screen
-        name="Acciones"
+        name="Acciones Inventario"
         component={InventoryActionsScreen}
+      />
+      <Stack.Screen
+        name="Detalle"
+        component={BottleDetailsScreen}
       />
       <Stack.Screen
         name="Barcode"
@@ -34,7 +40,7 @@ const InventoryActionsNavigator = () => {
         name="Alta Botella"
         component={NewBottleNavigator}
       />
-    
+
     </Stack.Navigator>
   );
 }

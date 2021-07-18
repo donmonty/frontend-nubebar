@@ -17,10 +17,14 @@ function InventoryActionsScreen({ navigation }) {
         title="Alta de Botella"
         subTitle="Ingresar una botella al almacen"
         onPress={() => {
-          navigation.navigate(routes.BARCODE, {
-            screen: 'Barcode',
-          })
+          console.log("////// Navigating to Detalle")
+          navigation.navigate('Detalle')
         }}
+        // onPress={() => {
+        //   navigation.navigate(routes.NEW_BOTTLE, {
+        //     screen: 'Barcode',
+        //   })
+        // }}
         IconComponent={
           <Icon
             name="bottle-wine"

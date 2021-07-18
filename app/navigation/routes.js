@@ -6,4 +6,5 @@ export default Object.freeze({
   NEW_BOTTLE: 'Alta Botella',
   BARCODE: 'Barcode',
   LOGIN: 'Login',
+  DETAILS: 'Detalle'
 })
