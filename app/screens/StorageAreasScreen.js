@@ -18,7 +18,6 @@ import routes from "../navigation/routes";
 
 function StorageAreasScreen({ navigation, route }) {
   const location = route.params;
-  console.log('::: THIS IS LOCATION PARAMS :::', location);
   const storageAreasApi = useApi(storageAreas.getStorageAreas);
   // const getLocationId = async () => {
   //   return await cache.get('locationId')
@@ -33,10 +32,7 @@ function StorageAreasScreen({ navigation, route }) {
   // console.log('::: CACHE LOCATION ID', locationId);
 
   useEffect(() => {
-    // const locationId = getLocationId();
-    // console.log('::: CACHE LOCATION ID', locationId);
     storageAreasApi.request(location.locationId);
-    console.log('::: STORAGE API DATA :::', storageAreasApi.data);
   }, [])
 
   return (
@@ -55,7 +51,7 @@ function StorageAreasScreen({ navigation, route }) {
           <ListItem
             title={item.nombre}
             onPress={() => navigation.navigate(routes.ACTIONS, {
-              screen: 'Acciones',
+              screen: 'Acciones Inventario',
               params: { storageAreaId: item.id}
             })} 
           />

@@ -11,6 +11,9 @@ import AuthContext from "./app/auth/context";
 import authStorage from "./app/auth/storage";
 import { navigationRef } from "./app/navigation/rootNavigation";
 
+import { Provider } from 'react-redux'
+import store from "./app/store/store"
+
 function App() {
   const [user, setUser] = useState();
   const [isReady, setIsReady] = useState(false);
@@ -26,12 +29,14 @@ function App() {
   //   );
 
   return (
+    <Provider store={store} >
     <AuthContext.Provider value={{ user, setUser }}>
       <NavigationContainer ref={navigationRef} theme={navigationTheme}>
       {user ? <MainNavigator /> : <AuthNavigator />}
         {/* {user ? <AppNavigator /> : <AuthNavigator />} */}
       </NavigationContainer>
     </AuthContext.Provider>
+    </Provider>
   );
 }
 

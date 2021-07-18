@@ -4,7 +4,7 @@ import Screen from "../components/Screen";
 import ListItem from '../components/lists/ListItem';
 import Icon from '../components/Icon';
 import colors from '../config/colors';
-import routes from '../navigation/routes';
+//import routes from '../navigation/routes';
 
 
 function BottleActions({ navigation }) {
