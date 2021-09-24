@@ -5,23 +5,34 @@ import Screen from '../components/Screen';
 import Button from '../components/Button';
 import ListItemSeparator from '../components/lists/ListItemSeparator'
 import BottleItem2 from '../components/BottleItem2';
+import ListItem from '../components/lists/ListItem';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../store/actions/productActions';
+import { listBottleDetails } from '../store/actions/bottleActions'
 
 const BottleDetailsScreen = ({ navigation, route }) => {
 
   const dispatch = useDispatch()
   const productDetails = useSelector((state) => state.productDetails)
-  const { loading = true, error, product } = productDetails
+  let { loading = true, error, product } = productDetails
   const barcode = route.params.barcode;
+
+  const qrCode = route.params.qrCode
+  const bottleDetails = useSelector(state => state.bottleDetails)
+  const { id, weight } = bottleDetails.bottle
+  const { loading: loadingId } = bottleDetails
 
   //const [hasBottleId, setHasBottleId] = useState(false);
   //const [hasBottleWeight, setHasBottleWeight] = useState(false);
 
   useEffect(() => {
-    dispatch(listProductDetails(barcode))
-  }, [dispatch])
+    if (Object.keys(product).length === 0 && !id) {
+      dispatch(listProductDetails(barcode))
+    } else if (product && qrCode) {
+      dispatch(listBottleDetails(qrCode))
+    }
+  }, [dispatch, product, qrCode])
 
   // useEffect(() => {
   //   const bottleId = cache.get('bottleId') ? true : false;
@@ -35,22 +46,27 @@ const BottleDetailsScreen = ({ navigation, route }) => {
 
   return (
     <Screen style={styles.container} >
-      {loading ? <Text>Loading...</Text> :
+      {(loading || loadingId) ? <Text>Loading...</Text> :
         (
           <>
-          <FlatList
-            data={[product]}
-            ItemSeparatorComponent={ListItemSeparator}
-            keyExtractor={(producto) => producto.id.toString()}
-            renderItem={({ item }) => (
-              <BottleItem2
-                name={item.nombre}
-                barcode={item.codigo_barras}
-                capacity={item.capacidad}
-              />
-            )}
-          />
-          <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions')} />
+            <FlatList
+              data={[product]}
+              ItemSeparatorComponent={ListItemSeparator}
+              keyExtractor={(producto) => producto.id.toString()}
+              renderItem={({ item }) => (
+                <BottleItem2
+                  name={item.nombre}
+                  barcode={item.codigo_barras}
+                  capacity={item.capacidad}
+                />
+              )}
+            />
+            {id ? <ListItem subTitle="Folio" title={id} /> : null}
+            {weight ? <ListItem subtitle="Peso" title={weight} /> : null}
+            <ListItemSeparator/>
+            <Button title="Cancelar" color="red" onPress={() => navigation.navigate('Inventory Actions')} />
+            {(product && !id) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
+            {(product && id && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Inventory Actions')} /> : null}
           </>
         )
       }
