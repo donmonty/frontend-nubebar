@@ -4,9 +4,13 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import {
   productDetailsReducer
 } from "./reducers/productReducers"
+import {
+  bottleDetailsReducer
+} from "./reducers/bottleReducers"
 
 const reducer = combineReducers({
-  productDetails: productDetailsReducer
+  productDetails: productDetailsReducer,
+  bottleDetails: bottleDetailsReducer
 })
 
 const middleware = [thunk]

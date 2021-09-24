@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import Screen from '../components/Screen';
+//import Button from '../components/Button';
 
-export default function ScanBarcodeScreen({ navigation }) {
+export default function ScanQreScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-
-  const ean13 = BarCodeScanner.Constants.BarCodeType.ean13
+  const qr = BarCodeScanner.Constants.BarCodeType.qr
 
   useEffect(() => {
     (async () => {
@@ -16,9 +17,10 @@ export default function ScanBarcodeScreen({ navigation }) {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    if (type !== ean13) return setScanned(false)
+    const bottleHash = data.split("=")[3]
+    if (type !== qr) return setScanned(false)
     setScanned(true);
-    navigation.navigate('Bottle Details', { barcode: data })
+    navigation.navigate('Bottle Details', { qrCode: bottleHash })
   };
 
   if (hasPermission === null) {
@@ -29,19 +31,21 @@ export default function ScanBarcodeScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <Screen style={styles.container}>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        barCodeTypes={[ean13]}
+        barCodeTypes={[qr]}
         style={StyleSheet.absoluteFillObject}
       />
       {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
-    </View>
+      {/* <Button title="Captura manual" onPress={() => navigation.navigate('Inventory Actions')} /> */}
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10
   }
 })
