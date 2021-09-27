@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemSeparator
 } from '../components/lists'
+import cache from '../utility/cache';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { listLocations } from "../store/actions/locationActions"
@@ -41,6 +42,7 @@ function LocationsScreen({ navigation }) {
               navigation.navigate('Almacenes', {
                 locationId: item.id 
               });
+              cache.store('Sucursal', item.id)
             }}
           />
         )}
