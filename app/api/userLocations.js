@@ -1,9 +1,8 @@
 import client from './client';
 
-const endpoint = '/usuario/locations';
+const endpoint = 'api/inventarios/get-lista-sucursales';
 
-const getLocations = (userId) => client.get(endpoint, { id: userId });
-  
+const getLocations = (token) => client.get(endpoint, { headers: { 'Authorization': `Bearer ${token}`} })
 
 
 export default {

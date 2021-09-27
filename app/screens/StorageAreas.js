@@ -22,7 +22,10 @@ export default function StorageAreas({ navigation, route }) {
   const storageAreasApi = useApi(storageAreas.getStorageAreas);
   
   useEffect(() => {
-    storageAreasApi.request(location);
+    (async function requestStorageAreas() {
+      await storageAreasApi.request(location)
+    })()
+    
   }, [])
 
   function setStorageArea(areaId) {

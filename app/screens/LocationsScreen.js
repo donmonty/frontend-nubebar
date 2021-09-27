@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 
 import Screen from "../components/Screen";
 import AppText from '../components/Text';
@@ -9,38 +9,29 @@ import {
   ListItemSeparator
 } from '../components/lists'
 
+import { useDispatch, useSelector } from 'react-redux'
+import { listLocations } from "../store/actions/locationActions"
 
-import useAuth from '../auth/useAuth'
-import useApi from '../hooks/useApi';
-import userLocation from '../api/userLocations';
-import routes from "../navigation/routes";
-
-const sucursales = [
-  { id: "1", nombre: 'Link Burgers' },
-  { id: "2", nombre: 'Zelda Bar' }
-]
 
 function LocationsScreen({ navigation }) {
-  const getUserLocationsApi = useApi(userLocation.getLocations);
-  const { user } = useAuth();
-  // console.log('::: USER :::', user);
+  const dispatch = useDispatch()
+  const locationData = useSelector((state) => state.locations)
+  let { loading = true, error, locations } = locationData
 
   useEffect(() => {
-    getUserLocationsApi.request(user.id);
-    console.log('::: User Location Data :::', getUserLocationsApi.data);
-  }, [])
-
+    dispatch(listLocations())
+  }, [dispatch])
 
   return(
     <Screen style={styles.container}>
-      {getUserLocationsApi.error && (
+      {error && (
         <>
           <AppText>No se pudieron cargar las sucursales.</AppText>
-          <Button title="Intentar de nuevo" onPress={() => getUserLocationsApi.request(user.id)} />
+          <Button title="Intentar de nuevo" onPress={() => dispatch(listLocations())} />
         </>
       )}
       <FlatList
-        data={getUserLocationsApi.data}
+        data={locations}
         ItemSeparatorComponent={ListItemSeparator}
         keyExtractor={(location) => location.id.toString()}
         renderItem={({ item }) => (
@@ -54,10 +45,10 @@ function LocationsScreen({ navigation }) {
           />
         )}
       />
+
     </Screen>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

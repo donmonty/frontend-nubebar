@@ -1,10 +1,12 @@
 import client from './client';
+import authStorage from "../auth/storage"
 
-const endpoint = '/location';
+const endpoint = '/api';
 
-function getStorageAreas(locationId) {
-  const url = '/storage';
-  return client.get(endpoint + url, { id: locationId });
+async function getStorageAreas(locationId) {
+  const token = await authStorage.getToken()
+  const url = '/inventarios/get-almacenes/';
+  return client.get(endpoint + url + locationId, { headers: { 'Authorization': `Bearer ${token}`} });
 }
   
 
