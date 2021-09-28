@@ -20,17 +20,18 @@ const BottleDetailsScreen = ({ navigation, route }) => {
 
   const qrCode = route.params.qrCode
   const bottleDetails = useSelector(state => state.bottleDetails)
-  const { id, weight } = bottleDetails.bottle
+  const { weight } = bottleDetails.bottle
   const { loading: loadingId } = bottleDetails
 
   //const [hasBottleId, setHasBottleId] = useState(false);
   //const [hasBottleWeight, setHasBottleWeight] = useState(false);
 
   useEffect(() => {
-    if (Object.keys(product).length === 0 && !id) {
+    if (Object.keys(product).length === 0 && !qrCode) {
       dispatch(listProductDetails(barcode))
     } else if (product && qrCode) {
-      dispatch(listBottleDetails(qrCode))
+      // dispatch(listBottleDetails(qrCode))
+      console.log("OK")
     }
   }, [dispatch, product, qrCode])
 
@@ -55,18 +56,18 @@ const BottleDetailsScreen = ({ navigation, route }) => {
               keyExtractor={(producto) => producto.id.toString()}
               renderItem={({ item }) => (
                 <BottleItem2
-                  name={item.nombre}
+                  name={item.nombre_marca}
                   barcode={item.codigo_barras}
                   capacity={item.capacidad}
                 />
               )}
             />
-            {id ? <ListItem subTitle="Folio" title={id} /> : null}
+            {qrCode ? <ListItem subTitle="Folio" title={qrCode} /> : null}
             {weight ? <ListItem subtitle="Peso" title={weight} /> : null}
             <ListItemSeparator/>
             <Button title="Cancelar" color="red" onPress={() => navigation.navigate('Inventory Actions')} />
-            {(product && !id) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
-            {(product && id && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Inventory Actions')} /> : null}
+            {(product && !qrCode) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
+            {(product && qrCode && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Inventory Actions')} /> : null}
           </>
         )
       }
