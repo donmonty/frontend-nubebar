@@ -5,7 +5,9 @@ import {
   BOTTLE_DETAILS_FAIL,
   BOTTLE_WEIGHT_REQUEST,
   BOTTLE_WEIGHT_SUCCESS,
-  BOTTLE_WEIGHT_FAIL
+  BOTTLE_WEIGHT_FAIL,
+  BOTTLE_SET_WEIGHT_REQUEST,
+  BOTTLE_SET_WEIGHT_SUCCESS
 } from "../constants/bottleConstants"
 
 
@@ -15,6 +17,11 @@ export const listBottleDetails = (qrCode) => async (dispatch) => {
   if (!response.ok) return dispatch({ type: BOTTLE_DETAILS_FAIL, payload: response.problem })
   const data = response.data.body
   dispatch({ type: BOTTLE_DETAILS_SUCCESS, payload: data })
+}
+
+export const setBottleWeight = (weight) => (dispatch) => {
+  //dispatch({ type: BOTTLE_SET_WEIGHT_REQUEST })
+  dispatch( { type: BOTTLE_SET_WEIGHT_SUCCESS, payload: weight })
 }
 
 export const getBottleWeight = (weight) => (dispatch) => {

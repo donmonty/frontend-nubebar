@@ -20,7 +20,8 @@ const BottleDetailsScreen = ({ navigation, route }) => {
 
   const qrCode = route.params.qrCode
   const bottleDetails = useSelector(state => state.bottleDetails)
-  const { weight } = bottleDetails.bottle
+  const weightData = useSelector(state => state.bottleWeight)
+  const { weight } = weightData
   const { loading: loadingId } = bottleDetails
 
   //const [hasBottleId, setHasBottleId] = useState(false);
@@ -67,7 +68,8 @@ const BottleDetailsScreen = ({ navigation, route }) => {
             <ListItemSeparator/>
             <Button title="Cancelar" color="red" onPress={() => navigation.navigate('Inventory Actions')} />
             {(product && !qrCode) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
-            {(product && qrCode && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Inventory Actions')} /> : null}
+            {(product && qrCode && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Weight Bottle')} /> : null}
+            {(product && qrCode && weight) ? <Button title="Guardar Botella" onPress={() => navigation.navigate('Inventory Actions')} /> : null}
           </>
         )
       }

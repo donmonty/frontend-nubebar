@@ -9,11 +9,13 @@ import {
 } from "./reducers/bottleReducers"
 
 import { locationListReducer } from "./reducers/locationReducers"
+import { bottleWeightReducer } from "./reducers/bottleReducers"
 
 const reducer = combineReducers({
   productDetails: productDetailsReducer,
   bottleDetails: bottleDetailsReducer,
-  locations: locationListReducer 
+  locations: locationListReducer,
+  bottleWeight: bottleWeightReducer 
 })
 
 const middleware = [thunk]
