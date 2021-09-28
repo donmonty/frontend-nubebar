@@ -1,10 +1,12 @@
 import client from './client';
+import authStorage from "../auth/storage"
 
-const endpoint = '/inventario';
+const endpoint = '/api';
 
-function getProductByBarcode(barcode) {
-  const url = '/producto';
-  return client.get(endpoint + url, { codigo_barras: barcode });
+async function getProductByBarcode(barcode) {
+  const token = await authStorage.getToken()
+  const url = '/inventarios/get-producto/';
+  return client.get(endpoint + url + barcode, { headers: { 'Authorization': `Bearer ${token}`} });
 }
   
 

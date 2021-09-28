@@ -10,6 +10,6 @@ export const listProductDetails = (barcode) => async (dispatch) => {
   dispatch({ type: PRODUCT_DETAILS_REQUEST })
   const response = await getProduct.getProductByBarcode(barcode)
   if (!response.ok) return dispatch({ type: PRODUCT_DETAILS_FAIL, payload: response.problem })
-  const data = response.data.body[0]
+  const data = response.data.data
   dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data })
 }

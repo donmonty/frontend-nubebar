@@ -22,12 +22,11 @@ export default function StorageAreas({ navigation, route }) {
   const storageAreasApi = useApi(storageAreas.getStorageAreas);
   
   useEffect(() => {
-    storageAreasApi.request(location);
+    (async function requestStorageAreas() {
+      await storageAreasApi.request(location)
+    })()
+    
   }, [])
-
-  function setStorageArea(areaId) {
-    cache.store(areaId);
-  }
   
   return(
     <Screen style={styles.container}>
@@ -49,7 +48,7 @@ export default function StorageAreas({ navigation, route }) {
                 screen: 'Acciones',
                 storageAreaId: item.id
               })
-              setStorageArea(item.id);
+              cache.store('Almacen', item.id);
             }} 
           />
         )}

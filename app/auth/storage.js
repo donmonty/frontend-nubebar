@@ -1,5 +1,5 @@
 import * as SecureStore from "expo-secure-store";
-import jwtDecode from "jwt-decode";
+// import jwtDecode from "jwt-decode";
 
 const key = "authToken";
 
@@ -21,7 +21,8 @@ const getToken = async () => {
 
 const getUser = async () => {
   const token = await getToken();
-  return token ? jwtDecode(token) : null;
+  // return token ? jwtDecode(token) : null;
+  return token ? token: null;
 };
 
 const removeToken = async () => {

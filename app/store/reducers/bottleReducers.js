@@ -2,9 +2,9 @@ import {
   BOTTLE_DETAILS_REQUEST,
   BOTTLE_DETAILS_SUCCESS,
   BOTTLE_DETAILS_FAIL,
-  BOTTLE_WEIGHT_REQUEST,
-  BOTTLE_WEIGHT_SUCCESS,
-  BOTTLE_WEIGHT_FAIL
+  BOTTLE_SET_WEIGHT_REQUEST,
+  BOTTLE_SET_WEIGHT_SUCCESS,
+  BOTTLE_SET_WEIGHT_FAIL
 } from "../constants/bottleConstants"
 
 export const bottleDetailsReducer = (state = { bottle: {} }, action) => {
@@ -29,13 +29,13 @@ export const bottleWeightReducer = (state = { weight: null }, action) => {
 
   switch(action.type) {
 
-    case BOTTLE_WEIGHT_REQUEST:
+    case BOTTLE_SET_WEIGHT_REQUEST:
       return state
 
-    case BOTTLE_WEIGHT_SUCCESS:
+    case BOTTLE_SET_WEIGHT_SUCCESS:
       return { weight: action.payload }
 
-    case BOTTLE_WEIGHT_FAIL:
+    case BOTTLE_SET_WEIGHT_FAIL:
       return { error: action.payload }
 
     default:
