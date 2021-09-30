@@ -47,10 +47,10 @@ export default function WeightScreen({ navigation }) {
           icon="bottle-wine"
           keyboardType="number-pad"
           name="weight"
-          placeholder="Bottle Weight"
+          placeholder="Ingresa el peso"
           
         />
-         <SubmitButton title="Registrar Peso" />
+        <SubmitButton title="Guardar Peso" />
       </Form>
     </Screen>
   )
@@ -59,7 +59,8 @@ export default function WeightScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 10
-  }
+    // flex: 1,
+    padding: 10,
+    backgroundColor: "blue",
+  },
 })

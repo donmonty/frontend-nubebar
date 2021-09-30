@@ -5,6 +5,7 @@ import ScanBarcode from '../screens/ScanBarcodeScreen';
 import ScanQrScreen from '../screens/ScanQrScreen';
 import BottleDetailsScreens from '../screens/BottleDetailsScreen';
 import WeightScreen from '../screens/WeightScreen'
+import ConfirmationScreen from '../screens/ConfirmationScreen'
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ export default function AddBottleNavigator() {
       <Stack.Screen name="Scan QR" component={ScanQrScreen}/>
       <Stack.Screen name="Bottle Details" component={BottleDetailsScreens}/>
       <Stack.Screen name='Weight Bottle' component={WeightScreen} />
+      <Stack.Screen name='Confirmation'options={{headerShown: false }} component={ConfirmationScreen} />
     </Stack.Navigator>  
   );
 }

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Text, StyleSheet, FlatList } from 'react-native'
+import { Text, StyleSheet, FlatList, Image, View } from 'react-native'
 
 import Screen from '../components/Screen';
 import Button from '../components/Button';
@@ -9,7 +9,7 @@ import ListItem from '../components/lists/ListItem';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../store/actions/productActions';
-import { listBottleDetails } from '../store/actions/bottleActions'
+import { listBottleDetails, addNewBottle, resetBottleWeight } from '../store/actions/bottleActions'
 
 const BottleDetailsScreen = ({ navigation, route }) => {
 
@@ -26,15 +26,34 @@ const BottleDetailsScreen = ({ navigation, route }) => {
 
   //const [hasBottleId, setHasBottleId] = useState(false);
   //const [hasBottleWeight, setHasBottleWeight] = useState(false);
-
+  console.log("//// ERROR BARCODE UNKNOWN: ", error)
   useEffect(() => {
-    if (Object.keys(product).length === 0 && !qrCode) {
+    if (error) {
+      return
+    }
+    else if (Object.keys(product).length === 0 && !qrCode) {
       dispatch(listProductDetails(barcode))
     } else if (product && qrCode) {
       // dispatch(listBottleDetails(qrCode))
       console.log("OK")
     }
   }, [dispatch, product, qrCode])
+
+  const handleAddNewBottle = () => {
+    const bottleData = {
+      producto: product.id,
+      sat_hash: qrCode,
+      peso_nueva: weight
+    }
+    dispatch(addNewBottle(bottleData))
+    dispatch(resetBottleWeight())
+    navigation.navigate('Confirmation', { confirmation: "bottleCreate" })
+  }
+
+  const handleCancel = () => {
+    dispatch(resetBottleWeight())
+    navigation.navigate('Inventory Actions')
+  }
 
   // useEffect(() => {
   //   const bottleId = cache.get('bottleId') ? true : false;
@@ -45,6 +64,16 @@ const BottleDetailsScreen = ({ navigation, route }) => {
   //   const bottleWeight = cache.get('bottleWeight') ? true : false;
   //   setHasBottleWeight(bottleWeight);
   // }, [])
+
+  if(error) return (
+    <Screen style={styles.containerError}>
+      <View>
+        <Image style={styles.icon} source={require("../../assets/alert-outline.png")} />
+        <Text style={{ alignSelf: "center", marginTop: 20, textAlign: 'center' }}>Este codigo de barras no esta registrado</Text>
+      </View>
+      <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions')}/>
+    </Screen>
+  )
 
   return (
     <Screen style={styles.container} >
@@ -66,10 +95,10 @@ const BottleDetailsScreen = ({ navigation, route }) => {
             {qrCode ? <ListItem subTitle="Folio" title={qrCode} /> : null}
             {weight ? <ListItem subtitle="Peso" title={weight} /> : null}
             <ListItemSeparator/>
-            <Button title="Cancelar" color="red" onPress={() => navigation.navigate('Inventory Actions')} />
+            <Button title="Cancelar" color="red" onPress={handleCancel} />
             {(product && !qrCode) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
             {(product && qrCode && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Weight Bottle')} /> : null}
-            {(product && qrCode && weight) ? <Button title="Guardar Botella" onPress={() => navigation.navigate('Inventory Actions')} /> : null}
+            {(product && qrCode && weight) ? <Button title="Guardar Botella" onPress={handleAddNewBottle} /> : null}
           </>
         )
       }
@@ -81,7 +110,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10
-  }
+  },
+  containerError: {
+    flex: 1,
+    padding: 10,
+    justifyContent: 'space-between'
+  },
+  icon: {
+    width: '100%',
+    height: 100,
+    alignSelf: "center",
+    marginTop: 50,
+    resizeMode: 'contain',
+  },
 })
 
 export default BottleDetailsScreen
