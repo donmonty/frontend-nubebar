@@ -9,7 +9,11 @@ import ListItem from '../components/lists/ListItem';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../store/actions/productActions';
-import { listBottleDetails, addNewBottle, resetBottleWeight } from '../store/actions/bottleActions'
+import { 
+  listBottleDetails, 
+  addNewBottle, 
+  resetBottleWeight, 
+  resetFolio } from '../store/actions/bottleActions'
 
 const BottleDetailsScreen = ({ navigation, route }) => {
 
@@ -23,6 +27,9 @@ const BottleDetailsScreen = ({ navigation, route }) => {
   const weightData = useSelector(state => state.bottleWeight)
   const { weight } = weightData
   const { loading: loadingId } = bottleDetails
+
+  const folioData = useSelector(state => state.bottleFolio)
+  const { folio } = folioData
 
   //const [hasBottleId, setHasBottleId] = useState(false);
   //const [hasBottleWeight, setHasBottleWeight] = useState(false);
@@ -43,15 +50,19 @@ const BottleDetailsScreen = ({ navigation, route }) => {
     const bottleData = {
       producto: product.id,
       sat_hash: qrCode,
-      peso_nueva: weight
+      peso_nueva: weight,
+      folio: folio,
+      captura: folio ? "MANUAL" : null
     }
     dispatch(addNewBottle(bottleData))
     dispatch(resetBottleWeight())
+    dispatch(resetFolio())
     navigation.navigate('Confirmation', { confirmation: "bottleCreate" })
   }
 
   const handleCancel = () => {
     dispatch(resetBottleWeight())
+    dispatch(resetFolio())
     navigation.navigate('Inventory Actions')
   }
 
@@ -93,11 +104,12 @@ const BottleDetailsScreen = ({ navigation, route }) => {
               )}
             />
             {qrCode ? <ListItem subTitle="Folio" title={qrCode} /> : null}
+            {folio ? <ListItem subTitle="Folio" title={folio} /> : null}
             {weight ? <ListItem subtitle="Peso" title={weight} /> : null}
             <ListItemSeparator/>
             <Button title="Cancelar" color="red" onPress={handleCancel} />
-            {(product && !qrCode) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
-            {(product && qrCode && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Weight Bottle')} /> : null}
+            {(product && (!qrCode && !folio)) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
+            {(product && (qrCode || folio) && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Weight Bottle')} /> : null}
             {(product && qrCode && weight) ? <Button title="Guardar Botella" onPress={handleAddNewBottle} /> : null}
           </>
         )

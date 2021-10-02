@@ -14,8 +14,8 @@ function BottleActions({ navigation }) {
       
       <ListItem
         type = 'button-list'
-        title="Alta de Botella"
-        subTitle="Ingresar una botella al almacen"
+        title="Alta de Botella Nueva"
+        subTitle="Ingresar una botella nueva al almacen"
         onPress={() => {
           navigation.navigate('Add Bottle', {
             screen: 'Scan Barcode',

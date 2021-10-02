@@ -9,6 +9,8 @@ import {
   BOTTLE_CREATE_REQUEST,
   BOTTLE_CREATE_SUCCESS,
   BOTTLE_CREATE_FAIL,
+  BOTTLE_SET_FOLIO_SUCCESS,
+  BOTTLE_SET_FOLIO_RESET,
 } from "../constants/bottleConstants"
 
 export const bottleDetailsReducer = (state = { bottle: {} }, action) => {
@@ -61,6 +63,20 @@ export const bottleCreateReducer = (state = {}, action) => {
 
     case BOTTLE_CREATE_FAIL:
       return { loading: false, error: action.payload }
+
+    default:
+      return state
+  }
+}
+
+export const bottleFolioReducer = (state = { folio: null }, action) => {
+  switch(action.type) {
+
+    case BOTTLE_SET_FOLIO_SUCCESS:
+      return { folio: action.payload }
+
+    case BOTTLE_SET_FOLIO_RESET:
+      return { folio: null }
 
     default:
       return state

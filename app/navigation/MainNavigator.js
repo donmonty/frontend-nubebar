@@ -23,7 +23,7 @@ export default function MainNavigator() {
     >
       <Stack.Screen name="Sucursales" component={LocationsScreen}/>
       <Stack.Screen name="Almacenes" component={StorageAreas}/>
-      <Stack.Screen name="Inventory Actions" component={TabNavigator}/>
+      <Stack.Screen name="Inventory Actions" options={{ title: 'Operaciones' }} component={TabNavigator}/>
       <Stack.Screen name="Add Bottle" options={{headerShown: false }} component={AddBottleNavigator} />
     </Stack.Navigator>  
   );

@@ -12,7 +12,9 @@ import {
   BOTTLE_SET_WEIGHT_RESET,
   BOTTLE_CREATE_REQUEST,
   BOTTLE_CREATE_SUCCESS,
-  BOTTLE_CREATE_FAIL
+  BOTTLE_CREATE_FAIL,
+  BOTTLE_SET_FOLIO_SUCCESS,
+  BOTTLE_SET_FOLIO_RESET,
 } from "../constants/bottleConstants"
 
 
@@ -44,4 +46,12 @@ export const addNewBottle = (args) => async (dispatch) => {
   const response = await bottle.addNewBottle(args)
   if (!response.ok) return dispatch({ type: BOTTLE_CREATE_FAIL, payload: response.problem })
   dispatch({ type: BOTTLE_CREATE_SUCCESS, payload: response.data })
+}
+
+export const setFolio = (folio) => (dispatch) => {
+  dispatch({ type: BOTTLE_SET_FOLIO_SUCCESS, payload: folio })
+}
+
+export const resetFolio = () => (dispatch) => {
+  dispatch({ type: BOTTLE_SET_FOLIO_RESET })
 }
