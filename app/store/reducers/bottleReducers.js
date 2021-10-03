@@ -11,6 +11,8 @@ import {
   BOTTLE_CREATE_FAIL,
   BOTTLE_SET_FOLIO_SUCCESS,
   BOTTLE_SET_FOLIO_RESET,
+  BOTTLE_SET_CUSTOM_FOLIO_SUCCESS,
+  BOTTLE_SET_CUSTOM_FOLIO_RESET,
 } from "../constants/bottleConstants"
 
 export const bottleDetailsReducer = (state = { bottle: {} }, action) => {
@@ -77,6 +79,20 @@ export const bottleFolioReducer = (state = { folio: null }, action) => {
 
     case BOTTLE_SET_FOLIO_RESET:
       return { folio: null }
+
+    default:
+      return state
+  }
+}
+
+export const bottleCustomFolioReducer = (state = { customFolio: null }, action) => {
+  switch(action.type) {
+
+    case BOTTLE_SET_CUSTOM_FOLIO_SUCCESS:
+      return { customFolio: action.payload }
+
+    case BOTTLE_SET_CUSTOM_FOLIO_RESET:
+      return { customFolio: null }
 
     default:
       return state

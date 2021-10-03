@@ -15,6 +15,8 @@ import {
   BOTTLE_CREATE_FAIL,
   BOTTLE_SET_FOLIO_SUCCESS,
   BOTTLE_SET_FOLIO_RESET,
+  BOTTLE_SET_CUSTOM_FOLIO_SUCCESS,
+  BOTTLE_SET_CUSTOM_FOLIO_RESET,
 } from "../constants/bottleConstants"
 
 
@@ -54,4 +56,12 @@ export const setFolio = (folio) => (dispatch) => {
 
 export const resetFolio = () => (dispatch) => {
   dispatch({ type: BOTTLE_SET_FOLIO_RESET })
+}
+
+export const setCustomFolio = (customFolio) => (dispatch) => {
+  dispatch({ type: BOTTLE_SET_CUSTOM_FOLIO_SUCCESS, payload: customFolio })
+}
+
+export const resetCustomFolio = () => (dispatch) => {
+  dispatch({ type: BOTTLE_SET_CUSTOM_FOLIO_RESET })
 }

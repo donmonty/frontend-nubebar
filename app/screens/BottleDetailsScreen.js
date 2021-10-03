@@ -13,7 +13,8 @@ import {
   listBottleDetails, 
   addNewBottle, 
   resetBottleWeight, 
-  resetFolio } from '../store/actions/bottleActions'
+  resetFolio, 
+  resetCustomFolio } from '../store/actions/bottleActions'
 
 const BottleDetailsScreen = ({ navigation, route }) => {
 
@@ -31,9 +32,12 @@ const BottleDetailsScreen = ({ navigation, route }) => {
   const folioData = useSelector(state => state.bottleFolio)
   const { folio } = folioData
 
+  const customFolioData = useSelector(state => state.bottleCustomFolio)
+  const { customFolio } = customFolioData
+
   //const [hasBottleId, setHasBottleId] = useState(false);
   //const [hasBottleWeight, setHasBottleWeight] = useState(false);
-  console.log("//// ERROR BARCODE UNKNOWN: ", error)
+  
   useEffect(() => {
     if (error) {
       return
@@ -51,18 +55,18 @@ const BottleDetailsScreen = ({ navigation, route }) => {
       producto: product.id,
       sat_hash: qrCode,
       peso_nueva: weight,
-      folio: folio,
+      folio: folio || customFolio,
       captura: folio ? "MANUAL" : null
     }
     dispatch(addNewBottle(bottleData))
     dispatch(resetBottleWeight())
-    dispatch(resetFolio())
+    folio ? dispatch(resetFolio()) : dispatch(resetCustomFolio())
     navigation.navigate('Confirmation', { confirmation: "bottleCreate" })
   }
 
   const handleCancel = () => {
     dispatch(resetBottleWeight())
-    dispatch(resetFolio())
+    folio ? dispatch(resetFolio()) : dispatch(resetCustomFolio())
     navigation.navigate('Inventory Actions')
   }
 
@@ -105,12 +109,13 @@ const BottleDetailsScreen = ({ navigation, route }) => {
             />
             {qrCode ? <ListItem subTitle="Folio" title={qrCode} /> : null}
             {folio ? <ListItem subTitle="Folio" title={folio} /> : null}
-            {weight ? <ListItem subtitle="Peso" title={weight} /> : null}
+            {customFolio ? <ListItem subTitle="Folio Especial" title={customFolio} /> : null}
+            {weight ? <ListItem subTitle="Peso" title={weight} /> : null}
             <ListItemSeparator/>
             <Button title="Cancelar" color="red" onPress={handleCancel} />
-            {(product && (!qrCode && !folio)) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
-            {(product && (qrCode || folio) && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Weight Bottle')} /> : null}
-            {(product && qrCode && weight) ? <Button title="Guardar Botella" onPress={handleAddNewBottle} /> : null}
+            {(product && (!qrCode && !folio && !customFolio)) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
+            {(product && (qrCode || folio || customFolio) && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Weight Bottle')} /> : null}
+            {(product && (qrCode || folio || customFolio) && weight) ? <Button title="Guardar Botella" onPress={handleAddNewBottle} /> : null}
           </>
         )
       }

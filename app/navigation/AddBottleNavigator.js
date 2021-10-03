@@ -8,6 +8,7 @@ import WeightScreen from '../screens/WeightScreen'
 import ConfirmationScreen from '../screens/ConfirmationScreen'
 import ManualIdScreen from '../screens/ManualIdScreen'
 import ManualBarcodeScreen from '../screens/ManualBarcodeScreen'
+import CustomIdScreen from '../screens/CustomIdScreen';
 
 const Stack = createStackNavigator();
 
@@ -17,7 +18,8 @@ export default function AddBottleNavigator() {
       screenOptions={{
         title: "Alta de Botella Nueva"
       }}
-    >
+    > 
+      <Stack.Screen name='Custom Folio' component={CustomIdScreen} />
       <Stack.Screen name='Manual Barcode' component={ManualBarcodeScreen} />
       <Stack.Screen name='Manual Folio' component={ManualIdScreen} />
       <Stack.Screen name="Scan Barcode" component={ScanBarcode}/>
