@@ -13,7 +13,8 @@ import {
   bottleWeightReducer, 
   bottleCreateReducer, 
   bottleFolioReducer, 
-  bottleCustomFolioReducer } from "./reducers/bottleReducers"
+  bottleCustomFolioReducer, 
+  bottleCreateTypeReducer } from "./reducers/bottleReducers"
 
 const reducer = combineReducers({
   productDetails: productDetailsReducer,
@@ -22,7 +23,8 @@ const reducer = combineReducers({
   bottleWeight: bottleWeightReducer,
   bottleCreate: bottleCreateReducer,
   bottleFolio: bottleFolioReducer,
-  bottleCustomFolio: bottleCustomFolioReducer 
+  bottleCustomFolio: bottleCustomFolioReducer,
+  bottleCreateType: bottleCreateTypeReducer 
 })
 
 const middleware = [thunk]

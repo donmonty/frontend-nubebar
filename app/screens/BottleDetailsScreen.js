@@ -35,6 +35,9 @@ const BottleDetailsScreen = ({ navigation, route }) => {
   const customFolioData = useSelector(state => state.bottleCustomFolio)
   const { customFolio } = customFolioData
 
+  const createTypeData = useSelector(state => state.bottleCreateType)
+  const { createType } = createTypeData
+
   //const [hasBottleId, setHasBottleId] = useState(false);
   //const [hasBottleWeight, setHasBottleWeight] = useState(false);
   
@@ -64,6 +67,21 @@ const BottleDetailsScreen = ({ navigation, route }) => {
     navigation.navigate('Confirmation', { confirmation: "bottleCreate" })
   }
 
+  const handleAddUsedBottle = () => {
+    const bottleData = {
+      producto: product.id,
+      sat_hash: qrCode,
+      peso_nueva: product.peso_nueva,
+      peso_inicial: weight,
+      folio: folio || customFolio,
+      captura: folio ? "MANUAL" : null
+    }
+    // dispatch(addUsedBottle(bottleData))
+    dispatch(resetBottleWeight())
+    folio ? dispatch(resetFolio()) : dispatch(resetCustomFolio())
+    navigation.navigate('Confirmation', { confirmation: "bottleCreate" })
+  }
+
   const handleCancel = () => {
     dispatch(resetBottleWeight())
     folio ? dispatch(resetFolio()) : dispatch(resetCustomFolio())
@@ -79,6 +97,16 @@ const BottleDetailsScreen = ({ navigation, route }) => {
   //   const bottleWeight = cache.get('bottleWeight') ? true : false;
   //   setHasBottleWeight(bottleWeight);
   // }, [])
+  console.log("//// PRODUCT DETAIL: ", product)
+  if (createType === 'usada' && !product.peso_nueva) return (
+    <Screen style={styles.containerError}>
+      <View>
+        <Image style={styles.icon} source={require("../../assets/alert-outline.png")} />
+        <Text style={{ alignSelf: "center", marginTop: 20, textAlign: 'center' }}>Este producto no esta registrado. Por favor contacta a soporte.</Text>
+      </View>
+      <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions')}/>
+    </Screen>
+  )
 
   if(error) return (
     <Screen style={styles.containerError}>
@@ -115,7 +143,7 @@ const BottleDetailsScreen = ({ navigation, route }) => {
             <Button title="Cancelar" color="red" onPress={handleCancel} />
             {(product && (!qrCode && !folio && !customFolio)) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
             {(product && (qrCode || folio || customFolio) && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Weight Bottle')} /> : null}
-            {(product && (qrCode || folio || customFolio) && weight) ? <Button title="Guardar Botella" onPress={handleAddNewBottle} /> : null}
+            {(product && (qrCode || folio || customFolio) && weight) ? <Button title="Guardar Botella" onPress={(createType === 'usada') ? handleAddUsedBottle : handleAddNewBottle} /> : null}
           </>
         )
       }

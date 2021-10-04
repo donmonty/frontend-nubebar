@@ -17,6 +17,11 @@ import {
   BOTTLE_SET_FOLIO_RESET,
   BOTTLE_SET_CUSTOM_FOLIO_SUCCESS,
   BOTTLE_SET_CUSTOM_FOLIO_RESET,
+  BOTTLE_CREATE_TYPE_SUCCESS,
+  BOTTLE_CREATE_TYPE_RESET,
+  BOTTLE_CREATE_USED_REQUEST,
+  BOTTLE_CREATE_USED_SUCCESS,
+  BOTTLE_CREATE_USED_FAIL,
 } from "../constants/bottleConstants"
 
 
@@ -50,6 +55,13 @@ export const addNewBottle = (args) => async (dispatch) => {
   dispatch({ type: BOTTLE_CREATE_SUCCESS, payload: response.data })
 }
 
+export const addUsedBottle = (args) => async (dispatch) => {
+  dispatch({ type: BOTTLE_CREATE_REQUEST })
+  const response = await bottle.addUsedBottle(args)
+  if (!response.ok) return dispatch({ type: BOTTLE_CREATE_FAIL, payload: response.problem })
+  dispatch({ type: BOTTLE_CREATE_SUCCESS, payload: response.data })
+}
+
 export const setFolio = (folio) => (dispatch) => {
   dispatch({ type: BOTTLE_SET_FOLIO_SUCCESS, payload: folio })
 }
@@ -64,4 +76,12 @@ export const setCustomFolio = (customFolio) => (dispatch) => {
 
 export const resetCustomFolio = () => (dispatch) => {
   dispatch({ type: BOTTLE_SET_CUSTOM_FOLIO_RESET })
+}
+
+export const setCreateType = (type) => (dispatch) => {
+  dispatch( { type: BOTTLE_CREATE_TYPE_SUCCESS })
+}
+
+export const resetCreateType = () => (dispatch) => {
+  dispatch( { type: BOTTLE_CREATE_TYPE_RESET })
 }
