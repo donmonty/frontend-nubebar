@@ -16,7 +16,7 @@ export default function AddBottleNavigator() {
   return(
     <Stack.Navigator
       screenOptions={{
-        title: "Alta de Botella Nueva"
+        title: "Alta de Botella"
       }}
     > 
       <Stack.Screen name='Custom Folio' component={CustomIdScreen} />

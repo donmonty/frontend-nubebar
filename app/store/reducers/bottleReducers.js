@@ -105,10 +105,10 @@ export const bottleCreateTypeReducer = (state = { type: null }, action) => {
   switch(action.type) {
 
     case BOTTLE_CREATE_TYPE_SUCCESS:
-      return { type: action.payload }
+      return { createType: action.payload }
       
     case BOTTLE_CREATE_TYPE_RESET:
-      return { type: null }
+      return { createType: null }
 
     default:
       return state

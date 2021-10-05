@@ -24,10 +24,10 @@ export default function ScanBarcodeScreen({ navigation }) {
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <Text style={{ color: "#FFFFFF", alignSelf: "center", marginTop: 20 }}>Requesting for camera permission</Text>;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text style={{ color: "#FFFFFF", alignSelf: "center", marginTop: 20 }}>No access to camera</Text>;
   }
 
   return (
@@ -39,8 +39,10 @@ export default function ScanBarcodeScreen({ navigation }) {
         style={StyleSheet.absoluteFillObject}
       />
       <Text style={{ color: "#FFFFFF", alignSelf: "center", marginTop: 20 }} >Escanea el codigo de barras de la botella</Text>
-      {/* {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />} */}
-      <Button title="Captura manual" onPress={() => navigation.navigate('Manual Barcode')} />
+      <View>
+        <Text style={{ color: "#FFFFFF", alignSelf: "center", marginBottom: 10 }}>Tienes problemas para escanear?</Text>
+        <Button title="Captura manual" onPress={() => navigation.navigate('Manual Barcode')} />
+      </View>
     </View>
   );
 }

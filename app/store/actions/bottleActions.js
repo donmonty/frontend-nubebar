@@ -78,8 +78,8 @@ export const resetCustomFolio = () => (dispatch) => {
   dispatch({ type: BOTTLE_SET_CUSTOM_FOLIO_RESET })
 }
 
-export const setCreateType = (type) => (dispatch) => {
-  dispatch( { type: BOTTLE_CREATE_TYPE_SUCCESS })
+export const setCreateType = (createType) => (dispatch) => {
+  dispatch( { type: BOTTLE_CREATE_TYPE_SUCCESS, payload: createType })
 }
 
 export const resetCreateType = () => (dispatch) => {

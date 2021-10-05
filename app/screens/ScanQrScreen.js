@@ -38,11 +38,11 @@ export default function ScanQreScreen({ navigation }) {
         barCodeTypes={[qr]}
         style={StyleSheet.absoluteFillObject}
       />
-      {/* {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />} */}
+      
       <Text style={{ color: "#FFFFFF", alignSelf: "center", marginTop: 20 }} >Escanea el codigo QR de la botella</Text>
       <View>
         <Text style={{ color: "#FFFFFF", alignSelf: "center", marginBottom: 10 }}>Tienes problemas para escanear?</Text>
-        <Button title="Folio Especial" onPress={() => navigation.navigate('Custom Folio')} />
+        <Button title="Asignar Folio Especial" onPress={() => navigation.navigate('Custom Folio')} />
         <Button title="Captura manual" onPress={() => navigation.navigate('Manual Folio')} />
       </View>
     </Screen>

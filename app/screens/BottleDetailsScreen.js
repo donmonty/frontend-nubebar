@@ -9,9 +9,9 @@ import ListItem from '../components/lists/ListItem';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../store/actions/productActions';
-import { 
-  listBottleDetails, 
-  addNewBottle, 
+import {  
+  addNewBottle,
+  addUsedBottle, 
   resetBottleWeight, 
   resetFolio, 
   resetCustomFolio } from '../store/actions/bottleActions'
@@ -38,8 +38,6 @@ const BottleDetailsScreen = ({ navigation, route }) => {
   const createTypeData = useSelector(state => state.bottleCreateType)
   const { createType } = createTypeData
 
-  //const [hasBottleId, setHasBottleId] = useState(false);
-  //const [hasBottleWeight, setHasBottleWeight] = useState(false);
   
   useEffect(() => {
     if (error) {
@@ -48,7 +46,7 @@ const BottleDetailsScreen = ({ navigation, route }) => {
     else if (Object.keys(product).length === 0 && !qrCode) {
       dispatch(listProductDetails(barcode))
     } else if (product && qrCode) {
-      // dispatch(listBottleDetails(qrCode))
+      
       console.log("OK")
     }
   }, [dispatch, product, qrCode])
@@ -76,7 +74,7 @@ const BottleDetailsScreen = ({ navigation, route }) => {
       folio: folio || customFolio,
       captura: folio ? "MANUAL" : null
     }
-    // dispatch(addUsedBottle(bottleData))
+    dispatch(addUsedBottle(bottleData))
     dispatch(resetBottleWeight())
     folio ? dispatch(resetFolio()) : dispatch(resetCustomFolio())
     navigation.navigate('Confirmation', { confirmation: "bottleCreate" })
@@ -88,21 +86,12 @@ const BottleDetailsScreen = ({ navigation, route }) => {
     navigation.navigate('Inventory Actions')
   }
 
-  // useEffect(() => {
-  //   const bottleId = cache.get('bottleId') ? true : false;
-  //   setHasBottleId(bottleId);
-  // }, [])
-
-  // useEffect(() => {
-  //   const bottleWeight = cache.get('bottleWeight') ? true : false;
-  //   setHasBottleWeight(bottleWeight);
-  // }, [])
-  console.log("//// PRODUCT DETAIL: ", product)
+  //console.log("//// PRODUCT DETAIL: ", product)
   if (createType === 'usada' && !product.peso_nueva) return (
     <Screen style={styles.containerError}>
-      <View>
+      <View style={{padding: 40}}>
         <Image style={styles.icon} source={require("../../assets/alert-outline.png")} />
-        <Text style={{ alignSelf: "center", marginTop: 20, textAlign: 'center' }}>Este producto no esta registrado. Por favor contacta a soporte.</Text>
+        <Text style={styles.alertText}>Este producto no esta registrado. Por favor contacta a soporte.</Text>
       </View>
       <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions')}/>
     </Screen>
@@ -110,9 +99,9 @@ const BottleDetailsScreen = ({ navigation, route }) => {
 
   if(error) return (
     <Screen style={styles.containerError}>
-      <View>
+      <View style={{padding: 40}}>
         <Image style={styles.icon} source={require("../../assets/alert-outline.png")} />
-        <Text style={{ alignSelf: "center", marginTop: 20, textAlign: 'center' }}>Este codigo de barras no esta registrado</Text>
+        <Text style={styles.alertText}>Este producto no esta registrado. Por favor contacta a soporte.</Text>
       </View>
       <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions')}/>
     </Screen>
@@ -168,6 +157,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     resizeMode: 'contain',
   },
+  alertText: {
+    alignSelf: "center",
+    marginTop: 20,
+    textAlign: 'center',
+    fontSize: 18,
+    lineHeight: 24
+  }
 })
 
 export default BottleDetailsScreen

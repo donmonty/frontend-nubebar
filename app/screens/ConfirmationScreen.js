@@ -4,7 +4,6 @@ import { StyleSheet, Image, View } from 'react-native'
 import Screen from '../components/Screen';
 import Button from '../components/Button';
 import Text from '../components/Text'
-//import LottieView from 'lottie-react-native'
 
 import { useSelector } from 'react-redux'
 
@@ -21,21 +20,16 @@ const ConfirmationScreen = ({ navigation, route }) => {
       {
         (loading && !error) && 
         <> 
-          <Text>Loading...</Text>
-          {/* <LottieView 
-            source={require("../../assets/loading.json")} 
-          /> */}
+          <Text style={styles.alertText}>Loading...</Text>
         </>
       }
       {
         (!loading && !error) &&
         <>
-          {/* <LottieView 
-            source={require("../../assets/check.json")}
-            style={{ width: 200, height: 200 }} 
-          /> */}
-          <Image style={styles.icon} source={require("../../assets/check-outline.png")} />
-          <Text>Botella guardada con exito!</Text>
+          <View>
+            <Image style={styles.icon} source={require("../../assets/check-outline.png")} />
+            <Text style={styles.alertText}>Botella guardada con exito!</Text>
+          </View>
           <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions')}/>
         </>
       }
@@ -44,7 +38,7 @@ const ConfirmationScreen = ({ navigation, route }) => {
         <>
           <View>
             <Image style={styles.icon} source={require("../../assets/alert-outline.png")} />
-            <Text style={{ alignSelf: "center", marginTop: 20 }}  >Hubo un error. Intenta de nuevo.</Text>
+            <Text style={styles.alertText}  >Hubo un error. Intenta de nuevo.</Text>
           </View>
           <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions')}/>
         </>
@@ -67,6 +61,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     resizeMode: 'contain',
   },
+  alertText: {
+    alignSelf: "center",
+    marginTop: 20,
+    textAlign: 'center',
+    fontSize: 18,
+    lineHeight: 24
+  }
 })
 
 export default ConfirmationScreen

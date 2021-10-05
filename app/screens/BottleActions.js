@@ -9,10 +9,10 @@ import { useDispatch } from 'react-redux'
 import { setCreateType } from '../store/actions/bottleActions'
 //import routes from '../navigation/routes';
 
-const dispatch = useDispatch()
-
 
 function BottleActions({ navigation }) {
+
+  const dispatch = useDispatch()
 
   return(
     <Screen style={styles.container}>
