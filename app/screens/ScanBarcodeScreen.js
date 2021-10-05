@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import Button from '../components/Button'
+import Text from '../components/Text'
 
 export default function ScanBarcodeScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -22,20 +24,25 @@ export default function ScanBarcodeScreen({ navigation }) {
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return <Text style={{ color: "#FFFFFF", alignSelf: "center", marginTop: 20 }}>Requesting for camera permission</Text>;
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return <Text style={{ color: "#FFFFFF", alignSelf: "center", marginTop: 20 }}>No access to camera</Text>;
   }
 
   return (
     <View style={styles.container}>
+      
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         barCodeTypes={[ean13]}
         style={StyleSheet.absoluteFillObject}
       />
-      {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)} />}
+      <Text style={{ color: "#FFFFFF", alignSelf: "center", marginTop: 20 }} >Escanea el codigo de barras de la botella</Text>
+      <View>
+        <Text style={{ color: "#FFFFFF", alignSelf: "center", marginBottom: 10 }}>Tienes problemas para escanear?</Text>
+        <Button title="Captura manual" onPress={() => navigation.navigate('Manual Barcode')} />
+      </View>
     </View>
   );
 }
@@ -43,5 +50,7 @@ export default function ScanBarcodeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 10,
+    justifyContent: 'space-between'
   }
 })

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet  } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";
@@ -11,20 +11,20 @@ import {
 } from "../components/forms";
 
 import { useDispatch } from 'react-redux'
-import { setBottleWeight } from '../store/actions/bottleActions'
+import { setFolio } from '../store/actions/bottleActions'
 
 const validationSchema = Yup.object().shape({
-  weight: Yup.number().required().positive().integer().max(5000).label("Bottle Weight"),
+  folio: Yup.string().required().matches(/^(Nn|Ii)-?\d{10}/, "Debe ser un folio valido"),
 });
 
-export default function WeightScreen({ navigation }) {
+export default function ManualIdScreen({ navigation }) {
 
-  const [weightFailed, setWeightFailed] = useState(false)
+  const [folioFailed, setFolioFailed] = useState(false)
   const dispatch = useDispatch()
 
-  const handleSubmit = ({ weight }) => {
-    dispatch(setBottleWeight(weight))
-    setWeightFailed(false)
+  const handleSubmit = ({ folio }) => {
+    dispatch(setFolio(folio))
+    setFolioFailed(false)
     navigation.navigate('Bottle Details')
   }
 
@@ -33,24 +33,24 @@ export default function WeightScreen({ navigation }) {
       style={styles.container}
     >
       <Form
-        initialValues={{ weight: "" }}
+        initialValues={{ folio: "" }}
         onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <ErrorMessage
-          error="Peso no valido."
-          visible={weightFailed}
+          error="Formato de folio no valido."
+          visible={folioFailed}
         />
         <FormField
           autoCapitalize="none"
           autoCorrect={false}
           icon="bottle-wine"
-          keyboardType="number-pad"
-          name="weight"
-          placeholder="Ingresa el peso"
+          keyboardType="email-address"
+          name="folio"
+          placeholder="Ingresa el folio del marbete de SHCP"
           
         />
-        <SubmitButton title="Guardar Peso" />
+        <SubmitButton title="Guardar Folio" />
       </Form>
     </Screen>
   )
