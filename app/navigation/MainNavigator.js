@@ -5,6 +5,7 @@ import LocationsScreen from '../screens/LocationsScreen';
 import StorageAreas from '../screens/StorageAreas';
 import TabNavigator from './TabNavigator';
 import AddBottleNavigator from './AddBottleNavigator';
+import CountNavigator from './CountNavigator'
 
 import colors from '../config/colors';
 
@@ -25,6 +26,7 @@ export default function MainNavigator() {
       <Stack.Screen name="Almacenes" component={StorageAreas}/>
       <Stack.Screen name="Inventory Actions" options={{ title: 'Operaciones' }} component={TabNavigator}/>
       <Stack.Screen name="Add Bottle" options={{headerShown: false }} component={AddBottleNavigator} />
+      <Stack.Screen name="Counts" options={{headerShown: false }} component={CountNavigator} />
     </Stack.Navigator>  
   );
 }
