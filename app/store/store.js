@@ -15,7 +15,12 @@ import {
   bottleFolioReducer, 
   bottleCustomFolioReducer, 
   bottleCreateTypeReducer } from "./reducers/bottleReducers"
-import { quickCountsReducer, totalCountsReducer, countTypeReducer } from './reducers/countReducers'
+import { 
+  quickCountsReducer, 
+  totalCountsReducer, 
+  countTypeReducer, 
+  createQuickCountReducer, 
+  createTotalCountReducer } from './reducers/countReducers'
 
 const reducer = combineReducers({
   productDetails: productDetailsReducer,
@@ -28,7 +33,9 @@ const reducer = combineReducers({
   bottleCreateType: bottleCreateTypeReducer,
   quickCounts: quickCountsReducer,
   totalCounts: totalCountsReducer,
-  countType: countTypeReducer, 
+  countType: countTypeReducer,
+  quickCountCreate: createQuickCountReducer,
+  totalCountCreate: createTotalCountReducer, 
 })
 
 const middleware = [thunk]
