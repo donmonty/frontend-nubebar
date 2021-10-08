@@ -13,6 +13,10 @@ import {
   CREATE_TOTAL_COUNT_REQUEST,
   CREATE_TOTAL_COUNT_SUCCESS,
   CREATE_TOTAL_COUNT_FAIL,
+  COUNT_SUMMARY_REQUEST,
+  COUNT_SUMMARY_SUCCESS,
+  COUNT_SUMMARY_FAIL,
+  COUNT_ACTIVE_SUCCESS,
 } from "../constants/countConstants"
 
 
@@ -46,4 +50,15 @@ export const createTotalCount = (args) => async (dispatch) => {
   const response = await count.createTotalCount(args)
   if (!response.ok) return dispatch({ type: CREATE_TOTAL_COUNT_FAIL, payload: response.problem })
   dispatch({ type: CREATE_TOTAL_COUNT_SUCCESS, payload: response.data.data }) 
+}
+
+export const getCountSummary = (countId) => async (dispatch) => {
+  dispatch({ type: COUNT_SUMMARY_REQUEST })
+  const response = await count.getCountSummary(countId)
+  if (!response.ok) return dispatch({ type: COUNT_SUMMARY_FAIL, payload: response.problem })
+  dispatch({ type: COUNT_SUMMARY_SUCCESS, payload: response.data })
+}
+
+export const setCountActive = (status) => (dispatch) => {
+  dispatch({ type: COUNT_ACTIVE_SUCCESS, payload: status })
 }

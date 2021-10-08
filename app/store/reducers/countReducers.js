@@ -1,4 +1,4 @@
-import { defaultFormat } from "moment"
+
 import {
   QUICK_COUNTS_LIST_REQUEST,
   QUICK_COUNTS_LIST_SUCCESS,
@@ -13,6 +13,10 @@ import {
   CREATE_TOTAL_COUNT_REQUEST,
   CREATE_TOTAL_COUNT_SUCCESS,
   CREATE_TOTAL_COUNT_FAIL,
+  COUNT_SUMMARY_REQUEST,
+  COUNT_SUMMARY_SUCCESS,
+  COUNT_SUMMARY_FAIL,
+  COUNT_ACTIVE_SUCCESS,
 } from "../constants/countConstants"
 
 
@@ -94,6 +98,36 @@ export const createTotalCountReducer = (state = { totalCountDetails: {} }, actio
 
     case CREATE_TOTAL_COUNT_FAIL:
       return { loading: false, error: action.payload }
+
+    default:
+      return state
+  }
+}
+
+export const getCountSummaryReducer = (state = { countSummary: {} }, action) => {
+
+  switch(action.type) {
+
+    case COUNT_SUMMARY_REQUEST:
+      return { ...state, loading: true }
+
+    case COUNT_SUMMARY_SUCCESS:
+      return { countSummary: action.payload, loading: false }
+
+    case COUNT_SUMMARY_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
+  }
+}
+
+export const setCountActiveReducer = (state = { countActive: false }, action) => {
+  
+  switch(action.type) {
+
+    case COUNT_ACTIVE_SUCCESS:
+      return { countActive: action.payload }
 
     default:
       return state
