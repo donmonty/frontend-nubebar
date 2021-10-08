@@ -86,7 +86,7 @@ const CountSummaryScreen = ({ navigation, route }) => {
           }
         />
       </View>
-      <Button title="Escanear Código QR" diabled={true} onPress={() => console.log("Navigate to Scan Count QR")}/>
+      <Button title="Escanear Código QR" diabled={true} onPress={() => navigation.navigate('Count Scanner')}/>
     </Screen>
   )
 }
