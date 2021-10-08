@@ -11,7 +11,7 @@ import Text from '../components/Text'
 
 import colors from '../config/colors';
 import cache from '../utility/cache'
-import { listQuickCounts, listTotalCounts, createQuickCount, createTotalCount } from '../store/actions/countActions';
+import { listQuickCounts, listTotalCounts, createQuickCount, createTotalCount, setCountActive } from '../store/actions/countActions';
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -29,6 +29,9 @@ const CountListScreen = ({ navigation }) => {
   
   const countTypeData = useSelector(state => state.countType)
   const { countType } = countTypeData
+
+  const countActiveData = useSelector(state => state.countActive)
+  const { countActive } = countActiveData
 
   useEffect(() => {
     (async function requestCounts() {
@@ -49,9 +52,6 @@ const CountListScreen = ({ navigation }) => {
       sucursal_id: locationId,
       tipo: countType
     }
-    //console.log("/// storageAreaId:", storageAreaId)
-    //console.log("/// locationId:", locationId)
-    //console.log("/// storageAreaId:", storageAreaId)
     if (countType === 'DIARIA') {
       dispatch(createQuickCount(payload))
     } else {
@@ -86,11 +86,9 @@ const CountListScreen = ({ navigation }) => {
           <ListItem
             title={item.fecha_alta}
             onPress={() => {
-              console.log("Count pressed!")
-              // navigation.navigate('Inventory Actions', {
-              //   screen: 'Acciones',
-              //   storageAreaId: item.id
-              // })
+              navigation.navigate('Count Summary', {
+                countId: item.id
+              })
             }} 
           />
         )}
@@ -127,8 +125,14 @@ const CountListScreen = ({ navigation }) => {
         </View>
       </Modal> 
 
-      {(countType === 'DIARIA') ? <Button title="Nueva Inspección Rápida" disabled={false} onPress={() => setModalVisible(true)}/> : null}
-      {(countType === 'TOTAL') ? <Button title="Nueva Inspección Total" disabled={false} onPress={() => setModalVisible(true)}/> : null}
+      {(countType === 'DIARIA') ? <Button title="Nueva Inspección Rápida" disabled={countActive} onPress={() => {
+        setModalVisible(true)
+        dispatch(setCountActive(true))
+      }}/> : null}
+      {(countType === 'TOTAL') ? <Button title="Nueva Inspección Total" disabled={countActive} onPress={() => {
+        setModalVisible(true)
+        dispatch(setCountActive(true))
+      }}/> : null}
 
     </Screen>
   )
