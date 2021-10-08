@@ -62,7 +62,11 @@ const BottleDetailsScreen = ({ navigation, route }) => {
     dispatch(addNewBottle(bottleData))
     dispatch(resetBottleWeight())
     folio ? dispatch(resetFolio()) : dispatch(resetCustomFolio())
-    navigation.navigate('Confirmation', { confirmation: "bottleCreate" })
+    navigation.navigate('Confirmation', { 
+      confirmation: "bottleCreate",
+      finishRoute: 'Inventory Actions',
+      screen: 'Acciones' 
+    })
   }
 
   const handleAddUsedBottle = () => {
@@ -77,7 +81,11 @@ const BottleDetailsScreen = ({ navigation, route }) => {
     dispatch(addUsedBottle(bottleData))
     dispatch(resetBottleWeight())
     folio ? dispatch(resetFolio()) : dispatch(resetCustomFolio())
-    navigation.navigate('Confirmation', { confirmation: "bottleCreate" })
+    navigation.navigate('Confirmation', { 
+      confirmation: "bottleCreate", 
+      finishRoute: 'Inventory Actions', 
+      screen: 'Acciones' 
+    })
   }
 
   const handleCancel = () => {

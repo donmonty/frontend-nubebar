@@ -1,7 +1,7 @@
 import React from 'react';
 
 import BottleActions from '../screens/BottleActions';
-import Counts from '../screens/CountsScreen';
+import CountActions from '../screens/CountActions';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -14,23 +14,23 @@ function TabNavigator() {
     <Tab.Navigator>
       <Tab.Screen
         name="Acciones"
-        tabBarLabel="Acciones"
+        tabBarLabel="Movimientos"
         options={{
           tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="clipboard-flow-outline" color={color} size={36} />
+            <MaterialCommunityIcons name="clipboard-flow-outline" color={color} size={24} />
           )
         }}
         component={BottleActions}
       />
       <Tab.Screen
-        name="Conteos"
-        tabBarLabel="Conteos"
+        name="Inspecciones"
+        tabBarLabel="Inspecciones"
         options={{
           tabBarIcon: ({color, size}) => (
-            <MaterialCommunityIcons name="clipboard-check-outline" color={color} size={36} />
+            <MaterialCommunityIcons name="clipboard-check-outline" color={color} size={24} />
           )
         }}
-        component={Counts}
+        component={CountActions}
       />
     </Tab.Navigator>
   );

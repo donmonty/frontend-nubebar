@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import InventoryActionsNavigator from './InventoryActionsNavigator';
 import InventoryActionsScreen from '../screens/InventoryActionsScreen';
-import CountsScreen from '../screens/CountsScreen';
+import CountsScreen from '../screens/CountListScreen';
 // import ActionsScreen from '../screens/ActionsScreen';
 // import InventoryActionsNavigator from './InventoryActionsNavigator';
 // import routes from "./routes";
