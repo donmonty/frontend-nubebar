@@ -17,6 +17,9 @@ import {
   COUNT_SUMMARY_SUCCESS,
   COUNT_SUMMARY_FAIL,
   COUNT_ACTIVE_SUCCESS,
+  BOTTLE_COUNT_DETAILS_REQUEST,
+  BOTTLE_COUNT_DETAILS_SUCCESS,
+  BOTTLE_COUNT_DETAILS_FAIL,
 } from "../constants/countConstants"
 
 
@@ -128,6 +131,24 @@ export const setCountActiveReducer = (state = { countActive: false }, action) =>
 
     case COUNT_ACTIVE_SUCCESS:
       return { countActive: action.payload }
+
+    default:
+      return state
+  }
+}
+
+export const getBottleCountDetailsReducer = (state = { bottle: {} }, action) => {
+
+  switch (action.type) {
+
+    case BOTTLE_COUNT_DETAILS_REQUEST:
+      return { ...state, loading: true }
+
+    case BOTTLE_COUNT_DETAILS_SUCCESS:
+      return { bottle: action.payload, loading: false }
+
+    case BOTTLE_COUNT_DETAILS_FAIL:
+      return { loading: false, error: action.payload }
 
     default:
       return state

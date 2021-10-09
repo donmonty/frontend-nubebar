@@ -22,7 +22,8 @@ import {
   createQuickCountReducer, 
   createTotalCountReducer,
   getCountSummaryReducer,
-  setCountActiveReducer } from './reducers/countReducers'
+  setCountActiveReducer, 
+  getBottleCountDetailsReducer } from './reducers/countReducers'
 
 const reducer = combineReducers({
   productDetails: productDetailsReducer,
@@ -39,7 +40,8 @@ const reducer = combineReducers({
   quickCountCreate: createQuickCountReducer,
   totalCountCreate: createTotalCountReducer,
   countSummary: getCountSummaryReducer,
-  countActive: setCountActiveReducer 
+  countActive: setCountActiveReducer,
+  bottle: getBottleCountDetailsReducer 
 })
 
 const middleware = [thunk]

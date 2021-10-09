@@ -9,8 +9,9 @@ import colors from '../config/colors';
 function BottleItem2({
   type = 'list',
   name,
-  barcode,
+  barcode=null,
   capacity,
+  id=null
 }) {
   return (
         <View style={type === 'list' ? styles.container : styles.buttonContainer}>
@@ -27,10 +28,10 @@ function BottleItem2({
           
           <View style={styles.detailsContainer}>
             <Text style={styles.subTitle} numberOfLines={2}>
-              Codigo de Barras
+              {barcode ? "Codigo de Barras" : "Folio"}
             </Text>
             <Text style={styles.title} numberOfLines={1}>
-              {barcode}
+              {barcode ? barcode : id}
             </Text>
             <ListItemSeparator/>
           </View>

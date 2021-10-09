@@ -34,10 +34,24 @@ async function getCountSummary(countId) {
   return client.get(`${endpoint}${url}inspeccion/${countId}/`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
 }
 
+async function getBottleCountDetails(countId, qrCode) {
+  const token = await authStorage.getToken()
+  const url = '/get-detalle-botella-inspeccion/'
+  return client.get(`${endpoint}${url}/inspeccion/${countId}/folio/${qrCode}/`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
+async function getBottleDetails(qrCode) {
+  const token = await authStorage.getToken()
+  const url = '/consultar-botella/'
+  return client.get(`${endpoint}${url}/folio/${qrCode}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} }) 
+}
+
 export default {
   getQuickCounts,
   getTotalCounts,
   createQuickCount,
   createTotalCount,
   getCountSummary,
+  getBottleCountDetails,
+  getBottleDetails,
 }

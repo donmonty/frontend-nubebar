@@ -17,6 +17,9 @@ import {
   COUNT_SUMMARY_SUCCESS,
   COUNT_SUMMARY_FAIL,
   COUNT_ACTIVE_SUCCESS,
+  BOTTLE_COUNT_DETAILS_REQUEST,
+  BOTTLE_COUNT_DETAILS_SUCCESS,
+  BOTTLE_COUNT_DETAILS_FAIL,
 } from "../constants/countConstants"
 
 
@@ -61,4 +64,15 @@ export const getCountSummary = (countId) => async (dispatch) => {
 
 export const setCountActive = (status) => (dispatch) => {
   dispatch({ type: COUNT_ACTIVE_SUCCESS, payload: status })
+}
+
+export const getBottleCountDetails = (countId, qrCode) => async (dispatch) => {
+  const COUNT_ERROR = "Esta botella no pertenece a la inspección."
+  const BOTTLE_ERROR = "Algo salió mal. Inténtalo de nuevo."
+  dispatch({ type: BOTTLE_COUNT_DETAILS_REQUEST })
+  const bottleCountData = await count.getBottleCountDetails(countId, qrCode)
+  if (!bottleCountData.ok) return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: COUNT_ERROR })
+  const response = await count.getBottleDetails(qrCode)
+  if (!response) return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: BOTTLE_ERROR })
+  dispatch({ type: BOTTLE_COUNT_DETAILS_SUCCESS, payload: response.data })
 }
