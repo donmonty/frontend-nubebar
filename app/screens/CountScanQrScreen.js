@@ -5,10 +5,11 @@ import Screen from '../components/Screen'
 import Button from '../components/Button'
 import Text from '../components/Text'
 
-export default function ScanQreScreen({ navigation }) {
+export default function ScanQrScreen({ navigation, route }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const qr = BarCodeScanner.Constants.BarCodeType.qr
+  const countId = route.params.countId
 
   useEffect(() => {
     (async () => {
@@ -21,7 +22,7 @@ export default function ScanQreScreen({ navigation }) {
     const bottleHash = data.split("=")[3]
     if (type !== qr) return setScanned(false)
     setScanned(true);
-    navigation.navigate('Bottle Details', { qrCode: bottleHash })
+    navigation.navigate('Count Bottle Details', { qrCode: bottleHash, countId: countId })
   };
 
   if (hasPermission === null) {

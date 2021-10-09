@@ -20,9 +20,10 @@ const CountSummaryScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const countSummaryData = useSelector(state => state.countSummary)
   const { countSummary, loading, error } = countSummaryData
+  const countId = route.params.countId
 
   useEffect(() => {
-    dispatch(getCountSummary(route.params.countId))
+    dispatch(getCountSummary(countId))
   }, [dispatch])
 
   if (loading) return (
@@ -86,7 +87,7 @@ const CountSummaryScreen = ({ navigation, route }) => {
           }
         />
       </View>
-      <Button title="Escanear Código QR" diabled={true} onPress={() => navigation.navigate('Count Scanner')}/>
+      <Button title="Escanear Código QR" diabled={true} onPress={() => navigation.navigate('Count Scanner', { countId: countId })}/>
     </Screen>
   )
 }
