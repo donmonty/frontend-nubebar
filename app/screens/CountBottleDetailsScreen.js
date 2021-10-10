@@ -20,7 +20,7 @@ export default function CountBottleDetailsScreen({ navigation, route }) {
   const dispatch = useDispatch()
 
   const bottleData = useSelector(state => state.bottle)
-  const { bottle, loading: bottleLoading = true, error: bottleError } = bottleData
+  const { bottle, bottleCountData, loading: bottleLoading = true, error: bottleError } = bottleData
 
   const qrCode = route.params.qrCode
   const countId = route.params.countId
@@ -62,7 +62,7 @@ export default function CountBottleDetailsScreen({ navigation, route }) {
           />
         )}
       />
-      <Button title="Pesar Botella" onPress={() => console.log("Navigate to Weight Bottle Screen")} />
+      <Button title="Pesar Botella" onPress={() => navigation.navigate("Count Weight", { countId: countId, bottleCountId: bottleCountData.id })} />
     </Screen>
   )
 

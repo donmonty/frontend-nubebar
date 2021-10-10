@@ -46,6 +46,18 @@ async function getBottleDetails(qrCode) {
   return client.get(`${endpoint}${url}/folio/${qrCode}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} }) 
 }
 
+async function updateBottleWeight(args) {
+  const token = await authStorage.getToken()
+  const url = '/update-peso-botella/'
+  return client.post(`${endpoint}${url}`, { ...args }, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`}})
+}
+
+async function updateBottleState(args) {
+  const token = await authStorage.getToken()
+  const url = '/update-botella-nueva-vacia/'
+  return client.patch(`${endpoint}${url}`, { ...args }, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`}})
+}
+
 export default {
   getQuickCounts,
   getTotalCounts,
@@ -54,4 +66,6 @@ export default {
   getCountSummary,
   getBottleCountDetails,
   getBottleDetails,
+  updateBottleWeight,
+  updateBottleState,
 }

@@ -20,6 +20,13 @@ import {
   BOTTLE_COUNT_DETAILS_REQUEST,
   BOTTLE_COUNT_DETAILS_SUCCESS,
   BOTTLE_COUNT_DETAILS_FAIL,
+  UPDATE_BOTTLE_WEIGHT_REQUEST,
+  UPDATE_BOTTLE_WEIGHT_SUCCESS,
+  UPDATE_BOTTLE_WEIGHT_FAIL,
+  UPDATE_BOTTLE_STATE_REQUEST,
+  UPDATE_BOTTLE_STATE_SUCCESS,
+  UPDATE_BOTTLE_STATE_FAIL,
+  
 } from "../constants/countConstants"
 
 
@@ -72,7 +79,21 @@ export const getBottleCountDetails = (countId, qrCode) => async (dispatch) => {
   dispatch({ type: BOTTLE_COUNT_DETAILS_REQUEST })
   const bottleCountData = await count.getBottleCountDetails(countId, qrCode)
   if (!bottleCountData.ok) return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: COUNT_ERROR })
-  const response = await count.getBottleDetails(qrCode)
-  if (!response) return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: BOTTLE_ERROR })
-  dispatch({ type: BOTTLE_COUNT_DETAILS_SUCCESS, payload: response.data })
+  const bottle = await count.getBottleDetails(qrCode)
+  if (!bottle.ok) return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: BOTTLE_ERROR })
+  dispatch({ type: BOTTLE_COUNT_DETAILS_SUCCESS, payload: { bottle: bottle.data, bottleCountData: bottleCountData.data } })
+}
+
+export const updateBottleWeight = (args) => async (dispatch) => {
+  dispatch({ type: UPDATE_BOTTLE_WEIGHT_REQUEST })
+  const response = await count.updateBottleWeight(args)
+  if (!response.ok) return dispatch({ type: UPDATE_BOTTLE_WEIGHT_FAIL, payload: response.problem })
+  dispatch({ type: UPDATE_BOTTLE_WEIGHT_SUCCESS, payload: response.data })
+}
+
+export const updateBottleState = (args) => async (dispatch) => {
+  dispatch({ type: UPDATE_BOTTLE_STATE_REQUEST })
+  const response = await count.updateBottleState(args)
+  if (!response.ok) return dispatch({ type: UPDATE_BOTTLE_STATE_FAIL, payload: response.problem })
+  dispatch({ type: UPDATE_BOTTLE_STATE_SUCCESS, payload: response.data })
 }

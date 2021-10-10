@@ -57,12 +57,12 @@ const CountListScreen = ({ navigation }) => {
     } else {
       dispatch(createTotalCount(payload))
     }
+    setModalVisible(!modalVisible)
     navigation.navigate('Confirmation', { 
       confirmation: (countType === 'DIARIA') ? 'quickCountCreate' : 'totalCountCreate',
       finishRoute: 'Inventory Actions',
       screen: 'Inspecciones'
     })
-    setModalVisible(!modalVisible)
   }
 
   if((countType === 'DIARIA' && errorQuickCounts) || (countType === 'TOTAL' && errorTotalCounts)) return (

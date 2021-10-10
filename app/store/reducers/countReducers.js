@@ -20,6 +20,12 @@ import {
   BOTTLE_COUNT_DETAILS_REQUEST,
   BOTTLE_COUNT_DETAILS_SUCCESS,
   BOTTLE_COUNT_DETAILS_FAIL,
+  UPDATE_BOTTLE_WEIGHT_REQUEST,
+  UPDATE_BOTTLE_WEIGHT_SUCCESS,
+  UPDATE_BOTTLE_WEIGHT_FAIL,
+  UPDATE_BOTTLE_STATE_REQUEST,
+  UPDATE_BOTTLE_STATE_SUCCESS,
+  UPDATE_BOTTLE_STATE_FAIL,
 } from "../constants/countConstants"
 
 
@@ -137,7 +143,7 @@ export const setCountActiveReducer = (state = { countActive: false }, action) =>
   }
 }
 
-export const getBottleCountDetailsReducer = (state = { bottle: {} }, action) => {
+export const getBottleCountDetailsReducer = (state = { bottle: {}, bottleCountData: {} }, action) => {
 
   switch (action.type) {
 
@@ -145,9 +151,49 @@ export const getBottleCountDetailsReducer = (state = { bottle: {} }, action) => 
       return { ...state, loading: true }
 
     case BOTTLE_COUNT_DETAILS_SUCCESS:
-      return { bottle: action.payload, loading: false }
+      return { 
+        bottle: action.payload.bottle, 
+        bottleCountData: action.payload.bottleCountData, 
+        loading: false 
+      }
 
     case BOTTLE_COUNT_DETAILS_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
+  }
+}
+
+export const updateBottleWeightReducer = (state = { updatedBottle: {} }, action) => {
+
+  switch (action.type) {
+
+    case UPDATE_BOTTLE_WEIGHT_REQUEST:
+      return { ...state, loading: true }
+
+    case UPDATE_BOTTLE_WEIGHT_SUCCESS:
+      return { updatedBottle: action.payload, loading: false }
+
+    case UPDATE_BOTTLE_WEIGHT_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
+  }
+} 
+
+export const updateBottleStateReducer = (state = { bottleState: {} }, action) => {
+
+  switch (action.type) {
+
+    case UPDATE_BOTTLE_STATE_REQUEST:
+      return { ...state, loading: true }
+
+    case UPDATE_BOTTLE_STATE_SUCCESS:
+      return { bottleState: action.payload, loading: false }
+
+    case UPDATE_BOTTLE_STATE_FAIL:
       return { loading: false, error: action.payload }
 
     default:
