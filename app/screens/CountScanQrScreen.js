@@ -43,7 +43,7 @@ export default function ScanQrScreen({ navigation, route }) {
       <Text style={{ color: "#FFFFFF", alignSelf: "center", marginTop: 20 }} >Escanea el código QR de la botella</Text>
       <View>
         <Text style={{ color: "#FFFFFF", alignSelf: "center", marginBottom: 10 }}>¿Tienes problemas para escanear?</Text>
-        <Button title="Captura Manual" onPress={() => navigation.navigate('Manual Folio')} />
+        <Button title="Captura Manual" onPress={() => navigation.navigate('Count Manual Id')} />
       </View>
     </Screen>
   );
