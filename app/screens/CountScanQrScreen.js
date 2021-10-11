@@ -15,8 +15,8 @@ export default function ScanQrScreen({ navigation, route }) {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
-    })();
-  }, []);
+    })()
+  }, [])
 
   const handleBarCodeScanned = ({ type, data }) => {
     const bottleHash = data.split("=")[3]

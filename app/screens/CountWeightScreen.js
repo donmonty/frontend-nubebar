@@ -28,7 +28,6 @@ const CountWeightScreen = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [bottleStatus, setBottleStatus] = useState(null)
 
-  const countId = route.params.countId
   const bottleCountId = route.params.bottleCountId
 
   const dispatch = useDispatch()
@@ -40,7 +39,7 @@ const CountWeightScreen = ({ navigation, route }) => {
       estado: bottleStatus
     }
     dispatch(updateBottleWeight(payload))
-    navigation.navigate('Count Confirmation')
+    navigation.navigate('Count Confirmation', { confirmation: 'updatedBottle', finishRoute: 'Count Summary' })
   }
 
   const handleUpdateBottleState = () => {
@@ -49,6 +48,8 @@ const CountWeightScreen = ({ navigation, route }) => {
       estado: bottleStatus
     }
     dispatch(updateBottleState(payload))
+    setModalVisible(!modalVisible)
+    navigation.navigate('Count Confirmation', { confirmation: 'bottleState', finishRoute: 'Count Summary' })
   }
 
   return (

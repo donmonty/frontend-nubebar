@@ -26,6 +26,7 @@ import {
   UPDATE_BOTTLE_STATE_REQUEST,
   UPDATE_BOTTLE_STATE_SUCCESS,
   UPDATE_BOTTLE_STATE_FAIL,
+  SET_COUNT_ID_SUCCESS,
 } from "../constants/countConstants"
 
 
@@ -197,6 +198,18 @@ export const updateBottleStateReducer = (state = { bottleState: {} }, action) =>
       return { loading: false, error: action.payload }
 
     default:
+      return state
+  }
+}
+
+export const countIdReducer = (state = { countId: null }, action) => {
+
+  switch (action.type) {
+
+    case SET_COUNT_ID_SUCCESS:
+      return { countId: action.payload }
+
+    default: 
       return state
   }
 }

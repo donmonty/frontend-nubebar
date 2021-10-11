@@ -11,7 +11,13 @@ import Text from '../components/Text'
 
 import colors from '../config/colors';
 import cache from '../utility/cache'
-import { listQuickCounts, listTotalCounts, createQuickCount, createTotalCount, setCountActive } from '../store/actions/countActions';
+import { 
+  listQuickCounts, 
+  listTotalCounts, 
+  createQuickCount, 
+  createTotalCount, 
+  setCountActive, 
+  setCountId } from '../store/actions/countActions';
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -86,9 +92,8 @@ const CountListScreen = ({ navigation }) => {
           <ListItem
             title={item.fecha_alta}
             onPress={() => {
-              navigation.navigate('Count Summary', {
-                countId: item.id
-              })
+              dispatch(setCountId(item.id))
+              navigation.navigate('Count Summary')
             }} 
           />
         )}

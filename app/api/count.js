@@ -49,7 +49,7 @@ async function getBottleDetails(qrCode) {
 async function updateBottleWeight(args) {
   const token = await authStorage.getToken()
   const url = '/update-peso-botella/'
-  return client.post(`${endpoint}${url}`, { ...args }, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`}})
+  return client.patch(`${endpoint}${url}`, { ...args }, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`}})
 }
 
 async function updateBottleState(args) {

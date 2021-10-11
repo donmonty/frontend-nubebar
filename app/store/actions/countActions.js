@@ -26,6 +26,7 @@ import {
   UPDATE_BOTTLE_STATE_REQUEST,
   UPDATE_BOTTLE_STATE_SUCCESS,
   UPDATE_BOTTLE_STATE_FAIL,
+  SET_COUNT_ID_SUCCESS,
   
 } from "../constants/countConstants"
 
@@ -96,4 +97,8 @@ export const updateBottleState = (args) => async (dispatch) => {
   const response = await count.updateBottleState(args)
   if (!response.ok) return dispatch({ type: UPDATE_BOTTLE_STATE_FAIL, payload: response.problem })
   dispatch({ type: UPDATE_BOTTLE_STATE_SUCCESS, payload: response.data })
+}
+
+export const setCountId = (countId) => (dispatch) => {
+  dispatch({ type: SET_COUNT_ID_SUCCESS, payload: countId })
 }

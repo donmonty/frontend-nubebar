@@ -21,9 +21,9 @@ export default function CountNavigator() {
       <Stack.Screen name='Count List' component={CountList} />
       <Stack.Screen name='Count Summary' component={CountSummaryScreen} />
       <Stack.Screen name='Count Scanner' component={CountScanQrScreen} />
+      <Stack.Screen name='Count Bottle Details' options={{headerShown: false }} component={CountBottleDetailsScreen} />
       <Stack.Screen name='Count Weight' component={CountWeightScreen} />
-      <Stack.Screen name='Count Bottle Details' component={CountBottleDetailsScreen} />
-      <Stack.Screen name='Confirmation' options={{headerShown: false }} component={ConfirmationScreen} />
+      <Stack.Screen name='Count Confirmation' options={{headerShown: false }} component={ConfirmationScreen} />
     </Stack.Navigator>
   )
 }
