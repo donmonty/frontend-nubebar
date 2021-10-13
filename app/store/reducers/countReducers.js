@@ -27,6 +27,13 @@ import {
   UPDATE_BOTTLE_STATE_SUCCESS,
   UPDATE_BOTTLE_STATE_FAIL,
   SET_COUNT_ID_SUCCESS,
+  COUNT_PENDING_SUMMARY_REQUEST,
+  COUNT_PENDING_SUMMARY_SUCCESS,
+  COUNT_PENDING_SUMMARY_FAIL,
+  COUNT_DONE_SUMMARY_REQUEST,
+  COUNT_DONE_SUMMARY_SUCCESS,
+  COUNT_DONE_SUMMARY_FAIL,
+  SUMMARY_TYPE_SUCCESS,
 } from "../constants/countConstants"
 
 
@@ -210,6 +217,52 @@ export const countIdReducer = (state = { countId: null }, action) => {
       return { countId: action.payload }
 
     default: 
+      return state
+  }
+}
+
+export const countPendingSummaryReducer = (state = { countPendingSummary: [] }, action) => {
+   switch (action.type) {
+
+    case COUNT_PENDING_SUMMARY_REQUEST:
+      return { ...state, loading: true }
+
+    case COUNT_PENDING_SUMMARY_SUCCESS:
+      return { countPendingSummary: action.payload, loading: false }
+
+    case COUNT_PENDING_SUMMARY_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
+   }
+}
+
+export const countDoneSummaryReducer = (state = { countDoneSummary: [] }, action) => {
+  switch (action.type) {
+
+   case COUNT_DONE_SUMMARY_REQUEST:
+     return { ...state, loading: true }
+
+   case COUNT_DONE_SUMMARY_SUCCESS:
+     return { countDoneSummary: action.payload, loading: false }
+
+   case COUNT_DONE_SUMMARY_FAIL:
+     return { loading: false, error: action.payload }
+
+   default:
+     return state
+  }
+}
+
+export const countSummaryTypeReducer = (state = { countSummaryType: 'PENDING' }, action) => {
+
+  switch (action.type) {
+
+    case SUMMARY_TYPE_SUCCESS:
+      return { countSummaryType: action.payload }
+
+    default:
       return state
   }
 }

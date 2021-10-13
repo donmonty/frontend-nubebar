@@ -58,6 +58,18 @@ async function updateBottleState(args) {
   return client.patch(`${endpoint}${url}`, { ...args }, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`}})
 }
 
+async function getCountPendingSummary(countId) {
+  const token = await authStorage.getToken()
+  const url = '/get-resumen-inspeccion-no-contado/'
+  return client.get(`${endpoint}${url}/inspeccion/${countId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
+async function getCountDoneSummary(countId) {
+  const token = await authStorage.getToken()
+  const url = '/get-resumen-inspeccion-contado/'
+  return client.get(`${endpoint}${url}/inspeccion/${countId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
 export default {
   getQuickCounts,
   getTotalCounts,
@@ -68,4 +80,6 @@ export default {
   getBottleDetails,
   updateBottleWeight,
   updateBottleState,
+  getCountPendingSummary,
+  getCountDoneSummary,
 }
