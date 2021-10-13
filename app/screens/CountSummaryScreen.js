@@ -20,10 +20,13 @@ const CountSummaryScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const countSummaryData = useSelector(state => state.countSummary)
   const { countSummary, loading, error } = countSummaryData
-  const countId = route.params.countId
+  
+  const countIdData = useSelector(state => state.countId)
+  const { countId } = countIdData
 
   useEffect(() => {
     dispatch(getCountSummary(countId))
+    return () => console.log("CountSummaryScreen unmounted")
   }, [dispatch])
 
   if (loading) return (
@@ -36,7 +39,7 @@ const CountSummaryScreen = ({ navigation, route }) => {
   )
 
   if (error) return (
-    <Screen style={styles.containerError}>
+    <Screen style={styles.container}>
       <View style={{ alignItems: 'center', paddingTop: 40 }}>
         <MaterialIcons color={colors.red} name="error" size={70} />
         <Text style={styles.alertText}>Hubo un error. Intenta de nuevo.</Text>

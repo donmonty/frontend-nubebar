@@ -11,7 +11,13 @@ import Text from '../components/Text'
 
 import colors from '../config/colors';
 import cache from '../utility/cache'
-import { listQuickCounts, listTotalCounts, createQuickCount, createTotalCount, setCountActive } from '../store/actions/countActions';
+import { 
+  listQuickCounts, 
+  listTotalCounts, 
+  createQuickCount, 
+  createTotalCount, 
+  setCountActive, 
+  setCountId } from '../store/actions/countActions';
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -22,10 +28,10 @@ const CountListScreen = ({ navigation }) => {
   const dispatch = useDispatch()
   
   const quickCountsData = useSelector(state => state.quickCounts)
-  const { quickCounts, error: errorQuickCounts } = quickCountsData
+  const { quickCounts, error: errorQuickCounts, loading: loadingQuickCounts } = quickCountsData
 
   const totalCountsData = useSelector(state => state.totalCounts)
-  const { totalCounts, error: errorTotalCounts } = totalCountsData
+  const { totalCounts, error: errorTotalCounts, loading: loadingTotalCounts } = totalCountsData
   
   const countTypeData = useSelector(state => state.countType)
   const { countType } = countTypeData
@@ -57,13 +63,22 @@ const CountListScreen = ({ navigation }) => {
     } else {
       dispatch(createTotalCount(payload))
     }
+    setModalVisible(!modalVisible)
     navigation.navigate('Confirmation', { 
       confirmation: (countType === 'DIARIA') ? 'quickCountCreate' : 'totalCountCreate',
       finishRoute: 'Inventory Actions',
       screen: 'Inspecciones'
     })
-    setModalVisible(!modalVisible)
   }
+
+  if (loadingQuickCounts || loadingTotalCounts) return (
+    <Screen style={styles.container}>
+      <View style={{ alignItems: 'center', paddingTop: 40 }}>
+        <MaterialCommunityIcons color={colors.primary} name="timer-sand" size={70} />
+        <Text style={styles.alertText}>Cargando...</Text>
+      </View>
+    </Screen>
+  )
 
   if((countType === 'DIARIA' && errorQuickCounts) || (countType === 'TOTAL' && errorTotalCounts)) return (
     <Screen style={styles.containerError}>
@@ -86,9 +101,8 @@ const CountListScreen = ({ navigation }) => {
           <ListItem
             title={item.fecha_alta}
             onPress={() => {
-              navigation.navigate('Count Summary', {
-                countId: item.id
-              })
+              dispatch(setCountId(item.id))
+              navigation.navigate('Count Summary')
             }} 
           />
         )}

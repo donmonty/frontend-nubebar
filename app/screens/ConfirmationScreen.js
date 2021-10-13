@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { MaterialIcons } from "@expo/vector-icons"
 import { Ionicons } from "@expo/vector-icons"
+import { MaterialCommunityIcons } from "@expo/vector-icons"
 
 import Screen from '../components/Screen';
 import Button from '../components/Button';
@@ -17,49 +18,42 @@ const ConfirmationScreen = ({ navigation, route }) => {
   // to dynamically select the state slice we want
   const stateData = useSelector(state => state[route.params.confirmation])
   const { loading, error } = stateData
+
+  if (loading && !error) return (
+    <Screen style={styles.container}>
+      <View style={{ alignItems: 'center', paddingTop: 40 }}>
+        <MaterialCommunityIcons color={colors.primary} name="timer-sand" size={70} />
+        <Text style={styles.alertText}>Cargando...</Text>
+      </View>
+    </Screen>
+  )
+
+  if (error) return (
+    <Screen style={styles.container}>
+      <View style={{ alignItems: 'center', paddingTop: 40 }}>
+        <MaterialIcons color={colors.red} name="error" size={70} />
+        <Text style={styles.alertText}>Hubo un error. Intenta de nuevo.</Text>
+      </View>
+      <Button 
+        title="Regresar" 
+        onPress={() => navigation.navigate(route.params.finishRoute, { screen: route.params.screen || null })}
+      />
+    </Screen>
+  )
   
   return (
     <Screen style={styles.container}>
-      {
-        (loading && !error) && 
-        <> 
-          <Text style={styles.alertText}>Loading...</Text>
-        </>
-      }
-      {
-        (!loading && !error) &&
-        <>
-          <View style={{alignItems: 'center', paddingTop: 40}}>
-            <Ionicons
-              color={colors.green}
-              name="md-checkmark-circle"
-              size={70}
-            />
-            <Text style={styles.alertText}>¡Operación exitosa!</Text>
-          </View>
-          <Button title="Regresar" onPress={() => navigation.navigate(route.params.finishRoute, { screen: route.params.screen || null })}/>
-        </>
-      }
-      {
-        (!loading && error) &&
-        <>
-          <View style={{alignItems: 'center', paddingTop: 40}}>
-            <MaterialIcons
-              color={colors.red}
-              name="error"
-              size={70}
-            />
-            <Text style={styles.alertText}  >Hubo un error. Intenta de nuevo.</Text>
-          </View>
-          <Button 
-            title="Regresar" 
-            onPress={() => navigation.navigate(route.params.finishRoute, 
-              { screen: route.params.screen || null }
-            )}
-          />
-        </>
-      }
-      
+      <View style={{alignItems: 'center', paddingTop: 40}}>
+        <Ionicons
+          color={colors.green}
+          name="md-checkmark-circle"
+          size={70}
+        />
+        <Text style={styles.alertText}>¡Operación exitosa!</Text>
+      </View>
+      <Button 
+        title="Regresar" 
+        onPress={() => navigation.navigate(route.params.finishRoute, { screen: route.params.screen || null })}/>
     </Screen>
   )
 }
