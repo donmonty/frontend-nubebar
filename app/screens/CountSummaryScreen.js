@@ -12,7 +12,7 @@ import Text from '../components/Text'
 import colors from '../config/colors'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getCountSummary } from '../store/actions/countActions'
+import { getCountSummary, setCountSummaryType } from '../store/actions/countActions'
 
 
 const CountSummaryScreen = ({ navigation, route }) => {
@@ -30,7 +30,7 @@ const CountSummaryScreen = ({ navigation, route }) => {
   }, [dispatch])
 
   if (loading) return (
-    <Screen style={styles.containerError}>
+    <Screen style={styles.container}>
       <View style={{ alignItems: 'center', paddingTop: 40 }}>
         <MaterialCommunityIcons color={colors.primary} name="timer-sand" size={70} />
         <Text style={styles.alertText}>Cargando...</Text>
@@ -57,9 +57,8 @@ const CountSummaryScreen = ({ navigation, route }) => {
           subTitle="Botellas contadas"
           bottleQuantity={countSummary.botellas_contadas}
           onPress={() => {
-            // navigation.navigate('Counted By Brand', {
-            //   countId: route.params.countId,
-            // })
+            dispatch(setCountSummaryType('DONE'))
+            navigation.navigate('Count Summary Details')
           }}
           IconComponent={
             <Icon2
@@ -76,10 +75,8 @@ const CountSummaryScreen = ({ navigation, route }) => {
           subTitle="Botellas pendientes de contar"
           bottleQuantity={countSummary.botellas_no_contadas}
           onPress={() => {
-            //dispatch(setCreateType('usada'))
-            // navigation.navigate('Pending By Brand', {
-            //   countId: route.params.countId,
-            // })
+            dispatch(setCountSummaryType('PENDING'))
+            navigation.navigate('Count Summary Details')
           }}
           IconComponent={
             <Icon2

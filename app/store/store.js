@@ -26,7 +26,13 @@ import {
   getBottleCountDetailsReducer, 
   updateBottleWeightReducer, 
   updateBottleStateReducer, 
-  countIdReducer } from './reducers/countReducers'
+  countIdReducer, 
+  countPendingSummaryReducer, 
+  countSummaryTypeReducer,
+  countDoneSummaryReducer,
+  pendingBottlesReducer,
+  doneBottlesReducer,
+  bottleCountsReducer } from './reducers/countReducers'
 
 const reducer = combineReducers({
   productDetails: productDetailsReducer,
@@ -48,6 +54,12 @@ const reducer = combineReducers({
   updatedBottle: updateBottleWeightReducer,
   bottleState: updateBottleStateReducer, 
   countId: countIdReducer,
+  countPendingSummary: countPendingSummaryReducer,
+  countDoneSummary: countDoneSummaryReducer,
+  countSummaryType: countSummaryTypeReducer,
+  pendingBottlesList: pendingBottlesReducer,
+  doneBottlesList: doneBottlesReducer,
+  bottleCounts: bottleCountsReducer,
 })
 
 const middleware = [thunk]

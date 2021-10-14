@@ -27,6 +27,22 @@ import {
   UPDATE_BOTTLE_STATE_SUCCESS,
   UPDATE_BOTTLE_STATE_FAIL,
   SET_COUNT_ID_SUCCESS,
+  COUNT_PENDING_SUMMARY_REQUEST,
+  COUNT_PENDING_SUMMARY_SUCCESS,
+  COUNT_PENDING_SUMMARY_FAIL,
+  COUNT_DONE_SUMMARY_REQUEST,
+  COUNT_DONE_SUMMARY_SUCCESS,
+  COUNT_DONE_SUMMARY_FAIL,
+  SUMMARY_TYPE_SUCCESS,
+  BOTTLES_PENDING_REQUEST,
+  BOTTLES_PENDING_SUCCESS,
+  BOTTLES_PENDING_FAIL,
+  BOTTLES_DONE_REQUEST,
+  BOTTLES_DONE_SUCCESS,
+  BOTTLES_DONE_FAIL,
+  BOTTLE_COUNTS_REQUEST,
+  BOTTLE_COUNTS_SUCCESS,
+  BOTTLE_COUNTS_FAIL,
 } from "../constants/countConstants"
 
 
@@ -210,6 +226,107 @@ export const countIdReducer = (state = { countId: null }, action) => {
       return { countId: action.payload }
 
     default: 
+      return state
+  }
+}
+
+export const countPendingSummaryReducer = (state = { countPendingSummary: [] }, action) => {
+   switch (action.type) {
+
+    case COUNT_PENDING_SUMMARY_REQUEST:
+      return { ...state, loading: true }
+
+    case COUNT_PENDING_SUMMARY_SUCCESS:
+      return { countPendingSummary: action.payload, loading: false }
+
+    case COUNT_PENDING_SUMMARY_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
+   }
+}
+
+export const countDoneSummaryReducer = (state = { countDoneSummary: [] }, action) => {
+  switch (action.type) {
+
+   case COUNT_DONE_SUMMARY_REQUEST:
+     return { ...state, loading: true }
+
+   case COUNT_DONE_SUMMARY_SUCCESS:
+     return { countDoneSummary: action.payload, loading: false }
+
+   case COUNT_DONE_SUMMARY_FAIL:
+     return { loading: false, error: action.payload }
+
+   default:
+     return state
+  }
+}
+
+export const countSummaryTypeReducer = (state = { countSummaryType: 'PENDING' }, action) => {
+
+  switch (action.type) {
+
+    case SUMMARY_TYPE_SUCCESS:
+      return { countSummaryType: action.payload }
+
+    default:
+      return state
+  }
+}
+
+export const pendingBottlesReducer = (state = { pendingBottlesList: [] }, action) => {
+   switch (action.type) {
+
+    case BOTTLES_PENDING_REQUEST:
+      return { ...state, loading: true }
+
+    case BOTTLES_PENDING_SUCCESS:
+      return { pendingBottlesList: action.payload, loading: false }
+
+    case BOTTLES_PENDING_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
+   }
+}
+
+export const doneBottlesReducer = (state = { doneBottlesList: [] }, action) => {
+  switch (action.type) {
+
+   case BOTTLES_DONE_REQUEST:
+     return { ...state, loading: true }
+
+   case BOTTLES_DONE_SUCCESS:
+     return { doneBottlesList: action.payload, loading: false }
+
+   case BOTTLES_DONE_FAIL:
+     return { loading: false, error: action.payload }
+
+   default:
+     return state
+  }
+}
+
+export const bottleCountsReducer = (state = { bottleCounts: [], bottle: {} }, action) => {
+  switch (action.type) {
+
+    case BOTTLE_COUNTS_REQUEST:
+      return { ...state, loading: true }
+
+    case BOTTLE_COUNTS_SUCCESS:
+      return { 
+        bottleCounts: action.payload.bottleCounts, 
+        bottle: action.payload.bottle, 
+        loading: false 
+      }
+
+    case BOTTLE_COUNT_DETAILS_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
       return state
   }
 }

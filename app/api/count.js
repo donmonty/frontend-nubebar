@@ -58,6 +58,37 @@ async function updateBottleState(args) {
   return client.patch(`${endpoint}${url}`, { ...args }, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`}})
 }
 
+async function getCountPendingSummary(countId) {
+  const token = await authStorage.getToken()
+  const url = '/get-resumen-inspeccion-no-contado/'
+  return client.get(`${endpoint}${url}/inspeccion/${countId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
+async function getCountDoneSummary(countId) {
+  const token = await authStorage.getToken()
+  const url = '/get-resumen-inspeccion-contado/'
+  return client.get(`${endpoint}${url}/inspeccion/${countId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
+async function getPendingBottles(countId, product) {
+  const token = await authStorage.getToken()
+  const url = '/get-botellas-no-contadas/'
+  return client.get(`${endpoint}${url}/inspeccion/${countId}/ingrediente/${product}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
+async function getDoneBottles(countId, product) {
+  const token = await authStorage.getToken()
+  const url = '/get-botellas-contadas/'
+  return client.get(`${endpoint}${url}/inspeccion/${countId}/ingrediente/${product}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
+async function getBottleCounts(sat_hash) {
+  const token = await authStorage.getToken()
+  const url = '/get-inspecciones-botella/'
+  return client.get(`${endpoint}${url}/folio/${sat_hash}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
+
 export default {
   getQuickCounts,
   getTotalCounts,
@@ -68,4 +99,9 @@ export default {
   getBottleDetails,
   updateBottleWeight,
   updateBottleState,
+  getCountPendingSummary,
+  getCountDoneSummary,
+  getPendingBottles,
+  getDoneBottles,
+  getBottleCounts,
 }
