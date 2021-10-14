@@ -34,6 +34,12 @@ import {
   COUNT_DONE_SUMMARY_SUCCESS,
   COUNT_DONE_SUMMARY_FAIL,
   SUMMARY_TYPE_SUCCESS,
+  BOTTLES_PENDING_REQUEST,
+  BOTTLES_PENDING_SUCCESS,
+  BOTTLES_PENDING_FAIL,
+  BOTTLES_DONE_SUCCESS,
+  BOTTLES_DONE_REQUEST,
+  BOTTLES_DONE_FAIL,
   
 } from "../constants/countConstants"
 
@@ -126,4 +132,20 @@ export const getCountDoneSummary = (countId) => async (dispatch) => {
 
 export const setCountSummaryType = (countSummaryType) => (dispatch) => {
   dispatch({ type: SUMMARY_TYPE_SUCCESS, payload: countSummaryType })
+}
+
+export const listBottlesPending = (countId, product) => async (dispatch) => {
+  dispatch({ type: BOTTLES_PENDING_REQUEST })
+  const response = await count.getPendingBottles(countId, product)
+  if (!response.ok) return dispatch({ type: BOTTLES_PENDING_FAIL, payload: response.problem })
+  const bottles = response.data.map(item => item.botella)
+  dispatch({ type: BOTTLES_PENDING_SUCCESS, payload: bottles })
+}
+
+export const listBottlesDone = (countId, product) => async (dispatch) => {
+  dispatch({ type: BOTTLES_DONE_REQUEST })
+  const response = await count.getDoneBottles(countId, product)
+  if (!response.ok) return dispatch({ type: BOTTLES_DONE_FAIL, payload: response.problem })
+  const bottles = response.data.map(item => item.botella)
+  dispatch({ type: BOTTLES_DONE_SUCCESS, payload: bottles })
 }

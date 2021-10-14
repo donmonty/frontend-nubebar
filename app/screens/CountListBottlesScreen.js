@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
-import { StyleSheet, View, SectionList } from 'react-native'
+import { StyleSheet, View, FlatList } from 'react-native'
 import { MaterialIcons } from "@expo/vector-icons"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
@@ -8,39 +8,39 @@ import Screen from "../components/Screen"
 import ListItem from '../components/lists/ListItem'
 import ListItemSeparator from '../components/lists/ListItemSeparator'
 import Text from '../components/Text'
+import Button from '../components/Button'
 import colors from '../config/colors'
+import { listBottlesPending, listBottlesDone } from '../store/actions/countActions'
 
-import { getCountPendingSummary, getCountDoneSummary } from '../store/actions/countActions'
 import { useDispatch, useSelector } from 'react-redux'
 
 
-const CountPendingSummaryScreen = ({ navigation, route }) => {
+export default function CountBottlesList({ navigation, route }) {
 
   const dispatch = useDispatch()
 
+  const productId = route.params.productId
+  const productName = route.params.productName
+
   const countIdData = useSelector(state => state.countId)
   const { countId } = countIdData
-  
+
+  const pendingBottlesListData = useSelector(state => state.pendingBottlesList)
+  const { pendingBottlesList, loading: loadingPending, error: errorPending } = pendingBottlesListData
+
+  const doneBottlesListData = useSelector(state => state.doneBottlesList)
+  const { doneBottlesList, loading: loadingDone, error: errorDone } = doneBottlesListData
+
   const countSummaryTypeData = useSelector(state => state.countSummaryType)
   const { countSummaryType } = countSummaryTypeData
 
-  const countPendingSummaryData = useSelector(state => state.countPendingSummary)
-  const { countPendingSummary, loading: loadingPending, error: errorPending } = countPendingSummaryData
-
-  const countDoneSummaryData = useSelector(state => state.countDoneSummary)
-  const { countDoneSummary, loading: loadingDone, error: errorDone } = countDoneSummaryData
-
   useEffect(() => {
     if (countSummaryType === 'PENDING') {
-      dispatch(getCountPendingSummary(countId))
+      dispatch(listBottlesPending(countId, productId))
     } else {
-      dispatch(getCountDoneSummary(countId))
+      dispatch(listBottlesDone(countId, productId))
     }
   }, [dispatch])
-
-  const handleOnPress = (productId, productName) => {
-    navigation.navigate('Count List Bottles', { productId: productId, productName: productName })
-  }
 
   if (loadingPending || loadingDone) return (
     <Screen style={styles.container}>
@@ -57,28 +57,28 @@ const CountPendingSummaryScreen = ({ navigation, route }) => {
         <MaterialIcons color={colors.red} name="error" size={70} />
         <Text style={styles.alertText}>Hubo un error. Intenta de nuevo.</Text>
       </View>
-      <Button title="Regresar" onPress={() => navigation.navigate('Count List')}/>
+      <Button title="Regresar" onPress={() => navigation.navigate('Count Summary Details')}/>
     </Screen>
   )
 
   return (
-    <Screen style={styles.container}>
-      <SectionList
-        sections={(countSummaryType === 'PENDING' ? countPendingSummary : countDoneSummary)}
-        keyExtractor={(item, index) => item + index}
-        renderItem={({ item }) => <ListItem title={`${item.ingrediente}  (${item.cantidad})`} onPress={() => handleOnPress(item.ingrediente_id, item.ingrediente)} />}
-        renderSectionHeader={({ section: { categoria } }) => (
-          <Text style={styles.headerText}>{categoria}</Text>
-        )}
+    <Screen>
+      <Text style={styles.headerText}>{productName}</Text>
+      <FlatList 
+        data={(countSummaryType === 'PENDING') ? pendingBottlesList : doneBottlesList}
         ItemSeparatorComponent={ListItemSeparator}
+        keyExtractor={(bottle) => bottle.id.toString()}
+        renderItem={({ item }) => (
+          <ListItem
+            title={item.folio || item.sat_hash}
+            onPress={() => console.log("pressed!")}
+            // onPress={() => navigation.navigate('Count History', { bottleId: item.sat_hash })}
+          />
+        )}
       />
-
-
     </Screen>
   )
 }
-
-export default CountPendingSummaryScreen
 
 const styles = StyleSheet.create({
   container: {

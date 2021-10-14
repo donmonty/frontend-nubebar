@@ -70,6 +70,18 @@ async function getCountDoneSummary(countId) {
   return client.get(`${endpoint}${url}/inspeccion/${countId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
 }
 
+async function getPendingBottles(countId, product) {
+  const token = await authStorage.getToken()
+  const url = '/get-botellas-no-contadas/'
+  return client.get(`${endpoint}${url}/inspeccion/${countId}/ingrediente/${product}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
+async function getDoneBottles(countId, product) {
+  const token = await authStorage.getToken()
+  const url = '/get-botellas-contadas/'
+  return client.get(`${endpoint}${url}/inspeccion/${countId}/ingrediente/${product}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
 export default {
   getQuickCounts,
   getTotalCounts,
@@ -82,4 +94,6 @@ export default {
   updateBottleState,
   getCountPendingSummary,
   getCountDoneSummary,
+  getPendingBottles,
+  getDoneBottles,
 }

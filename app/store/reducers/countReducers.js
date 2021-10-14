@@ -34,6 +34,12 @@ import {
   COUNT_DONE_SUMMARY_SUCCESS,
   COUNT_DONE_SUMMARY_FAIL,
   SUMMARY_TYPE_SUCCESS,
+  BOTTLES_PENDING_REQUEST,
+  BOTTLES_PENDING_SUCCESS,
+  BOTTLES_PENDING_FAIL,
+  BOTTLES_DONE_REQUEST,
+  BOTTLES_DONE_SUCCESS,
+  BOTTLES_DONE_FAIL,
 } from "../constants/countConstants"
 
 
@@ -264,5 +270,39 @@ export const countSummaryTypeReducer = (state = { countSummaryType: 'PENDING' },
 
     default:
       return state
+  }
+}
+
+export const pendingBottlesReducer = (state = { pendingBottlesList: [] }, action) => {
+   switch (action.type) {
+
+    case BOTTLES_PENDING_REQUEST:
+      return { ...state, loading: true }
+
+    case BOTTLES_PENDING_SUCCESS:
+      return { pendingBottlesList: action.payload, loading: false }
+
+    case BOTTLES_PENDING_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
+   }
+}
+
+export const doneBottlesReducer = (state = { doneBottlesList: [] }, action) => {
+  switch (action.type) {
+
+   case BOTTLES_DONE_REQUEST:
+     return { ...state, loading: true }
+
+   case BOTTLES_DONE_SUCCESS:
+     return { doneBottlesList: action.payload, loading: false }
+
+   case BOTTLES_DONE_FAIL:
+     return { loading: false, error: action.payload }
+
+   default:
+     return state
   }
 }
