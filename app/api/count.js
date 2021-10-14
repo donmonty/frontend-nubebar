@@ -82,6 +82,13 @@ async function getDoneBottles(countId, product) {
   return client.get(`${endpoint}${url}/inspeccion/${countId}/ingrediente/${product}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
 }
 
+async function getBottleCounts(sat_hash) {
+  const token = await authStorage.getToken()
+  const url = '/get-inspecciones-botella/'
+  return client.get(`${endpoint}${url}/folio/${sat_hash}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
+
 export default {
   getQuickCounts,
   getTotalCounts,
@@ -96,4 +103,5 @@ export default {
   getCountDoneSummary,
   getPendingBottles,
   getDoneBottles,
+  getBottleCounts,
 }

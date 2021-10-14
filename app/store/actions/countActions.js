@@ -40,6 +40,9 @@ import {
   BOTTLES_DONE_SUCCESS,
   BOTTLES_DONE_REQUEST,
   BOTTLES_DONE_FAIL,
+  BOTTLE_COUNTS_REQUEST,
+  BOTTLE_COUNTS_SUCCESS,
+  BOTTLE_COUNTS_FAIL,
   
 } from "../constants/countConstants"
 
@@ -149,3 +152,13 @@ export const listBottlesDone = (countId, product) => async (dispatch) => {
   const bottles = response.data.map(item => item.botella)
   dispatch({ type: BOTTLES_DONE_SUCCESS, payload: bottles })
 }
+
+export const listBottleCounts = (bottleId) => async (dispatch) => {
+  dispatch({ type: BOTTLE_COUNTS_REQUEST })
+  const response = await count.getBottleCounts(bottleId)
+  if (!response.ok) return dispatch({ type: BOTTLE_COUNTS_FAIL, payload: response.problem })
+  const bottleCounts = response.data.inspecciones_botella.map(item => item)
+  delete response.data.inspecciones_botella
+  dispatch({ type: BOTTLE_COUNTS_SUCCESS, payload: { bottleCounts, bottle: response.data } })
+}
+

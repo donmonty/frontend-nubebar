@@ -10,6 +10,7 @@ import CountWeightScreen from '../screens/CountWeightScreen'
 import CountManualIdScreen from '../screens/CountManualIdScreen'
 import CountSummaryDetailsScreen from '../screens/CountSummaryDetailsScreen'
 import CountListBottlesScreen from '../screens/CountListBottlesScreen'
+import CountBottleCountsScreen from '../screens/CountBottleCountsScreen'
 
 const Stack = createStackNavigator();
 
@@ -30,6 +31,7 @@ export default function CountNavigator() {
       <Stack.Screen name='Count Confirmation' options={{headerShown: false }} component={ConfirmationScreen} />
       <Stack.Screen name='Count Summary Details' component={CountSummaryDetailsScreen} />
       <Stack.Screen name='Count List Bottles' component={CountListBottlesScreen} />
+      <Stack.Screen name='Count History' component={CountBottleCountsScreen} />
     </Stack.Navigator>
   )
 }

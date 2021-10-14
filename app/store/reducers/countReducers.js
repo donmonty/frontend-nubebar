@@ -40,6 +40,9 @@ import {
   BOTTLES_DONE_REQUEST,
   BOTTLES_DONE_SUCCESS,
   BOTTLES_DONE_FAIL,
+  BOTTLE_COUNTS_REQUEST,
+  BOTTLE_COUNTS_SUCCESS,
+  BOTTLE_COUNTS_FAIL,
 } from "../constants/countConstants"
 
 
@@ -304,5 +307,26 @@ export const doneBottlesReducer = (state = { doneBottlesList: [] }, action) => {
 
    default:
      return state
+  }
+}
+
+export const bottleCountsReducer = (state = { bottleCounts: [], bottle: {} }, action) => {
+  switch (action.type) {
+
+    case BOTTLE_COUNTS_REQUEST:
+      return { ...state, loading: true }
+
+    case BOTTLE_COUNTS_SUCCESS:
+      return { 
+        bottleCounts: action.payload.bottleCounts, 
+        bottle: action.payload.bottle, 
+        loading: false 
+      }
+
+    case BOTTLE_COUNT_DETAILS_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
   }
 }

@@ -71,8 +71,7 @@ export default function CountBottlesList({ navigation, route }) {
         renderItem={({ item }) => (
           <ListItem
             title={item.folio || item.sat_hash}
-            onPress={() => console.log("pressed!")}
-            // onPress={() => navigation.navigate('Count History', { bottleId: item.sat_hash })}
+            onPress={() => navigation.navigate('Count History', { bottleId: item.sat_hash })}
           />
         )}
       />
