@@ -1,4 +1,5 @@
 import count from "../../api/count"
+import yield from "../../api/yield"
 import {
   QUICK_COUNTS_LIST_REQUEST,
   QUICK_COUNTS_LIST_SUCCESS,
@@ -166,8 +167,9 @@ export const listBottleCounts = (bottleId) => async (dispatch) => {
 
 export const closeCount = (args) => async (dispatch) => {
   dispatch({ type: CLOSE_COUNT_REQUEST })
-  const response = await count.closeCount(args)
-  if (!response.ok) return dispatch({ type: CLOSE_COUNT_FAIL, payload: response.problem })
-  dispatch({ type: CLOSE_COUNT_SUCCESS, payload: response.data })
+  const countResponse = await count.closeCount(args)
+  const yieldResponse = await yield.createYieldReport(args)
+  if ((!countResponse.ok || !yieldResponse.ok)) return dispatch({ type: CLOSE_COUNT_FAIL, payload: (!countResponse.ok ? countResponse.problem : yieldResponse.problem) })
+  dispatch({ type: CLOSE_COUNT_SUCCESS, payload: countResponse.data })
 }
 

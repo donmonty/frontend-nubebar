@@ -33,7 +33,9 @@ import {
   pendingBottlesReducer,
   doneBottlesReducer,
   bottleCountsReducer,
-  closeCountReducer } from './reducers/countReducers'
+  closeCountReducer,
+  getYieldReportReducer,
+} from './reducers/countReducers'
 
 const reducer = combineReducers({
   productDetails: productDetailsReducer,
@@ -62,6 +64,7 @@ const reducer = combineReducers({
   doneBottlesList: doneBottlesReducer,
   bottleCounts: bottleCountsReducer,
   countState: closeCountReducer,
+  yieldReport: getYieldReportReducer,
 })
 
 const middleware = [thunk]
