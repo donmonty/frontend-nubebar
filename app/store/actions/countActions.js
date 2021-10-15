@@ -43,7 +43,9 @@ import {
   BOTTLE_COUNTS_REQUEST,
   BOTTLE_COUNTS_SUCCESS,
   BOTTLE_COUNTS_FAIL,
-  
+  CLOSE_COUNT_REQUEST,
+  CLOSE_COUNT_SUCCESS,
+  CLOSE_COUNT_FAIL,
 } from "../constants/countConstants"
 
 
@@ -160,5 +162,12 @@ export const listBottleCounts = (bottleId) => async (dispatch) => {
   const bottleCounts = response.data.inspecciones_botella.map(item => item)
   delete response.data.inspecciones_botella
   dispatch({ type: BOTTLE_COUNTS_SUCCESS, payload: { bottleCounts, bottle: response.data } })
+}
+
+export const closeCount = (args) => async (dispatch) => {
+  dispatch({ type: CLOSE_COUNT_REQUEST })
+  const response = await count.closeCount(args)
+  if (!response.ok) return dispatch({ type: CLOSE_COUNT_FAIL, payload: response.problem })
+  dispatch({ type: CLOSE_COUNT_SUCCESS, payload: response.data })
 }
 

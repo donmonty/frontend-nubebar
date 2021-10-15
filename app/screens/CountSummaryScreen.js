@@ -1,6 +1,6 @@
 import React from 'react'
-import { useEffect } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { useEffect, useState } from 'react'
+import { StyleSheet, View, Modal } from 'react-native'
 import { MaterialIcons } from "@expo/vector-icons"
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 
@@ -12,10 +12,15 @@ import Text from '../components/Text'
 import colors from '../config/colors'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getCountSummary, setCountSummaryType } from '../store/actions/countActions'
+import { 
+  getCountSummary, 
+  setCountSummaryType, 
+  closeCount } from '../store/actions/countActions'
 
 
 const CountSummaryScreen = ({ navigation, route }) => {
+
+  const [modalVisible, setModalVisible] = useState(false)
 
   const dispatch = useDispatch()
   const countSummaryData = useSelector(state => state.countSummary)
@@ -24,10 +29,21 @@ const CountSummaryScreen = ({ navigation, route }) => {
   const countIdData = useSelector(state => state.countId)
   const { countId } = countIdData
 
+  const countState = route.params.countState
+
   useEffect(() => {
     dispatch(getCountSummary(countId))
-    return () => console.log("CountSummaryScreen unmounted")
   }, [dispatch])
+
+  const handleCloseCount = (countId) => {
+    dispatch(closeCount({ countId: countId }))
+    setModalVisible(!modalVisible)
+    navigation.navigate("Count Confirmation", {
+      confirmation: "countState",
+      finishRoute: "Inventory Actions",
+      screen: "Inspecciones"
+    })
+  }
 
   if (loading) return (
     <Screen style={styles.container}>
@@ -87,7 +103,39 @@ const CountSummaryScreen = ({ navigation, route }) => {
           }
         />
       </View>
-      <Button title="Escanear Código QR" diabled={true} onPress={() => navigation.navigate('Count Scanner', { countId: countId })}/>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <View style={styles.modalView}>
+          <View style={{alignItems: 'center', paddingTop: 40}}>
+            <MaterialCommunityIcons
+              color={colors.primary}
+              name="clipboard-check"
+              size={60}
+            />
+            <Text style={styles.alertText}>¿Cerrar la inspección?</Text>
+          </View>
+          <View style={{width: '100%'}}>
+            <Button title="Cancelar" color="red" disabled={false} onPress={() => setModalVisible(!modalVisible)}/> 
+            <Button 
+              title="Cerrar Inspección" 
+              disabled={false} 
+              onPress={() => handleCloseCount(countId)}
+            /> 
+          </View>
+        </View>
+      </Modal> 
+      <View>
+        {(countState === 'ABIERTA') ? <Button title="Cerrar Inspección" color="red" onPress={() => setModalVisible(true)} /> : null}
+        {(countState === 'ABIERTA') ? <Button title="Escanear Código QR" onPress={() => navigation.navigate('Count Scanner', { countId: countId })}/> : null}
+      </View>
     </Screen>
   )
 }
@@ -106,5 +154,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     lineHeight: 24
-  }
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    justifyContent: 'space-between',
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: '100%'
+  },
 })

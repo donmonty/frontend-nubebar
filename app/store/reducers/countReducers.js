@@ -43,6 +43,9 @@ import {
   BOTTLE_COUNTS_REQUEST,
   BOTTLE_COUNTS_SUCCESS,
   BOTTLE_COUNTS_FAIL,
+  CLOSE_COUNT_REQUEST,
+  CLOSE_COUNT_SUCCESS,
+  CLOSE_COUNT_FAIL,
 } from "../constants/countConstants"
 
 
@@ -323,7 +326,25 @@ export const bottleCountsReducer = (state = { bottleCounts: [], bottle: {} }, ac
         loading: false 
       }
 
-    case BOTTLE_COUNT_DETAILS_FAIL:
+    case BOTTLE_COUNTS_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
+  }
+}
+
+export const closeCountReducer = (state = { countState: "OPEN" }, action) => {
+
+  switch (action.type) {
+
+    case CLOSE_COUNT_REQUEST:
+      return { ...state, loading: true }
+
+    case CLOSE_COUNT_SUCCESS:
+      return { countState: "CLOSED", loading: false }
+
+    case CLOSE_COUNT_FAIL:
       return { loading: false, error: action.payload }
 
     default:

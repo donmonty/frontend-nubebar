@@ -11,7 +11,9 @@ const Tab = createBottomTabNavigator();
 
 function TabNavigator() {
   return(
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{ tabBarLabelPosition: "beside-icon" }}
+    >
       <Tab.Screen
         name="Acciones"
         tabBarLabel="Movimientos"
@@ -25,6 +27,7 @@ function TabNavigator() {
       <Tab.Screen
         name="Inspecciones"
         tabBarLabel="Inspecciones"
+        tabBarLabelPosition="beside-icon"
         options={{
           tabBarIcon: ({color, size}) => (
             <MaterialCommunityIcons name="clipboard-check-outline" color={color} size={24} />
