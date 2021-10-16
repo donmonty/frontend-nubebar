@@ -88,6 +88,12 @@ async function getBottleCounts(sat_hash) {
   return client.get(`${endpoint}${url}/folio/${sat_hash}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
 }
 
+async function closeCount(args) {
+  const token = await authStorage.getToken()
+  const url = '/cerrar-inspeccion/'
+  return client.patch(`${endpoint}${url}`, { ...args }, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
 
 export default {
   getQuickCounts,
@@ -104,4 +110,5 @@ export default {
   getPendingBottles,
   getDoneBottles,
   getBottleCounts,
+  closeCount,
 }

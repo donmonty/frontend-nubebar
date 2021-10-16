@@ -102,7 +102,7 @@ const CountListScreen = ({ navigation }) => {
             title={item.fecha_alta}
             onPress={() => {
               dispatch(setCountId(item.id))
-              navigation.navigate('Count Summary')
+              navigation.navigate('Count Summary', { countState: item.estado })
             }} 
           />
         )}
