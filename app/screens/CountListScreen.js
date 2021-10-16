@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { StyleSheet, FlatList, View, Image, Modal } from 'react-native'
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import Screen from "../components/Screen";
 import ListItem from '../components/lists/ListItem'
@@ -81,9 +81,9 @@ const CountListScreen = ({ navigation }) => {
   )
 
   if((countType === 'DIARIA' && errorQuickCounts) || (countType === 'TOTAL' && errorTotalCounts)) return (
-    <Screen style={styles.containerError}>
+    <Screen style={styles.container}>
       <View style={{padding: 40}}>
-        <Image style={styles.icon} source={require("../../assets/alert-outline.png")} />
+      <MaterialIcons color={colors.red} name="error" size={70} />
         <Text style={styles.alertText}>Hubo un problema. Por favor intenta de nuevo.</Text>
       </View>
       <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions', { screen: 'Inspecciones' })}/>

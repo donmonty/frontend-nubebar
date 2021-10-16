@@ -1,15 +1,19 @@
-import yield from "../../api/yield"
+import performance from "../../api/yield"
 
 import {
   GET_YIELD_REPORT_REQUEST,
   GET_YIELD_REPORT_SUCCESS,
   GET_YIELD_REPORT_FAIL,
+  GET_YIELD_REPORTS_REQUEST,
+  GET_YIELD_REPORTS_SUCCESS,
+  GET_YIELD_REPORTS_FAIL,
+  SET_YIELD_REPORT_ID_SUCCESS,
 } from "../constants/yieldConstants"
 
 
 export const getYieldReport = (args) => async (dispatch) => {
   dispatch({ type: GET_YIELD_REPORT_REQUEST })
-  const response = await yield.getYieldReport(args)
+  const response = await performance.getYieldReport(args)
   if (!response.ok) return dispatch({ type: GET_YIELD_REPORT_FAIL, payload: response.problem })
   const reportData = {
     id: response.data.id,
@@ -22,5 +26,16 @@ export const getYieldReport = (args) => async (dispatch) => {
   }
   const yieldData = response.data.mermas_reporte.map(item => item)
   dispatch({ type: GET_YIELD_REPORT_SUCCESS, payload: { reportData, yieldData } })
+}
+
+export const getYieldReports = (storageAreaId) => async (dispatch) => {
+  dispatch({ type: GET_YIELD_REPORTS_REQUEST })
+  const response = await performance.getYieldReports(storageAreaId)
+  if (!response.ok) return dispatch({ type: GET_YIELD_REPORTS_FAIL, payload: response.problem })
+  dispatch({ type: GET_YIELD_REPORTS_SUCCESS, payload: response.data })
+}
+
+export const setYieldReportId = (id) => (dispatch) => {
+  dispatch({ type: SET_YIELD_REPORT_ID_SUCCESS, payload: id })
 }
 
