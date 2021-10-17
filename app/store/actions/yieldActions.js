@@ -25,6 +25,12 @@ export const getYieldReport = (args) => async (dispatch) => {
     storageAea: response.data.almacen.nombre
   }
   const yieldData = response.data.mermas_reporte.map(item => item)
+  for (let item of yieldData) {
+    item.porcentaje = Math.round(Number(item.porcentaje))
+    item.consumo_real = Math.round(Number(item.consumo_real))
+    item.consumo_ventas = Math.round(Number(item.consumo_ventas))
+    item.merma = Math.round(Number(item.merma))
+  }
   dispatch({ type: GET_YIELD_REPORT_SUCCESS, payload: { reportData, yieldData } })
 }
 
