@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, View } from 'react-native'
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 
@@ -12,14 +12,20 @@ import colors from '../../config/colors'
 import titleCase from '../../utility/titleCase'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { getYieldReport } from '../../store/actions/yieldActions'
 
 export default function YieldDetailsScreen({ navigation, route }) {
 
   const dispatch = useDispatch()
   const { yieldData, loading, error } = useSelector(state => state.yieldReport)
-  const yieldId = route.params.yieldId
-
+  const { yieldId } = useSelector(state => state.yieldId)
+  const { yieldReportId } = useSelector(state => state.yieldReportId)
   const yieldDetails = yieldData.filter(item => item.id === yieldId)[0]
+
+  useEffect(() => {
+    dispatch(getYieldReport(yieldReportId))
+  }, [dispatch])
+  
 
   if (loading) return (
     <Screen style={styles.container}>
@@ -70,7 +76,10 @@ export default function YieldDetailsScreen({ navigation, route }) {
           dataValue={`${yieldDetails.porcentaje} %`} 
         />
       </View>
-      <Button title="Ver Detalle de Venta" onPress={console.log("Pressed")} /> 
+      <Button 
+        title="Ver Detalle de Venta" 
+        onPress={() => navigation.navigate('Yield Sales Data')} 
+      /> 
     </Screen>
   )
 }

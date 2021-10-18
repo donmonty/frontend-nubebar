@@ -11,7 +11,7 @@ import ListItemData from '../../components/lists/ListItemData'
 import colors from '../../config/colors'
 import titleCase from '../../utility/titleCase'
 
-import { getYieldReport } from '../../store/actions/yieldActions'
+import { getYieldReport, setYieldId } from '../../store/actions/yieldActions'
 import { useDispatch, useSelector } from 'react-redux'
 
 
@@ -62,9 +62,8 @@ export default function YieldReportDetailsScreen({ navigation }) {
             dataLabel={true}
             dataValue={`${item.porcentaje} %`}
             onPress={() => {
-              navigation.navigate('Yield Details', { yieldId: item.id })
-              // dispatch(setYieldReportId(item.id))
-              // navigation.navigate('Yield Report Summary')
+              dispatch(setYieldId(item.id))
+              navigation.navigate('Yield Details')
             }} 
           />
         )}

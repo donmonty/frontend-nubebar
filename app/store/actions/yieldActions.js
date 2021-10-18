@@ -8,6 +8,10 @@ import {
   GET_YIELD_REPORTS_SUCCESS,
   GET_YIELD_REPORTS_FAIL,
   SET_YIELD_REPORT_ID_SUCCESS,
+  GET_YIELD_SALES_DATA_REQUEST,
+  GET_YIELD_SALES_DATA_SUCCESS,
+  GET_YIELD_SALES_DATA_FAIL,
+  SET_YIELD_ID_SUCCESS,
 } from "../constants/yieldConstants"
 
 
@@ -43,5 +47,31 @@ export const getYieldReports = (storageAreaId) => async (dispatch) => {
 
 export const setYieldReportId = (id) => (dispatch) => {
   dispatch({ type: SET_YIELD_REPORT_ID_SUCCESS, payload: id })
+}
+
+export const getYieldSalesData = (yieldId) => async (dispatch) => {
+  dispatch({ type: GET_YIELD_SALES_DATA_REQUEST })
+  const response = await performance.getYieldSalesData(yieldId)
+  if (!response.ok) return dispatch({ type: GET_YIELD_SALES_DATA_FAIL, payload: response.problem })
+  const ingredient = response.data.ingrediente
+  const yieldSalesData = response.data.detalle_ventas.map(item => {
+    const salesObj = {
+      id: item.id,
+      recipeName: item.receta__nombre,
+      quantity: item.unidades,
+      posCode: item.receta__codigo_pos,
+      date: item.fecha,
+      register: item.caja__nombre,
+      amount: item.importe,
+      recipeVolume: item.volumen_receta,
+      salesVolume: item.volumen_vendido
+    }
+    return salesObj
+  })
+  dispatch({ type: GET_YIELD_SALES_DATA_SUCCESS, payload: { ingredient, yieldSalesData }})
+}
+
+export const setYieldId = (yieldId) => (dispatch) => {
+  dispatch({ type: SET_YIELD_ID_SUCCESS, payload: yieldId })
 }
 

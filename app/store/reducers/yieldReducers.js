@@ -6,6 +6,10 @@ import {
   GET_YIELD_REPORTS_SUCCESS,
   GET_YIELD_REPORTS_FAIL,
   SET_YIELD_REPORT_ID_SUCCESS,
+  GET_YIELD_SALES_DATA_REQUEST,
+  GET_YIELD_SALES_DATA_SUCCESS,
+  GET_YIELD_SALES_DATA_FAIL,
+  SET_YIELD_ID_SUCCESS,
 } from "../constants/yieldConstants"
 
 
@@ -53,6 +57,40 @@ export const setYieldReportIdReducer = (state = { yieldReportId: null }, action)
   switch (action.type) {
     case SET_YIELD_REPORT_ID_SUCCESS:
       return { yieldReportId: action.payload }
+
+    default:
+      return state
+  }
+}
+
+export const getYieldSalesDataReducer = (state = { ingredient: null, yieldSalesData: [] }, action) => {
+
+  switch (action.type) {
+
+    case GET_YIELD_SALES_DATA_REQUEST:
+      return { ...state, loading: true }
+
+    case GET_YIELD_SALES_DATA_SUCCESS:
+      return {
+        ingredient: action.payload.ingredient,
+        yieldSalesData: action.payload.yieldSalesData,
+        loading: false
+      }
+
+    case GET_YIELD_SALES_DATA_FAIL:
+      return { loading: false, error: action.payload }
+
+    default:
+      return state
+  }
+} 
+
+export const setYieldIdReducer = (state = { yieldId: null }, action) => {
+  
+  switch (action.type) {
+    
+    case SET_YIELD_ID_SUCCESS:
+      return { yieldId: action.payload }
 
     default:
       return state

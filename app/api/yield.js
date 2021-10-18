@@ -23,9 +23,16 @@ async function getYieldReports(storageAreaId) {
   return client.get(`${endpoint}${url}/almacen/${storageAreaId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
 }
 
+async function getYieldSalesData(yieldId) {
+  const token = await authStorage.getToken()
+  const url = '/get-detalle-ventas-merma/'
+  return client.get(`${endpoint}${url}/merma/${yieldId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
 
 export default {
   createYieldReport,
   getYieldReport,
   getYieldReports,
+  getYieldSalesData,
 }
