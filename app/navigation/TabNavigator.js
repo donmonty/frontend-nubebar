@@ -2,9 +2,10 @@ import React from 'react';
 
 import BottleActions from '../screens/BottleActions';
 import CountActions from '../screens/CountActions';
+import AnalyticsActionsScreen from '../screens/analytics/AnalyticsActionsScreen'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 const Tab = createBottomTabNavigator();
 
@@ -35,6 +36,18 @@ function TabNavigator() {
         }}
         component={CountActions}
       />
+
+      <Tab.Screen
+        name="Reportes"
+        tabBarLabel="Reportes"
+        tabBarLabelPosition="beside-icon"
+        options={{
+          tabBarIcon: ({color, size}) => (
+            <MaterialIcons name="insert-chart-outlined" color={color} size={24} />
+          )
+        }}
+        component={AnalyticsActionsScreen}
+      />    
     </Tab.Navigator>
   );
 }
