@@ -12,27 +12,26 @@ import ListItemDataHeader from '../../components/lists/ListItemDataHeader'
 import colors from '../../config/colors'
 import titleCase from '../../utility/titleCase'
 
+import { getYieldBottleData } from '../../store/actions/yieldActions'
 import { useDispatch, useSelector } from 'react-redux'
-import { getYieldSalesData } from '../../store/actions/yieldActions'
 
-function filterSalesData(salesData, id) {
-  return salesData.filter(item => item.id === id)[0]
+function filterBottleData(bottleData, folio) {
+  return bottleData.filter(item => item.folio === folio)[0]
 }
 
 
-export default function YieldSalesDataScreen({ navigation, route }) {
+export default function YieldBottleDataScreen({ navigation }) {
 
-  const [salesItemData, setSalesItemData] = useState(null)
   const [modalVisible, setModalVisible] = useState(false)
+  const [bottleData, setBottleData] = useState(null)
 
   const dispatch = useDispatch()
-  const { yieldSalesData, ingredient, loading, error } = useSelector(state => state.yieldSalesData)
   const { yieldId } = useSelector(state => state.yieldId)
+  const { yieldBottleData, yieldBottleSummary, loading, error } = useSelector(state => state.yieldBottleData)
 
   useEffect(() => {
-    dispatch(getYieldSalesData(yieldId))
+    dispatch(getYieldBottleData(yieldId))
   }, [dispatch])
-
 
   if (loading) return (
     <Screen style={styles.container}>
@@ -56,24 +55,25 @@ export default function YieldSalesDataScreen({ navigation, route }) {
   return (
     <Screen style={styles.container}>
       <View style={{ marginBottom: 20 }} >
-        <Text style={[styles.headerText, { fontSize: 28 }]}>Detalle de Venta</Text>
-        <Text style={[styles.subHeaderText, { fontSize: 18, fontWeight: "700", color: colors.primary }]}>{ingredient}</Text>
+        <Text style={[styles.headerText, { fontSize: 28 }]}>Detalle de Botellas</Text>
+        <Text style={[styles.subHeaderText, { fontSize: 18, fontWeight: "700", color: colors.primary }]}>{`Diferencia Total ML: ${yieldBottleSummary.totalDeltaMl}`}</Text>
+        <Text style={[styles.subHeaderText, { fontSize: 18, fontWeight: "700", color: colors.primary }]}>{`Diferencia Total Tragos: ${yieldBottleSummary.totalDeltaDrinks}`}</Text>
         <ListItemSeparator style={{ marginTop: 20 }} />
       </View>
       <View>
-        <ListItemDataHeader titleLeft="Producto" titleRight="Cantidad"/>
+        <ListItemDataHeader titleLeft="Folio" titleRight="Estado"/>
         <ListItemSeparator style={{ marginTop: 10 }}/>
         <FlatList
-          data={yieldSalesData}
+          data={yieldBottleData}
           ItemSeparatorComponent={ListItemSeparator}
-          keyExtractor={(report) => report.id.toString()}
+          keyExtractor={(bottle) => bottle.folio.toString()}
           renderItem={({item}) => (
             <ListItemData
-              title={titleCase.titleCase(item.recipeName)}
+              title={item.folio.substring(0, 13)}
               dataLabel={false}
-              dataValue={item.quantity}
+              dataValue={titleCase.titleCase(item.state)}
               onPress={() => {
-                setSalesItemData(() => filterSalesData(yieldSalesData, item.id))
+                setBottleData(() => filterBottleData(yieldBottleData, item.folio))
                 setModalVisible(true)
               }} 
             />
@@ -93,53 +93,42 @@ export default function YieldSalesDataScreen({ navigation, route }) {
         <View style={styles.modalView}>
           <View style={{ width: "100%" }} >
             <View style={{ paddingTop: 40}}>
-              <Text style={styles.headerText}> {salesItemData ? titleCase.titleCase(salesItemData.recipeName) : null}</Text>
+              <Text style={styles.headerText}> {bottleData ? bottleData.folio.substring(0, 13) : null}</Text>
               <ListItemSeparator />
             </View>
 
             <View>
               <ListItemData
-                title="Código de venta:"
+                title="Estado de Botella:"
                 dataLabel={false}
-                dataValue={salesItemData ? salesItemData.posCode : null} 
+                dataValue={bottleData ? bottleData.state : null} 
               />
               <ListItemSeparator />
               <ListItemData
-                title="Fecha:"
+                title="Volumen Actual:"
                 dataLabel={false}
-                dataValue={salesItemData ? salesItemData.date : null} 
+                dataValue={bottleData ? `${bottleData.actualVolume} ml` : null} 
               />
               <ListItemSeparator />
               <ListItemData
-                title="Caja:"
+                title="Volumen Anterior:"
                 dataLabel={false}
-                dataValue={salesItemData ? salesItemData.register : null} 
+                dataValue={bottleData ? `${bottleData.pastVolume} ml` : null} 
               />
               <ListItemSeparator />
               <ListItemData
-                title="Cantidad:"
+                title="Diferencia en Mililitros:"
                 dataLabel={false}
-                dataValue={salesItemData ? salesItemData.quantity : null} 
+                dataValue={bottleData ? bottleData.deltaMl : null} 
               />
               <ListItemSeparator />
               <ListItemData
-                title="Importe:"
+                title="Diferencia en Tragos"
                 dataLabel={false}
-                dataValue={salesItemData ? `$${salesItemData.amount}` : null} 
+                dataValue={bottleData ? bottleData.deltaDrinks : null} 
               />
               <ListItemSeparator />
-              <ListItemData
-                title="Volumen de Receta:"
-                dataLabel={false}
-                dataValue={salesItemData ? `${salesItemData.recipeVolume} ml` : null} 
-              />
-              <ListItemSeparator />
-              <ListItemData
-                title="Volumen Facturado:"
-                dataLabel={false}
-                dataValue={salesItemData ? `${salesItemData.salesVolume} ml` : null} 
-              />
-              <ListItemSeparator />
+              
             </View>
           </View>
 
@@ -151,8 +140,8 @@ export default function YieldSalesDataScreen({ navigation, route }) {
       </Modal> 
     </Screen>
   )
-
 }
+
 
 const styles = StyleSheet.create({
   container: {

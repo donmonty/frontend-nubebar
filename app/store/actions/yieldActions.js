@@ -12,6 +12,9 @@ import {
   GET_YIELD_SALES_DATA_SUCCESS,
   GET_YIELD_SALES_DATA_FAIL,
   SET_YIELD_ID_SUCCESS,
+  GET_YIELD_BOTTLE_DATA_REQUEST,
+  GET_YIELD_BOTTLE_DATA_FAIL,
+  GET_YIELD_BOTTLE_DATA_SUCCESS,
 } from "../constants/yieldConstants"
 
 
@@ -73,5 +76,30 @@ export const getYieldSalesData = (yieldId) => async (dispatch) => {
 
 export const setYieldId = (yieldId) => (dispatch) => {
   dispatch({ type: SET_YIELD_ID_SUCCESS, payload: yieldId })
+}
+
+export const getYieldBottleData = (yieldId) => async (dispatch) => {
+  dispatch({ type: GET_YIELD_BOTTLE_DATA_REQUEST })
+  const response = await performance.getYieldBottleData(yieldId)
+  if (!response.ok) return dispatch({ type: GET_YIELD_BOTTLE_DATA_FAIL, payload: response.problem })
+  const yieldBottleSummary = {
+    totalDeltaMl: response.data.data.diferencia_total_ml,
+    totalDeltaDrinks: response.data.data.diferencia_total_tragos
+  }
+  const yieldBottleData = response.data.data.botellas.map(item => {
+    const bottleObj = {
+      folio: item.folio,
+      state: item.estado_botella,
+      actualVolume: item.volumen_actual,
+      pastVolume: item.volumen_anterior,
+      deltaMl: item.diferencia_ml,
+      deltaDrinks: item.diferencia_tragos 
+    }
+    return bottleObj
+  })
+  dispatch({ 
+    type: GET_YIELD_BOTTLE_DATA_SUCCESS, 
+    payload: { yieldBottleSummary, yieldBottleData }
+  })
 }
 

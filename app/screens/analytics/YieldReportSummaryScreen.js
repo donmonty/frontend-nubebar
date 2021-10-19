@@ -7,6 +7,7 @@ import ListItemSeparator from '../../components/lists/ListItemSeparator'
 import Button from '../../components/Button'
 import Text from '../../components/Text'
 import ListItemData from '../../components/lists/ListItemData'
+import ListItemDataHeader from '../../components/lists/ListItemDataHeader'
 
 import colors from '../../config/colors'
 import titleCase from '../../utility/titleCase'
@@ -51,23 +52,29 @@ export default function YieldReportDetailsScreen({ navigation }) {
         <Text style={styles.subHeaderText}>{`Fecha Inicial: ${reportData.startDate}`}</Text>
         <Text style={styles.subHeaderText}>{`Fecha Final: ${reportData.finishDate}`}</Text>
         <ListItemSeparator style={{ marginTop: 20 }} />
+        
       </View>
-      <FlatList
-        data={yieldData}
-        ItemSeparatorComponent={ListItemSeparator}
-        keyExtractor={(report) => report.id.toString()}
-        renderItem={({item}) => (
-          <ListItemData
-            title={titleCase.titleCase(item.ingrediente.nombre)}
-            dataLabel={true}
-            dataValue={`${item.porcentaje} %`}
-            onPress={() => {
-              dispatch(setYieldId(item.id))
-              navigation.navigate('Yield Details')
-            }} 
-          />
-        )}
-      />
+
+      <View>
+        <ListItemDataHeader titleLeft="Producto" titleRight="Diferencia" />
+        <ListItemSeparator style={{ marginTop: 10 }} />
+        <FlatList
+          data={yieldData}
+          ItemSeparatorComponent={ListItemSeparator}
+          keyExtractor={(report) => report.id.toString()}
+          renderItem={({item}) => (
+            <ListItemData
+              title={titleCase.titleCase(item.ingrediente.nombre)}
+              dataLabel={true}
+              dataValue={`${item.porcentaje} %`}
+              onPress={() => {
+                dispatch(setYieldId(item.id))
+                navigation.navigate('Yield Details')
+              }} 
+            />
+          )}
+        />
+      </View>
     </Screen>
   )
 }

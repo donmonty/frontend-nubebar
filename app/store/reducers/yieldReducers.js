@@ -10,6 +10,9 @@ import {
   GET_YIELD_SALES_DATA_SUCCESS,
   GET_YIELD_SALES_DATA_FAIL,
   SET_YIELD_ID_SUCCESS,
+  GET_YIELD_BOTTLE_DATA_REQUEST,
+  GET_YIELD_BOTTLE_DATA_SUCCESS,
+  GET_YIELD_BOTTLE_DATA_FAIL,
 } from "../constants/yieldConstants"
 
 
@@ -91,6 +94,28 @@ export const setYieldIdReducer = (state = { yieldId: null }, action) => {
     
     case SET_YIELD_ID_SUCCESS:
       return { yieldId: action.payload }
+
+    default:
+      return state
+  }
+}
+
+export const getYieldBottleDataReducer = (state = { yieldBottleSummary: {}, yieldBottleData: [] }, action) => {
+
+  switch (action.type) {
+
+    case GET_YIELD_BOTTLE_DATA_REQUEST:
+      return { ...state, loading: true }
+
+    case GET_YIELD_BOTTLE_DATA_SUCCESS:
+      return { 
+        yieldBottleSummary: action.payload.yieldBottleSummary,
+        yieldBottleData: action.payload.yieldBottleData,
+        loading: false
+      }
+
+    case GET_YIELD_BOTTLE_DATA_FAIL:
+      return { loading: false, error: action.payload }
 
     default:
       return state

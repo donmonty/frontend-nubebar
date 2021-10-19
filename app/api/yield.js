@@ -29,10 +29,17 @@ async function getYieldSalesData(yieldId) {
   return client.get(`${endpoint}${url}/merma/${yieldId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
 }
 
+async function getYieldBottleData(yieldId) {
+  const token = await authStorage.getToken()
+  const url = '/get-detalle-botellas-merma/'
+  return client.get(`${endpoint}${url}/merma/${yieldId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
 
 export default {
   createYieldReport,
   getYieldReport,
   getYieldReports,
   getYieldSalesData,
+  getYieldBottleData,
 }

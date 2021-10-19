@@ -76,10 +76,16 @@ export default function YieldDetailsScreen({ navigation, route }) {
           dataValue={`${yieldDetails.porcentaje} %`} 
         />
       </View>
-      <Button 
-        title="Ver Detalle de Venta" 
-        onPress={() => navigation.navigate('Yield Sales Data')} 
-      /> 
+      <View>
+        <Button 
+          title="Ver Detalle de Botellas" 
+          onPress={() => navigation.navigate('Yield Bottle Data')} 
+        />
+        <Button 
+          title="Ver Detalle de Venta" 
+          onPress={() => navigation.navigate('Yield Sales Data')} 
+        /> 
+      </View>
     </Screen>
   )
 }
