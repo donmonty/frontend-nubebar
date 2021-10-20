@@ -8,6 +8,7 @@ import YieldSalesDataScreen from '../screens/analytics/YieldSalesDataScreen'
 import YieldBottleDataScreen from '../screens/analytics/YieldBottleDataScreen'
 
 import StockProductListScreen from '../screens/analytics/StockProductListScreen'
+import StockProductBottleListScreen from '../screens/analytics/StockProductBottleListScreen'
 
 const Stack = createStackNavigator()
 
@@ -26,6 +27,7 @@ export default function AnalyticsNavigator() {
       <Stack.Screen name="Yield Bottle Data" component={YieldBottleDataScreen} />
 
       <Stack.Screen name="Stock Product List" component={StockProductListScreen} />
+      <Stack.Screen name="Stock Product Bottle List" component={StockProductBottleListScreen} />
 
     </Stack.Navigator>
   )

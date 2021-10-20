@@ -12,18 +12,21 @@ import Text from '../../components/Text'
 import colors from '../../config/colors'
 import titleCase from '../../utility/titleCase'
 
-import { getStockProductList } from '../../store/actions/stockActions'
 import { useDispatch, useSelector } from 'react-redux'
+import { getStockProductBottleList } from '../../store/actions/stockActions'
 
-
-export default function StockProductListScreen({ navigation }) {
+export default function StockProductBottleListScreen({ navigation, route }) {
 
   const dispatch = useDispatch()
-  const { stockProductListData, stockProductListSummary, loading, error } = useSelector(state => state.stockProductList)
-  const { locationId } = useSelector(state => state.locationId)
-
+  const { productId, locationId, product } = route.params
+  const { 
+    stockProductBottleListData,  
+    loading, 
+    error
+  } = useSelector(state => state.stockProductBottleList)
+  
   useEffect(() => {
-    dispatch(getStockProductList(locationId))
+    dispatch(getStockProductBottleList(productId, locationId))
   }, [dispatch])
 
   if (loading) return (
@@ -48,35 +51,32 @@ export default function StockProductListScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
       <View style={{ marginBottom: 20 }} >
-        <Text style={styles.headerText}>Stock por Producto</Text>
-        <Text style={styles.subHeaderText}>{`Fecha: ${stockProductListSummary.date}`}</Text>
+        <Text style={styles.headerText}>{titleCase.titleCase(product)}</Text>
+        <Text style={styles.subHeaderText}>Lista de botellas</Text>
         <ListItemSeparator style={{ marginTop: 20 }} />
         
       </View>
 
       <View>
-        <ListItemDataHeader titleLeft="Producto" titleRight="Cantidad" />
+        <ListItemDataHeader titleLeft="Folio" titleRight="Contenido" />
         <ListItemSeparator style={{ marginTop: 10 }} />
         <FlatList
-          data={stockProductListData}
+          data={stockProductBottleListData}
           ItemSeparatorComponent={ListItemSeparator}
-          keyExtractor={(product) => product.id.toString()}
+          keyExtractor={(product) => product.folio.toString()}
           renderItem={({item}) => (
             <ListItemData
-              title={titleCase.titleCase(item.product)}
-              subTitle={item.category}
+              title={item.folio.substring(0, 13)}
+              subTitle={`${item.currentWeight} gr`}
               dataLabel={false}
-              dataValue={item.quantity}
-              onPress={() => {
-                navigation.navigate('Stock Product Bottle List', { productId: item.id, locationId: locationId, product: item.product })
-              }} 
+              dataValue={`${item.content} ml`}
+              onPress={() => {}}
             />
           )}
         />
       </View>
     </Screen>
   )
-
 }
 
 const styles = StyleSheet.create({

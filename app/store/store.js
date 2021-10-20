@@ -46,7 +46,8 @@ import {
 } from './reducers/yieldReducers'
 
 import {
-  getStockProductListReducer
+  getStockProductListReducer,
+  getStockProductBottleListReducer,
 } from './reducers/stockReducers'
 
 const reducer = combineReducers({
@@ -84,6 +85,7 @@ const reducer = combineReducers({
   yieldId: setYieldIdReducer,
   yieldBottleData: getYieldBottleDataReducer,
   stockProductList: getStockProductListReducer,
+  stockProductBottleList: getStockProductBottleListReducer, 
 })
 
 const middleware = [thunk]

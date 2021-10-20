@@ -11,7 +11,14 @@ async function getStockProductList(locationId) {
   return client.get(`${endpoint}${url}/sucursal/${locationId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
 }
 
+async function getStockProductBottleList(productId, locationId) {
+  const token = await authStorage.getToken()
+  const url = '/get-detalle-stock/'
+  return client.get(`${endpoint}${url}/producto/${productId}/sucursal/${locationId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+}
+
 
 export default {
   getStockProductList,
+  getStockProductBottleList,
 }
