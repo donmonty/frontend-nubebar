@@ -8,7 +8,7 @@ import {
   bottleDetailsReducer
 } from "./reducers/bottleReducers"
 
-import { locationListReducer } from "./reducers/locationReducers"
+import { locationListReducer, setLocationIdReducer } from "./reducers/locationReducers"
 import { 
   bottleWeightReducer, 
   bottleCreateReducer, 
@@ -45,10 +45,15 @@ import {
   getYieldBottleDataReducer,
 } from './reducers/yieldReducers'
 
+import {
+  getStockProductListReducer
+} from './reducers/stockReducers'
+
 const reducer = combineReducers({
   productDetails: productDetailsReducer,
   bottleDetails: bottleDetailsReducer,
   locations: locationListReducer,
+  locationId: setLocationIdReducer,
   bottleWeight: bottleWeightReducer,
   bottleCreate: bottleCreateReducer,
   bottleFolio: bottleFolioReducer,
@@ -78,6 +83,7 @@ const reducer = combineReducers({
   yieldSalesData: getYieldSalesDataReducer,
   yieldId: setYieldIdReducer,
   yieldBottleData: getYieldBottleDataReducer,
+  stockProductList: getStockProductListReducer,
 })
 
 const middleware = [thunk]

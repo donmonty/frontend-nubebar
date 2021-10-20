@@ -1,7 +1,8 @@
 import {
   LOCATION_LIST_REQUEST,
   LOCATION_LIST_SUCCESS,
-  LOCATION_LIST_FAIL
+  LOCATION_LIST_FAIL,
+  SET_LOCATION_ID_SUCCESS,
 } from '../constants/locationConstants'
 
 export const locationListReducer = (state = { locations: [] }, action ) => {
@@ -19,5 +20,17 @@ export const locationListReducer = (state = { locations: [] }, action ) => {
     default:
       return state
 
+  }
+}
+
+export const setLocationIdReducer = (state = { locationId: null }, action) => {
+
+  switch(action.type) {
+
+    case SET_LOCATION_ID_SUCCESS:
+      return { locationId: action.payload }
+
+    default:
+      return state
   }
 }
