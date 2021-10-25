@@ -11,7 +11,7 @@ import {
 import cache from '../utility/cache';
 
 import { useDispatch, useSelector } from 'react-redux'
-import { listLocations } from "../store/actions/locationActions"
+import { listLocations, setLocationId } from "../store/actions/locationActions"
 
 
 function LocationsScreen({ navigation }) {
@@ -42,6 +42,7 @@ function LocationsScreen({ navigation }) {
               navigation.navigate('Almacenes', {
                 locationId: item.id 
               });
+              dispatch(setLocationId(item.id))
               cache.store('Sucursal', item.id)
             }}
           />
