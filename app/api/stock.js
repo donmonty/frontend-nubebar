@@ -1,20 +1,22 @@
 import client from './client';
 import authStorage from "../auth/storage"
+import settings from "../config/settings"
 
-const endpoint = '/api/analytics';
-const TOKEN_TYPE = 'Bearer'
+const endpoint = '/api/analytics'
 
 
 async function getStockProductList(locationId) {
   const token = await authStorage.getToken()
   const url = '/get-reporte-stock/'
-  return client.get(`${endpoint}${url}/sucursal/${locationId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+  client.setHeader('Authorization', `${settings.tokenType} ${token}`)
+  return client.get(`${endpoint}${url}/sucursal/${locationId}`)
 }
 
 async function getStockProductBottleList(productId, locationId) {
   const token = await authStorage.getToken()
   const url = '/get-detalle-stock/'
-  return client.get(`${endpoint}${url}/producto/${productId}/sucursal/${locationId}`, { headers: { 'Authorization': `${TOKEN_TYPE} ${token}`} })
+  client.setHeader('Authorization', `${settings.tokenType} ${token}`)
+  return client.get(`${endpoint}${url}/producto/${productId}/sucursal/${locationId}`)
 }
 
 

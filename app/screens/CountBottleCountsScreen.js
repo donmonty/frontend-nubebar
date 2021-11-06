@@ -45,6 +45,7 @@ export default function CountBottleCountsScreen({ navigation, route }) {
   )
 
   return (
+    
     <Screen style={styles.container}>
       <View style={{ flex: 1}}>
         <View style={styles.detailsContainer}>
@@ -85,7 +86,7 @@ export default function CountBottleCountsScreen({ navigation, route }) {
         renderItem={({ item }) => (
           <ListItem
             type="button-list"
-            title={`${item.peso_botella} gr`}
+            title={!item.peso_botella ? "Pendiente de pesar" : `${item.peso_botella} gr`}
             subTitle={item.timestamp_inspeccion.split('T')[0]}
           />
         )}

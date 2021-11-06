@@ -11,7 +11,8 @@ async function addNewBottle(args) {
   const almacen = await cache.get('Almacen')
   const proveedor = 1
   const url = '/inventarios/crear-botella-nueva'
-  return client.post(endpoint + url, { ...args, sucursal, almacen, proveedor }, { headers: { 'Authorization': `${settings.tokenType} ${token}`} })
+  client.setHeader('Authorization', `${settings.tokenType} ${token}`)
+  return client.post(endpoint + url, { ...args, sucursal, almacen, proveedor })
 }
 
 async function addUsedBottle(args) {
@@ -20,7 +21,8 @@ async function addUsedBottle(args) {
   const almacen = await cache.get('Almacen')
   const proveedor = 1
   const url = '/inventarios/crear-botella-usada'
-  return client.post(endpoint + url, { ...args, sucursal, almacen, proveedor }, { headers: { 'Authorization': `${settings.tokenType} ${token}`} })
+  client.setHeader('Authorization', `${settings.tokenType} ${token}`)
+  return client.post(endpoint + url, { ...args, sucursal, almacen, proveedor })
 }
 
 

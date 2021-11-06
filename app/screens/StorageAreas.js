@@ -37,7 +37,7 @@ export default function StorageAreas({ navigation, route }) {
         </>
       )}
       <FlatList
-        data={storageAreasApi.data}
+        data={storageAreasApi.data.data}
         ItemSeparatorComponent={ListItemSeparator}
         keyExtractor={(storageArea) => storageArea.id.toString()}
         renderItem={({item}) => (

@@ -34,6 +34,7 @@ import {
   doneBottlesReducer,
   bottleCountsReducer,
   closeCountReducer,
+  setCountStateReducer,
 } from './reducers/countReducers'
 
 import {
@@ -78,6 +79,7 @@ const reducer = combineReducers({
   doneBottlesList: doneBottlesReducer,
   bottleCounts: bottleCountsReducer,
   countState: closeCountReducer,
+  setCountState: setCountStateReducer,
   yieldReport: getYieldReportReducer,
   yieldReports: getYieldReportsReducer,
   yieldReportId: setYieldReportIdReducer,
