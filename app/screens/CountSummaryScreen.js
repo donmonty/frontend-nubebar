@@ -31,7 +31,6 @@ const CountSummaryScreen = ({ navigation, route }) => {
   
   const countIdData = useSelector(state => state.countId)
   const { countId } = countIdData
-  //const countState = route.params.countState
 
   const { countState } = useSelector(state => state.setCountState)
 

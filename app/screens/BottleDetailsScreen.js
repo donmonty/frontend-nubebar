@@ -57,7 +57,7 @@ const BottleDetailsScreen = ({ navigation, route }) => {
       sat_hash: qrCode,
       peso_nueva: weight,
       folio: folio || customFolio,
-      captura: folio ? "MANUAL" : null
+      captura: (folio || customFolio) ? "MANUAL" : null
     }
     dispatch(addNewBottle(bottleData))
     dispatch(resetBottleWeight())
@@ -74,9 +74,10 @@ const BottleDetailsScreen = ({ navigation, route }) => {
       producto: product.id,
       sat_hash: qrCode,
       peso_nueva: product.peso_nueva,
-      peso_inicial: weight,
+      //peso_inicial: weight,
+      peso_bascula: weight,
       folio: folio || customFolio,
-      captura: folio ? "MANUAL" : null
+      captura_folio: (folio || customFolio)  ? "MANUAL" : null
     }
     dispatch(addUsedBottle(bottleData))
     dispatch(resetBottleWeight())

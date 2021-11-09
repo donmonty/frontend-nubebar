@@ -57,6 +57,7 @@ export const addNewBottle = (args) => async (dispatch) => {
 
 export const addUsedBottle = (args) => async (dispatch) => {
   dispatch({ type: BOTTLE_CREATE_REQUEST })
+  console.log("//// assUsedBottle args:", args)
   const response = await bottle.addUsedBottle(args)
   if (!response.ok) return dispatch({ type: BOTTLE_CREATE_FAIL, payload: response.problem })
   dispatch({ type: BOTTLE_CREATE_SUCCESS, payload: response.data })

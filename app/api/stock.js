@@ -9,14 +9,14 @@ async function getStockProductList(locationId) {
   const token = await authStorage.getToken()
   const url = '/get-reporte-stock/'
   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
-  return client.get(`${endpoint}${url}/sucursal/${locationId}`)
+  return client.get(`${endpoint}${url}sucursal/${locationId}`)
 }
 
 async function getStockProductBottleList(productId, locationId) {
   const token = await authStorage.getToken()
   const url = '/get-detalle-stock/'
   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
-  return client.get(`${endpoint}${url}/producto/${productId}/sucursal/${locationId}`)
+  return client.get(`${endpoint}${url}producto/${productId}/sucursal/${locationId}`)
 }
 
 
