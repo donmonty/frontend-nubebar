@@ -15,6 +15,7 @@ import {
   BOTTLE_SET_CUSTOM_FOLIO_RESET,
   BOTTLE_CREATE_TYPE_SUCCESS,
   BOTTLE_CREATE_TYPE_RESET,
+  SET_BARCODE_SUCCESS,
 } from "../constants/bottleConstants"
 
 export const bottleDetailsReducer = (state = { bottle: {} }, action) => {
@@ -109,6 +110,17 @@ export const bottleCreateTypeReducer = (state = { type: null }, action) => {
       
     case BOTTLE_CREATE_TYPE_RESET:
       return { createType: null }
+
+    default:
+      return state
+  }
+}
+
+export const setBarcodeReducer = (state = { barcode: null }, action) => {
+  switch (action.type) {
+
+    case SET_BARCODE_SUCCESS:
+      return { barcode: action.payload }
 
     default:
       return state
