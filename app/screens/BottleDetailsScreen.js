@@ -25,9 +25,8 @@ const BottleDetailsScreen = ({ navigation, route }) => {
   const productDetails = useSelector((state) => state.productDetails)
   let { loading = true, error, product } = productDetails
   const { barcode } = useSelector(state => state.barcode)
-  //const barcode = route.params.barcode
 
-  const qrCode = route.params.qrCode
+  const qrCode = route.params?.qrCode || null
   const bottleDetails = useSelector(state => state.bottleDetails)
   const weightData = useSelector(state => state.bottleWeight)
   const { weight } = weightData

@@ -10,6 +10,9 @@ import {
   SubmitButton,
 } from "../components/forms";
 
+import { setBarcode } from '../store/actions/bottleActions'
+import { useDispatch } from 'react-redux'
+
 
 const validationSchema = Yup.object().shape({
   barcode: Yup.string().required().matches(/\d{13}/, "Debe ser un codigo valido"),
@@ -18,10 +21,13 @@ const validationSchema = Yup.object().shape({
 export default function ManualBarcodeScreen({ navigation }) {
 
   const [barcodeFailed, setBarcodeFailed] = useState(false)
+  const dispatch = useDispatch()
 
   const handleSubmit = ({ barcode }) => {
+    dispatch(setBarcode(barcode))
     setBarcodeFailed(false)
-    navigation.navigate('Bottle Details', { barcode: barcode })
+    navigation.navigate('Bottle Details')
+    //navigation.navigate('Bottle Details', { barcode: barcode })
   }
 
   return (

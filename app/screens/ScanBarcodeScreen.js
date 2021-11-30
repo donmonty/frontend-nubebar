@@ -23,11 +23,10 @@ export default function ScanBarcodeScreen({ navigation }) {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    //console.log("//// barcode:", data)
     if (type !== ean13) return setScanned(false)
     dispatch(setBarcode(data))
     setScanned(true);
-    navigation.navigate('Bottle Details', { barcode: data })
+    navigation.navigate('Bottle Details')
   };
 
   if (hasPermission === null) {
