@@ -22,6 +22,7 @@ import {
   BOTTLE_CREATE_USED_REQUEST,
   BOTTLE_CREATE_USED_SUCCESS,
   BOTTLE_CREATE_USED_FAIL,
+  SET_BARCODE_SUCCESS,
 } from "../constants/bottleConstants"
 
 
@@ -84,4 +85,8 @@ export const setCreateType = (createType) => (dispatch) => {
 
 export const resetCreateType = () => (dispatch) => {
   dispatch( { type: BOTTLE_CREATE_TYPE_RESET })
+}
+
+export const setBarcode = (barcode) => (dispatch) => {
+  dispatch({ type: SET_BARCODE_SUCCESS, payload: barcode })
 }

@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useDispatch } from 'react-redux'
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import Button from '../components/Button'
 import Text from '../components/Text'
+
+import { setBarcode } from '../store/actions/bottleActions'
 
 export default function ScanBarcodeScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
 
   const ean13 = BarCodeScanner.Constants.BarCodeType.ean13
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     (async () => {
@@ -19,8 +24,9 @@ export default function ScanBarcodeScreen({ navigation }) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     if (type !== ean13) return setScanned(false)
+    dispatch(setBarcode(data))
     setScanned(true);
-    navigation.navigate('Bottle Details', { barcode: data })
+    navigation.navigate('Bottle Details')
   };
 
   if (hasPermission === null) {

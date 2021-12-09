@@ -6,6 +6,7 @@ import Button from '../components/Button'
 import Text from '../components/Text'
 
 export default function ScanQreScreen({ navigation }) {
+
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const qr = BarCodeScanner.Constants.BarCodeType.qr
@@ -19,6 +20,7 @@ export default function ScanQreScreen({ navigation }) {
 
   const handleBarCodeScanned = ({ type, data }) => {
     const bottleHash = data.split("=")[3]
+    console.log("//// bottleHash:", bottleHash)
     if (type !== qr) return setScanned(false)
     setScanned(true);
     navigation.navigate('Bottle Details', { qrCode: bottleHash })

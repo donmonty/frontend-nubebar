@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react'
-import { Text, StyleSheet, FlatList, Image, View } from 'react-native'
+import { Text, StyleSheet, FlatList, View } from 'react-native'
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons"
 
 import Screen from '../components/Screen';
 import Button from '../components/Button';
 import ListItemSeparator from '../components/lists/ListItemSeparator'
 import BottleItem2 from '../components/BottleItem2';
 import ListItem from '../components/lists/ListItem';
+
+import colors from '../config/colors'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../store/actions/productActions';
@@ -21,9 +24,9 @@ const BottleDetailsScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const productDetails = useSelector((state) => state.productDetails)
   let { loading = true, error, product } = productDetails
-  const barcode = route.params.barcode;
+  const { barcode } = useSelector(state => state.barcode)
 
-  const qrCode = route.params.qrCode
+  const qrCode = route.params?.qrCode || null
   const bottleDetails = useSelector(state => state.bottleDetails)
   const weightData = useSelector(state => state.bottleWeight)
   const { weight } = weightData
@@ -43,13 +46,13 @@ const BottleDetailsScreen = ({ navigation, route }) => {
     if (error) {
       return
     }
-    else if (Object.keys(product).length === 0 && !qrCode) {
+    else if ((Object.keys(product).length === 0 || Object.keys(product).length > 0) && !qrCode) {
       dispatch(listProductDetails(barcode))
     } else if (product && qrCode) {
       
       console.log("OK")
     }
-  }, [dispatch, product, qrCode])
+  }, [dispatch])
 
   const handleAddNewBottle = () => {
     const bottleData = {
@@ -57,7 +60,7 @@ const BottleDetailsScreen = ({ navigation, route }) => {
       sat_hash: qrCode,
       peso_nueva: weight,
       folio: folio || customFolio,
-      captura: folio ? "MANUAL" : null
+      captura_folio: (folio || customFolio) ? "MANUAL" : null
     }
     dispatch(addNewBottle(bottleData))
     dispatch(resetBottleWeight())
@@ -74,9 +77,10 @@ const BottleDetailsScreen = ({ navigation, route }) => {
       producto: product.id,
       sat_hash: qrCode,
       peso_nueva: product.peso_nueva,
-      peso_inicial: weight,
+      //peso_inicial: weight,
+      peso_bascula: weight,
       folio: folio || customFolio,
-      captura: folio ? "MANUAL" : null
+      captura_folio: (folio || customFolio)  ? "MANUAL" : null
     }
     dispatch(addUsedBottle(bottleData))
     dispatch(resetBottleWeight())
@@ -94,22 +98,31 @@ const BottleDetailsScreen = ({ navigation, route }) => {
     navigation.navigate('Inventory Actions')
   }
 
+  if (loading || loadingId) return (
+    <Screen style={styles.container}>
+      <View style={{ alignItems: 'center', paddingTop: 40 }}>
+        <MaterialCommunityIcons color={colors.primary} name="timer-sand" size={70} />
+        <Text style={styles.alertText}>Cargando...</Text>
+      </View>
+    </Screen>
+  )
+
   //console.log("//// PRODUCT DETAIL: ", product)
   if (createType === 'usada' && !product.peso_nueva) return (
     <Screen style={styles.containerError}>
       <View style={{padding: 40}}>
-        <Image style={styles.icon} source={require("../../assets/alert-outline.png")} />
+        <MaterialIcons color={colors.red} name="error" size={70} />
         <Text style={styles.alertText}>Este producto no esta registrado. Por favor contacta a soporte.</Text>
       </View>
       <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions')}/>
     </Screen>
   )
 
-  if(error) return (
+  if (error) return (
     <Screen style={styles.containerError}>
-      <View style={{padding: 40}}>
-        <Image style={styles.icon} source={require("../../assets/alert-outline.png")} />
-        <Text style={styles.alertText}>Este producto no esta registrado. Por favor contacta a soporte.</Text>
+      <View style={{ alignItems: 'center', paddingTop: 40 }}>
+        <MaterialIcons color={colors.red} name="error" size={70} />
+        <Text style={styles.alertText}>{error}</Text>
       </View>
       <Button title="Regresar" onPress={() => navigation.navigate('Inventory Actions')}/>
     </Screen>
@@ -117,33 +130,31 @@ const BottleDetailsScreen = ({ navigation, route }) => {
 
   return (
     <Screen style={styles.container} >
-      {(loading || loadingId) ? <Text>Loading...</Text> :
-        (
-          <>
-            <FlatList
-              data={[product]}
-              ItemSeparatorComponent={ListItemSeparator}
-              keyExtractor={(producto) => producto.id.toString()}
-              renderItem={({ item }) => (
-                <BottleItem2
-                  name={item.nombre_marca}
-                  barcode={item.codigo_barras}
-                  capacity={item.capacidad}
-                />
-              )}
+       
+      <>
+        <FlatList
+          data={[product]}
+          ItemSeparatorComponent={ListItemSeparator}
+          keyExtractor={(producto) => producto.id.toString()}
+          renderItem={({ item }) => (
+            <BottleItem2
+              name={item.nombre_marca}
+              barcode={item.codigo_barras}
+              capacity={item.capacidad}
             />
-            {qrCode ? <ListItem subTitle="Folio" title={qrCode} /> : null}
-            {folio ? <ListItem subTitle="Folio" title={folio} /> : null}
-            {customFolio ? <ListItem subTitle="Folio Especial" title={customFolio} /> : null}
-            {weight ? <ListItem subTitle="Peso" title={weight} /> : null}
-            <ListItemSeparator/>
-            <Button title="Cancelar" color="red" onPress={handleCancel} />
-            {(product && (!qrCode && !folio && !customFolio)) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
-            {(product && (qrCode || folio || customFolio) && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Weight Bottle')} /> : null}
-            {(product && (qrCode || folio || customFolio) && weight) ? <Button title="Guardar Botella" onPress={(createType === 'usada') ? handleAddUsedBottle : handleAddNewBottle} /> : null}
-          </>
-        )
-      }
+          )}
+        />
+        {qrCode ? <ListItem subTitle="Folio" title={qrCode} /> : null}
+        {folio ? <ListItem subTitle="Folio" title={folio} /> : null}
+        {customFolio ? <ListItem subTitle="Folio Especial" title={customFolio} /> : null}
+        {weight ? <ListItem subTitle="Peso" title={weight} /> : null}
+        <ListItemSeparator/>
+        <Button title="Cancelar" color="red" onPress={handleCancel} />
+        {(product && (!qrCode && !folio && !customFolio)) ? <Button title="Escanear codigo qr" onPress={() => navigation.navigate('Scan QR')}/> : null}
+        {(product && (qrCode || folio || customFolio) && !weight) ? <Button title="Pesar Botella" onPress={() => navigation.navigate('Weight Bottle')} /> : null}
+        {(product && (qrCode || folio || customFolio) && weight) ? <Button title="Guardar Botella" onPress={(createType === 'usada') ? handleAddUsedBottle : handleAddNewBottle} /> : null}
+      </>
+        
     </Screen>
   )
 }
@@ -151,7 +162,9 @@ const BottleDetailsScreen = ({ navigation, route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10
+    padding: 10,
+    marginTop: 6,
+    justifyContent: 'flex-start'
   },
   containerError: {
     flex: 1,

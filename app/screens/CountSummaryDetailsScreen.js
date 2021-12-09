@@ -52,11 +52,21 @@ const CountPendingSummaryScreen = ({ navigation, route }) => {
     </Screen>
   )
 
-  if (errorPending || errorDone) return (
+  if (errorPending && !errorDone && countSummaryType === 'PENDING') return (
     <Screen style={styles.container}>
       <View style={{ alignItems: 'center', paddingTop: 40 }}>
         <MaterialIcons color={colors.red} name="error" size={70} />
-        <Text style={styles.alertText}>Hubo un error. Intenta de nuevo.</Text>
+        <Text style={styles.alertText}>{errorPending.mensaje ? errorPending.mensaje : "Hubo un error. Intenta de nuevo"}</Text>
+      </View>
+      <Button title="Regresar" onPress={() => navigation.navigate('Count List')}/>
+    </Screen>
+  )
+
+  if (!errorPending && errorDone && countSummaryType === 'DONE') return (
+    <Screen style={styles.container}>
+      <View style={{ alignItems: 'center', paddingTop: 40 }}>
+        <MaterialIcons color={colors.red} name="error" size={70} />
+        <Text style={styles.alertText}>{errorDone.mensaje ? errorDone.mensaje : "Hubo un error. Intenta de nuevo"}</Text>
       </View>
       <Button title="Regresar" onPress={() => navigation.navigate('Count List')}/>
     </Screen>

@@ -12,6 +12,7 @@ import Text from '../components/Text'
 import colors from '../config/colors'
 
 import { useDispatch, useSelector } from 'react-redux'
+import { useIsFocused } from '@react-navigation/native'
 import { 
   getCountSummary, 
   setCountSummaryType, 
@@ -25,18 +26,20 @@ const CountSummaryScreen = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const countSummaryData = useSelector(state => state.countSummary)
   const { countSummary, loading, error } = countSummaryData
+
+  const isFocused = useIsFocused()
   
   const countIdData = useSelector(state => state.countId)
   const { countId } = countIdData
 
-  const countState = route.params.countState
+  const { countState } = useSelector(state => state.setCountState)
 
   useEffect(() => {
     dispatch(getCountSummary(countId))
-  }, [dispatch])
+  }, [dispatch, isFocused])
 
   const handleCloseCount = (countId) => {
-    dispatch(closeCount({ countId: countId }))
+    dispatch(closeCount({ inspeccion: countId }))
     setModalVisible(!modalVisible)
     navigation.navigate("Count Confirmation", {
       confirmation: "countState",
@@ -133,8 +136,8 @@ const CountSummaryScreen = ({ navigation, route }) => {
         </View>
       </Modal> 
       <View>
-        {(countState === 'ABIERTA') ? <Button title="Cerrar Inspección" color="red" onPress={() => setModalVisible(true)} /> : null}
-        {(countState === 'ABIERTA') ? <Button title="Escanear Código QR" onPress={() => navigation.navigate('Count Scanner', { countId: countId })}/> : null}
+        {(countState === '0') ? <Button title="Cerrar Inspección" color="red" onPress={() => setModalVisible(true)} /> : null}
+        {(countState === '0') ? <Button title="Escanear Código QR" onPress={() => navigation.navigate('Count Scanner', { countId: countId })}/> : null}
       </View>
     </Screen>
   )

@@ -14,7 +14,8 @@ import {
   bottleCreateReducer, 
   bottleFolioReducer, 
   bottleCustomFolioReducer, 
-  bottleCreateTypeReducer } from "./reducers/bottleReducers"
+  bottleCreateTypeReducer,
+  setBarcodeReducer } from "./reducers/bottleReducers"
 import { 
   quickCountsReducer, 
   totalCountsReducer, 
@@ -34,6 +35,7 @@ import {
   doneBottlesReducer,
   bottleCountsReducer,
   closeCountReducer,
+  setCountStateReducer,
 } from './reducers/countReducers'
 
 import {
@@ -78,6 +80,7 @@ const reducer = combineReducers({
   doneBottlesList: doneBottlesReducer,
   bottleCounts: bottleCountsReducer,
   countState: closeCountReducer,
+  setCountState: setCountStateReducer,
   yieldReport: getYieldReportReducer,
   yieldReports: getYieldReportsReducer,
   yieldReportId: setYieldReportIdReducer,
@@ -85,7 +88,8 @@ const reducer = combineReducers({
   yieldId: setYieldIdReducer,
   yieldBottleData: getYieldBottleDataReducer,
   stockProductList: getStockProductListReducer,
-  stockProductBottleList: getStockProductBottleListReducer, 
+  stockProductBottleList: getStockProductBottleListReducer,
+  barcode: setBarcodeReducer, 
 })
 
 const middleware = [thunk]

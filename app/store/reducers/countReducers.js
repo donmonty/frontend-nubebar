@@ -46,6 +46,7 @@ import {
   CLOSE_COUNT_REQUEST,
   CLOSE_COUNT_SUCCESS,
   CLOSE_COUNT_FAIL,
+  SET_COUNT_STATE_SUCCESS,
 } from "../constants/countConstants"
 
 
@@ -279,6 +280,18 @@ export const countSummaryTypeReducer = (state = { countSummaryType: 'PENDING' },
   }
 }
 
+export const setCountStateReducer = (state = { countState: '0' }, action) => {
+
+  switch(action.type) {
+
+    case SET_COUNT_STATE_SUCCESS:
+      return { countState: action.payload }
+
+    default:
+      return state
+  }
+}
+
 export const pendingBottlesReducer = (state = { pendingBottlesList: [] }, action) => {
    switch (action.type) {
 
@@ -313,7 +326,7 @@ export const doneBottlesReducer = (state = { doneBottlesList: [] }, action) => {
   }
 }
 
-export const bottleCountsReducer = (state = { bottleCounts: [], bottle: {} }, action) => {
+export const bottleCountsReducer = (state = { bottleCounts: [], bottle: {}, loading: true }, action) => {
   switch (action.type) {
 
     case BOTTLE_COUNTS_REQUEST:

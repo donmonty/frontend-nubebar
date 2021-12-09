@@ -17,7 +17,8 @@ import {
   createQuickCount, 
   createTotalCount, 
   setCountActive, 
-  setCountId } from '../store/actions/countActions';
+  setCountId,
+  setCountState } from '../store/actions/countActions';
 
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -54,9 +55,9 @@ const CountListScreen = ({ navigation }) => {
     const storageAreaId = await cache.get('Almacen')
     const locationId = await cache.get('Sucursal')
     const payload = {
-      almacen_id: storageAreaId,
-      sucursal_id: locationId,
-      tipo: countType
+      almacen: storageAreaId,
+      sucursal: locationId,
+      tipo_inspeccion: countType
     }
     if (countType === 'DIARIA') {
       dispatch(createQuickCount(payload))
@@ -64,7 +65,7 @@ const CountListScreen = ({ navigation }) => {
       dispatch(createTotalCount(payload))
     }
     setModalVisible(!modalVisible)
-    navigation.navigate('Confirmation', { 
+    navigation.navigate('Count Confirmation', { 
       confirmation: (countType === 'DIARIA') ? 'quickCountCreate' : 'totalCountCreate',
       finishRoute: 'Inventory Actions',
       screen: 'Inspecciones'
@@ -102,7 +103,9 @@ const CountListScreen = ({ navigation }) => {
             title={item.fecha_alta}
             onPress={() => {
               dispatch(setCountId(item.id))
-              navigation.navigate('Count Summary', { countState: item.estado })
+              dispatch(setCountState(item.estado))
+              navigation.navigate('Count Summary')
+              // navigation.navigate('Count Summary', { countState: item.estado })
             }} 
           />
         )}

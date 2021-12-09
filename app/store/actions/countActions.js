@@ -47,6 +47,7 @@ import {
   CLOSE_COUNT_REQUEST,
   CLOSE_COUNT_SUCCESS,
   CLOSE_COUNT_FAIL,
+  SET_COUNT_STATE_SUCCESS,
 } from "../constants/countConstants"
 
 
@@ -54,14 +55,14 @@ export const listQuickCounts = (storageAreaId) => async (dispatch) => {
   dispatch({ type: QUICK_COUNTS_LIST_REQUEST })
   const response = await count.getQuickCounts(storageAreaId)
   if (!response.ok) return dispatch({ type: QUICK_COUNTS_LIST_FAIL, payload: response.problem })
-  dispatch({ type: QUICK_COUNTS_LIST_SUCCESS, payload: response.data.data})
+  dispatch({ type: QUICK_COUNTS_LIST_SUCCESS, payload: response.data})
 } 
 
 export const listTotalCounts = (storageAreaId) => async (dispatch) => {
   dispatch({ type: TOTAL_COUNTS_LIST_REQUEST })
   const response = await count.getTotalCounts(storageAreaId)
   if (!response.ok) return dispatch({ type: TOTAL_COUNTS_LIST_FAIL, payload: response.problem })
-  dispatch({ type: TOTAL_COUNTS_LIST_SUCCESS, payload: response.data.data})
+  dispatch({ type: TOTAL_COUNTS_LIST_SUCCESS, payload: response.data})
 } 
 
 export const setCountType = (countType) => (dispatch) => {
@@ -98,7 +99,10 @@ export const getBottleCountDetails = (countId, qrCode) => async (dispatch) => {
   const BOTTLE_ERROR = "Algo salió mal. Inténtalo de nuevo."
   dispatch({ type: BOTTLE_COUNT_DETAILS_REQUEST })
   const bottleCountData = await count.getBottleCountDetails(countId, qrCode)
-  if (!bottleCountData.ok) return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: COUNT_ERROR })
+  if (!bottleCountData.ok) {
+    if (bottleCountData.problem === 'CLIENT_ERROR') return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: COUNT_ERROR })
+    return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: BOTTLE_ERROR })
+  }
   const bottle = await count.getBottleDetails(qrCode)
   if (!bottle.ok) return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: BOTTLE_ERROR })
   dispatch({ type: BOTTLE_COUNT_DETAILS_SUCCESS, payload: { bottle: bottle.data, bottleCountData: bottleCountData.data } })
@@ -122,17 +126,21 @@ export const setCountId = (countId) => (dispatch) => {
   dispatch({ type: SET_COUNT_ID_SUCCESS, payload: countId })
 }
 
+export const setCountState = (countState) => (dispatch) => {
+  dispatch({ type: SET_COUNT_STATE_SUCCESS, payload: countState })
+}
+
 export const getCountPendingSummary = (countId) => async (dispatch) => {
   dispatch({ type: COUNT_PENDING_SUMMARY_REQUEST })
   const response = await count.getCountPendingSummary(countId)
-  if (!response.ok) return dispatch({ type: COUNT_PENDING_SUMMARY_FAIL, payload: response.problem })
+  if (!response.ok) return dispatch({ type: COUNT_PENDING_SUMMARY_FAIL, payload: response.problem === 'CLIENT_ERROR' ? response.data : response.problem })
   dispatch({ type: COUNT_PENDING_SUMMARY_SUCCESS, payload: response.data })
 }
 
 export const getCountDoneSummary = (countId) => async (dispatch) => {
   dispatch({ type: COUNT_DONE_SUMMARY_REQUEST })
   const response = await count.getCountDoneSummary(countId)
-  if (!response.ok) return dispatch({ type: COUNT_DONE_SUMMARY_FAIL, payload: response.problem })
+  if (!response.ok) return dispatch({ type: COUNT_DONE_SUMMARY_FAIL, payload: response.problem === 'CLIENT_ERROR' ? response.data : response.problem })
   dispatch({ type: COUNT_DONE_SUMMARY_SUCCESS, payload: response.data })
 }
 

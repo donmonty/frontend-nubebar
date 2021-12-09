@@ -36,7 +36,7 @@ const CountWeightScreen = ({ navigation, route }) => {
     const payload = {
       item_inspeccion: bottleCountId, 
       peso_botella: weight, 
-      estado: bottleStatus
+      estado_botella: '1'
     }
     dispatch(updateBottleWeight(payload))
     navigation.navigate('Count Confirmation', { confirmation: 'updatedBottle', finishRoute: 'Count Summary' })

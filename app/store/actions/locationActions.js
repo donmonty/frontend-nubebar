@@ -20,8 +20,8 @@ import authStorage from "../../auth/storage"
 
 export const listLocations = () => async (dispatch) => {
   dispatch({ type: LOCATION_LIST_REQUEST })
-  const token = await authStorage.getToken()
-  const response = await userLocations.getLocations(token)
+  //const token = await authStorage.getToken()
+  const response = await userLocations.getLocations()
   if (!response.ok) return dispatch({ type: LOCATION_LIST_FAIL, payload: response.problem })
   // storeData(response.data)
   dispatch({ type: LOCATION_LIST_SUCCESS, payload: response.data })
