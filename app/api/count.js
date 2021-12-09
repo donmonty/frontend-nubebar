@@ -42,16 +42,24 @@ async function getCountSummary(countId) {
 
 async function getBottleCountDetails(countId, qrCode) {
   const token = await authStorage.getToken()
-  const url = '/get-detalle-botella-inspeccion/'
+  const url = '/get-detalle-botella-inspeccion-post/'
   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
-  return client.get(`${endpoint}${url}inspeccion/${countId}/sat_hash/${qrCode}`)
+  return client.post(`${endpoint}${url}`, { inspeccion_id: countId, sat_hash: qrCode })
+  //return client.get(`${endpoint}${url}inspeccion/${countId}/sat_hash/${qrCode}`)
 }
+
+// async function getBottleDetails(qrCode) {
+//   const token = await authStorage.getToken()
+//   const url = '/consultar-botella/'
+//   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
+//   return client.get(`${endpoint}${url}sat_hash/${qrCode}`) 
+// }
 
 async function getBottleDetails(qrCode) {
   const token = await authStorage.getToken()
   const url = '/consultar-botella/'
   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
-  return client.get(`${endpoint}${url}sat_hash/${qrCode}`) 
+  return client.post(`${endpoint}${url}`, { sat_hash: qrCode }) 
 }
 
 async function updateBottleWeight(args) {
@@ -100,7 +108,7 @@ async function getBottleCounts(sat_hash) {
   const token = await authStorage.getToken()
   const url = '/get-inspecciones-botella/'
   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
-  return client.get(`${endpoint}${url}sat_hash/${sat_hash}`)
+  return client.get(`${endpoint}${url}sat_hash/${encodeURIComponent(sat_hash)}`)
 }
 
 async function closeCount(args) {
