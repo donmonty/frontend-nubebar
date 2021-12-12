@@ -3,6 +3,9 @@ import authStorage from "../auth/storage"
 import settings from "../config/settings"
 
 const endpoint = '/api/inventarios'
+function replaceTxt(hash, search, replace) { 
+  return hash.split(search).join(replace)
+}
 
 
 async function getQuickCounts(storageAreaId) {
@@ -44,22 +47,16 @@ async function getBottleCountDetails(countId, qrCode) {
   const token = await authStorage.getToken()
   const url = '/get-detalle-botella-inspeccion-post/'
   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
-  return client.post(`${endpoint}${url}`, { inspeccion_id: countId, sat_hash: qrCode })
-  //return client.get(`${endpoint}${url}inspeccion/${countId}/sat_hash/${qrCode}`)
+  const encodedHash = replaceTxt(qrCode, "/", "_")
+  return client.post(`${endpoint}${url}`, { inspeccion_id: countId, sat_hash: encodedHash })
 }
-
-// async function getBottleDetails(qrCode) {
-//   const token = await authStorage.getToken()
-//   const url = '/consultar-botella/'
-//   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
-//   return client.get(`${endpoint}${url}sat_hash/${qrCode}`) 
-// }
 
 async function getBottleDetails(qrCode) {
   const token = await authStorage.getToken()
   const url = '/consultar-botella/'
   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
-  return client.post(`${endpoint}${url}`, { sat_hash: qrCode }) 
+  const encodedHash = replaceTxt(qrCode, "/", "_")
+  return client.post(`${endpoint}${url}`, { sat_hash: encodedHash }) 
 }
 
 async function updateBottleWeight(args) {
