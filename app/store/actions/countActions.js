@@ -97,12 +97,14 @@ export const setCountActive = (status) => (dispatch) => {
 export const getBottleCountDetails = (countId, qrCode) => async (dispatch) => {
   const COUNT_ERROR = "Esta botella no pertenece a la inspección."
   const BOTTLE_ERROR = "Algo salió mal. Inténtalo de nuevo."
+  const COUNT_WARNING = "Esta botella ya fue inspeccionada!"
   dispatch({ type: BOTTLE_COUNT_DETAILS_REQUEST })
   const bottleCountData = await count.getBottleCountDetails(countId, qrCode)
   if (!bottleCountData.ok) {
     if (bottleCountData.problem === 'CLIENT_ERROR') return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: COUNT_ERROR })
     return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: BOTTLE_ERROR })
   }
+  if (bottleCountData.data.mensaje) return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: COUNT_WARNING })
   const bottle = await count.getBottleDetails(qrCode)
   if (!bottle.ok) return dispatch({ type: BOTTLE_COUNT_DETAILS_FAIL, payload: BOTTLE_ERROR })
   dispatch({ type: BOTTLE_COUNT_DETAILS_SUCCESS, payload: { bottle: bottle.data, bottleCountData: bottleCountData.data } })

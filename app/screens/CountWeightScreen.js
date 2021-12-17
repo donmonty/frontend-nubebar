@@ -15,7 +15,7 @@ import {
   SubmitButton,
 } from "../components/forms";
 
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { updateBottleWeight, updateBottleState } from '../store/actions/countActions'
 
 const validationSchema = Yup.object().shape({
@@ -28,13 +28,14 @@ const CountWeightScreen = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [bottleStatus, setBottleStatus] = useState(null)
 
-  const bottleCountId = route.params.bottleCountId
+  const { bottleCountData } = useSelector(state => state.bottle)
+  //const bottleCountId = route.params.bottleCountId
 
   const dispatch = useDispatch()
 
   const handleSubmit = ({ weight }) => {
     const payload = {
-      item_inspeccion: bottleCountId, 
+      item_inspeccion: bottleCountData.id, 
       peso_botella: weight, 
       estado_botella: '1'
     }
@@ -44,7 +45,7 @@ const CountWeightScreen = ({ navigation, route }) => {
 
   const handleUpdateBottleState = () => {
     const payload = {
-      item_inspeccion: bottleCountId,
+      item_inspeccion: bottleCountData.id,
       estado: bottleStatus
     }
     dispatch(updateBottleState(payload))
