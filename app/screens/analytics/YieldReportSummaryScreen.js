@@ -55,7 +55,7 @@ export default function YieldReportDetailsScreen({ navigation }) {
         
       </View>
 
-      <View>
+      <View style={{flex: 1}}>
         <ListItemDataHeader titleLeft="Producto" titleRight="Diferencia" />
         <ListItemSeparator style={{ marginTop: 10 }} />
         <FlatList
