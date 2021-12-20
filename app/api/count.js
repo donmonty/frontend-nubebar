@@ -105,7 +105,8 @@ async function getBottleCounts(sat_hash) {
   const token = await authStorage.getToken()
   const url = '/get-inspecciones-botella/'
   client.setHeader('Authorization', `${settings.tokenType} ${token}`)
-  return client.get(`${endpoint}${url}sat_hash/${encodeURIComponent(sat_hash)}`)
+  const encodedHash = replaceTxt(sat_hash, "/", "_")
+  return client.post(`${endpoint}${url}`, { sat_hash: encodedHash }) 
 }
 
 async function closeCount(args) {
