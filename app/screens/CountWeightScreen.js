@@ -31,11 +31,20 @@ const CountWeightScreen = ({ navigation, route }) => {
   const { bottleCountData } = useSelector(state => state.bottle)
   //const bottleCountId = route.params.bottleCountId
 
+  // If we want to check missing bottles manually, we must
+  // tahe the bottle count id from route.params
+  let bottleCountId
+  if (route.params.bottleCountId) {
+    bottleCountId = route.params.bottleCountId
+  } else {
+    bottleCountId = bottleCountData.id
+  }
+
   const dispatch = useDispatch()
 
   const handleSubmit = ({ weight }) => {
     const payload = {
-      item_inspeccion: bottleCountData.id, 
+      item_inspeccion: bottleCountId, 
       peso_botella: weight, 
       estado_botella: '1'
     }
@@ -45,7 +54,7 @@ const CountWeightScreen = ({ navigation, route }) => {
 
   const handleUpdateBottleState = () => {
     const payload = {
-      item_inspeccion: bottleCountData.id,
+      item_inspeccion: bottleCountId,
       estado: bottleStatus
     }
     dispatch(updateBottleState(payload))
