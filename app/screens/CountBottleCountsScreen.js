@@ -49,7 +49,7 @@ export default function CountBottleCountsScreen({ navigation, route }) {
     <Screen style={styles.container}>
       <View style={{ flex: 1}}>
         <View style={styles.detailsContainer}>
-          <Text style={styles.subTitle} numberOfLines={2}>
+          <Text style={styles.subTitle} numberOfLines={1}>
             Producto
           </Text>
           <Text style={styles.title} numberOfLines={1}>
@@ -59,7 +59,7 @@ export default function CountBottleCountsScreen({ navigation, route }) {
         </View> 
 
         <View style={styles.detailsContainer}>
-          <Text style={styles.subTitle} numberOfLines={2}>
+          <Text style={styles.subTitle} numberOfLines={1}>
             Fecha de alta
           </Text>
           <Text style={styles.title} numberOfLines={1}>
@@ -69,7 +69,7 @@ export default function CountBottleCountsScreen({ navigation, route }) {
         </View> 
 
         <View style={styles.detailsContainer}>
-          <Text style={styles.subTitle} numberOfLines={2}>
+          <Text style={styles.subTitle} numberOfLines={1}>
             Peso inicial
           </Text>
           <Text style={styles.title} numberOfLines={1}>
@@ -78,19 +78,28 @@ export default function CountBottleCountsScreen({ navigation, route }) {
           <ListItemSeparator/>
         </View>
       </View>
-      <Text style={styles.headerText}>Inspecciones</Text>
-      <FlatList
-        data={bottleCounts}
-        ItemSeparatorComponent={ListItemSeparator}
-        keyExtractor={(count) => count.id.toString()}
-        renderItem={({ item }) => (
-          <ListItem
-            type="button-list"
-            title={!item.peso_botella ? "Pendiente de pesar" : `${item.peso_botella} gr`}
-            subTitle={item.timestamp_inspeccion.split('T')[0]}
-          />
-        )}
-      />
+      
+      
+      <View style={{ flex: 1}}>
+        <Text style={styles.headerText}>Inspecciones</Text>
+        <FlatList
+          data={bottleCounts}
+          ItemSeparatorComponent={ListItemSeparator}
+          keyExtractor={(count) => count.id.toString()}
+          renderItem={({ item }) => (
+            <ListItem
+              type="button-list"
+              title={!item.peso_botella ? "Pendiente de pesar" : `${item.peso_botella} gr`}
+              subTitle={item.timestamp_inspeccion.split('T')[0]}
+              onPress={() => {
+                if (!item.peso_botella) {
+                  navigation.navigate("Count Weight", { bottleCountId: item.id })
+                }
+              }}
+            />
+          )}
+        />
+      </View>
 
     </Screen>
   )
@@ -101,7 +110,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'flex-start',
     padding: 10,
-    marginTop: 6,
+    marginTop: 0,
   },
   alertText: {
     alignSelf: 'center',
@@ -133,6 +142,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontWeight: "500",
-    marginBottom: 8
+    marginBottom: 4
   },
 })
