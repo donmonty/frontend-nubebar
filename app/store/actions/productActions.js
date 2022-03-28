@@ -12,6 +12,7 @@ export const listProductDetails = (barcode) => async (dispatch) => {
   dispatch({ type: PRODUCT_DETAILS_REQUEST })
   const response = await getProduct.getProductByBarcode(barcode)
   if (!response.ok) {
+    console.log("//// originalError:", response.originalError);
     if (response.problem === "CLIENT_ERROR") return dispatch({ type: PRODUCT_DETAILS_FAIL, payload: PRODUCT_ERROR})
     return dispatch({ type: PRODUCT_DETAILS_FAIL, payload: STANDARD_ERROR })
   }
