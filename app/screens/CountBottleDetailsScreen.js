@@ -40,15 +40,38 @@ export default function CountBottleDetailsScreen({ navigation, route }) {
     </Screen>
   )
 
-  if (bottleError) return (
-    <Screen style={styles.container}>
-      <View style={{ alignItems: 'center', paddingTop: 40 }}>
-        <MaterialIcons color={colors.red} name="error" size={70} />
-        <Text style={styles.alertText}>{bottleError}</Text>
-      </View>
-      <Button title="Regresar" onPress={() => navigation.navigate('Count Summary')}/>
-    </Screen>
-  )
+  if (bottleError) {
+    if (bottleError === "Esta botella ya fue inspeccionada!") {
+      return (
+        <Screen style={styles.container}>
+          <FlatList
+            data={[bottle]}
+            ItemSeparatorComponent={ListItemSeparator}
+            keyExtractor={(botella) => botella.id.toString()}
+            renderItem={({ item }) => (
+              <BottleItem2
+                name={item.nombre_marca}
+                capacity={item.capacidad}
+                id={item.folio || item.sat_hash}
+              />
+            )}
+          />
+          <Button title="Cancelar" color="red" onPress={() => navigation.navigate("Count List")}/>
+          <Button title="Pesar Botella" onPress={() => navigation.navigate("Count Weight", { countId: countId, bottleCountId: bottleCountData.id })} />
+        </Screen>
+      );
+    } else {
+      return (
+        <Screen style={styles.container}>
+          <View style={{ alignItems: 'center', paddingTop: 40 }}>
+            <MaterialIcons color={colors.red} name="error" size={70} />
+            <Text style={styles.alertText}>{bottleError}</Text>
+          </View>
+          <Button title="Regresar" onPress={() => navigation.navigate('Count Summary')}/>
+        </Screen>
+      )
+    }
+  }
 
   return(
     <Screen style={styles.container}>

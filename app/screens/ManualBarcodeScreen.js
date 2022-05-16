@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux'
 
 
 const validationSchema = Yup.object().shape({
-  barcode: Yup.string().required().matches(/\d{13}/, "Debe ser un codigo valido"),
+  barcode: Yup.string().required().matches(/\d{8}(\d{5})?/, "Debe ser un codigo valido"),
 });
 
 export default function ManualBarcodeScreen({ navigation }) {
