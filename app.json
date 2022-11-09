@@ -11,7 +11,8 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/a6896ec8-2cd1-4404-95c1-22ece9f132b3"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -27,6 +28,14 @@
     },
     "web": {
       "favicon": "./assets/nubebar-favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a6896ec8-2cd1-4404-95c1-22ece9f132b3"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }
