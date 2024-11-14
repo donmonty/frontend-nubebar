@@ -19,8 +19,8 @@
     "expo": "^51.0.0",
     "expo-app-loading": "~2.1.1",
     "expo-barcode-scanner": "~13.0.1",
+    "expo-build-properties": "~0.12.5",
     "expo-constants": "~16.0.1",
-    "expo-permissions": "~14.2.1",
     "expo-secure-store": "~13.0.1",
     "expo-status-bar": "~1.12.1",
     "expo-updates": "~0.25.11",
@@ -41,8 +41,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
     "remote-redux-devtools": "^0.5.16",
-    "yup": "^0.32.9",
-    "expo-build-properties": "~0.12.5"
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0"
